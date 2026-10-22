@@ -1,0 +1,177 @@
+site_name: Spring Boot 3 & 4 Enterprise Handbook
+site_description: Beginner to 15+ years — Spring Boot 3.5 and 4.x, grounded in a multi-vendor grocery marketplace
+site_author: Ashish
+site_url: https://khiruashish.github.io/spring-boot-playbook/
+repo_name: spring-boot-playbook
+repo_url: https://github.com/khiruashish/spring-boot-playbook
+edit_uri: edit/main/docs/
+copyright: Personal knowledge base — Spring Boot 3 & 4 Enterprise Handbook
+
+theme:
+  name: material
+  language: en
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: green
+      accent: deep orange
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: green
+      accent: deep orange
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  font:
+    text: Inter
+    code: JetBrains Mono
+  icon:
+    repo: fontawesome/brands/git-alt
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    - navigation.tracking
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - content.tooltips
+
+extra_css:
+  - stylesheets/extra.css
+
+plugins:
+  - search
+  - tags
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+  - pymdownx.details
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.tilde
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+nav:
+  - Home:
+      - index.md
+      - Reading Paths: reading-paths.md
+      - Setup: getting-started/setup.md
+      - Handbook Overview: part-0-orientation/00-handbook-overview.md
+  - "Part 1 · Foundations":
+      - part-1-foundations/index.md
+      - "01 Java & Build Prerequisites": part-1-foundations/01-java-and-build-prerequisites.md
+      - "02 IoC & Dependency Injection": part-1-foundations/02-ioc-and-dependency-injection.md
+      - "03 Bean Lifecycle, Events & Extension Points": part-1-foundations/03-bean-lifecycle-events-extension-points.md
+      - "04 AOP": part-1-foundations/04-aop.md
+      - "05 Spring Boot Fundamentals": part-1-foundations/05-spring-boot-fundamentals.md
+      - "06 Externalized Configuration": part-1-foundations/06-externalized-configuration.md
+      - "07 Logging": part-1-foundations/07-logging.md
+      - "08 REST APIs with Spring MVC": part-1-foundations/08-rest-apis-spring-mvc.md
+      - "09 Validation": part-1-foundations/09-validation.md
+      - "10 Error Handling & Problem Details": part-1-foundations/10-error-handling-problem-details.md
+      - "11 JSON & Serialization": part-1-foundations/11-json-serialization.md
+      - "12 Data Access — JDBC": part-1-foundations/12-data-access-jdbc.md
+      - "13 Spring Data JPA & Hibernate": part-1-foundations/13-spring-data-jpa-hibernate.md
+      - "14 Database Migrations": part-1-foundations/14-database-migrations.md
+      - "15 Testing Fundamentals": part-1-foundations/15-testing-fundamentals.md
+  - "Part 2 · Production":
+      - part-2-production/index.md
+      - "16 Transactions Deep Dive": part-2-production/16-transactions-deep-dive.md
+      - "17 Spring Security Fundamentals": part-2-production/17-spring-security-fundamentals.md
+      - "18 Tokens, OAuth2 & Modern Auth": part-2-production/18-security-tokens-oauth2.md
+      - "19 HTTP Clients": part-2-production/19-http-clients.md
+      - "20 API Design & Versioning": part-2-production/20-api-design-versioning.md
+      - "21 Caching": part-2-production/21-caching.md
+      - "22 NoSQL & Search": part-2-production/22-nosql-search.md
+      - "23 Messaging with Kafka": part-2-production/23-messaging-kafka.md
+      - "24 RabbitMQ, Pulsar, JMS, Cloud Stream": part-2-production/24-other-messaging.md
+      - "25 Async, Scheduling & Virtual Threads": part-2-production/25-async-scheduling-virtual-threads.md
+      - "26 Resilience": part-2-production/26-resilience.md
+      - "27 Observability": part-2-production/27-observability.md
+      - "28 Integration & Contract Testing": part-2-production/28-integration-contract-testing.md
+      - "29 Packaging & Deployment": part-2-production/29-packaging-deployment.md
+      - "30 Kubernetes & Cloud-Native": part-2-production/30-kubernetes-cloud-native.md
+      - "31 Reactive Spring": part-2-production/31-reactive-spring.md
+      - "32 GraphQL, gRPC, WebSocket, SSE": part-2-production/32-graphql-grpc-websocket-sse.md
+      - "33 Batch & Integration": part-2-production/33-batch-integration.md
+      - "34 Performance Engineering": part-2-production/34-performance-engineering.md
+  - "Part 3 · Enterprise":
+      - part-3-enterprise/index.md
+      - "35 Microservices with Spring Cloud": part-3-enterprise/35-microservices-spring-cloud.md
+      - "36 Distributed Data & Consistency": part-3-enterprise/36-distributed-data-consistency.md
+      - "37 DDD, Hexagonal, Modular Monolith": part-3-enterprise/37-architecture-styles.md
+      - "38 Multi-Tenancy": part-3-enterprise/38-multi-tenancy.md
+      - "39 Enterprise Security Architecture": part-3-enterprise/39-enterprise-security-architecture.md
+      - "40 Spring AI": part-3-enterprise/40-spring-ai.md
+      - "41 Internals & Custom Starters": part-3-enterprise/41-internals-custom-starters.md
+      - "42 Migration & Upgrade Engineering": part-3-enterprise/42-migration-upgrade.md
+      - "43 Engineering Leadership": part-3-enterprise/43-engineering-leadership.md
+      - "44 Capstone — Grocery Marketplace": part-3-enterprise/44-capstone-grocery-marketplace.md
+  - Annotations:
+      - annotations/index.md
+      - Core Container: annotations/core-container.md
+      - Spring Boot: annotations/boot.md
+      - Web Layer: annotations/web.md
+      - Validation & JSON: annotations/validation-json.md
+      - Data & Transactions: annotations/data.md
+      - Security: annotations/security.md
+      - Async, Messaging & Resilience: annotations/async-messaging.md
+      - Testing & Observability: annotations/testing-observability.md
+      - Outdated → Replacement: annotations/deprecated.md
+  - Appendices:
+      - appendices/index.md
+      - "A Interview Bank":
+          - appendices/a-interview-bank/index.md
+          - "B1 · 0–2 years": appendices/a-interview-bank/b1-0-2-years.md
+          - "B2 · 2–5 years": appendices/a-interview-bank/b2-2-5-years.md
+          - "B3 · 5–8 years": appendices/a-interview-bank/b3-5-8-years.md
+          - "B4 · 8–12 years": appendices/a-interview-bank/b4-8-12-years.md
+          - "B5 · 12–15+ years": appendices/a-interview-bank/b5-12-15-years.md
+          - System Design: appendices/a-interview-bank/system-design.md
+          - Rapid Fire: appendices/a-interview-bank/rapid-fire.md
+      - "B Coding Exercises": appendices/b-coding-exercises.md
+      - "C Annotation Cheat Sheet": appendices/c-annotation-cheat-sheet.md
+      - "D Properties Cheat Sheet": appendices/d-properties-cheat-sheet.md
+      - "E Boot 3.5 vs 4.x Matrix": appendices/e-boot-3-vs-4-matrix.md
+      - "F Troubleshooting Playbook": appendices/f-troubleshooting-playbook.md
+      - "G Glossary": appendices/g-glossary.md
+      - "H Resources": appendices/h-resources.md

@@ -1,0 +1,5 @@
+site/
+.venv/
+.cache/
+tools/pdf/build/
+tools/pdf/node_modules/
