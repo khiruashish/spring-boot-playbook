@@ -1,0 +1,5689 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Beginner to 15+ years — Spring Boot 3.5 and 4.x, grounded in a multi-vendor grocery marketplace">
+      
+      
+        <meta name="author" content="Ashish">
+      
+      
+        <link rel="canonical" href="https://khiruashish.github.io/spring-boot-playbook/part-2-production/34-performance-engineering/">
+      
+      
+        <link rel="prev" href="../33-batch-integration/">
+      
+      
+        <link rel="next" href="../../part-3-enterprise/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>34 Performance Engineering - Spring Boot 3 & 4 Enterprise Handbook</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#34-performance-engineering" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Spring Boot 3 &amp; 4 Enterprise Handbook" class="md-header__button md-logo" aria-label="Spring Boot 3 & 4 Enterprise Handbook" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Spring Boot 3 & 4 Enterprise Handbook
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              34 Performance Engineering
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="deep-orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="deep-orange"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/khiruashish/spring-boot-playbook" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    spring-boot-playbook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+    
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../part-1-foundations/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Part 1 · Foundations
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Part 2 · Production
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../part-3-enterprise/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Part 3 · Enterprise
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../annotations/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Annotations
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../appendices/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Appendices
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Spring Boot 3 &amp; 4 Enterprise Handbook" class="md-nav__button md-logo" aria-label="Spring Boot 3 & 4 Enterprise Handbook" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Spring Boot 3 & 4 Enterprise Handbook
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/khiruashish/spring-boot-playbook" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    spring-boot-playbook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../.." class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Home
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reading-paths/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reading Paths
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-0-orientation/00-handbook-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Handbook Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../part-1-foundations/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 1 · Foundations
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Part 1 · Foundations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/01-java-and-build-prerequisites/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 Java & Build Prerequisites
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/02-ioc-and-dependency-injection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 IoC & Dependency Injection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/03-bean-lifecycle-events-extension-points/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 Bean Lifecycle, Events & Extension Points
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/04-aop/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04 AOP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/05-spring-boot-fundamentals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05 Spring Boot Fundamentals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/06-externalized-configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06 Externalized Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/07-logging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07 Logging
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/08-rest-apis-spring-mvc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08 REST APIs with Spring MVC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/09-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09 Validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/10-error-handling-problem-details/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10 Error Handling & Problem Details
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/11-json-serialization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11 JSON & Serialization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/12-data-access-jdbc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12 Data Access — JDBC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/13-spring-data-jpa-hibernate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13 Spring Data JPA & Hibernate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/14-database-migrations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14 Database Migrations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/15-testing-fundamentals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15 Testing Fundamentals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 2 · Production
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Part 2 · Production
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../16-transactions-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    16 Transactions Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../17-spring-security-fundamentals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    17 Spring Security Fundamentals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../18-security-tokens-oauth2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    18 Tokens, OAuth2 & Modern Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../19-http-clients/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    19 HTTP Clients
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../20-api-design-versioning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    20 API Design & Versioning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../21-caching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    21 Caching
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../22-nosql-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    22 NoSQL & Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../23-messaging-kafka/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    23 Messaging with Kafka
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../24-other-messaging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    24 RabbitMQ, Pulsar, JMS, Cloud Stream
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../25-async-scheduling-virtual-threads/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    25 Async, Scheduling & Virtual Threads
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../26-resilience/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    26 Resilience
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../27-observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    27 Observability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../28-integration-contract-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    28 Integration & Contract Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../29-packaging-deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    29 Packaging & Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../30-kubernetes-cloud-native/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    30 Kubernetes & Cloud-Native
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../31-reactive-spring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    31 Reactive Spring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../32-graphql-grpc-websocket-sse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    32 GraphQL, gRPC, WebSocket, SSE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../33-batch-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    33 Batch & Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    34 Performance Engineering
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    34 Performance Engineering
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction-why-it-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introduction &amp; Why It Matters
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Introduction &amp; Why It Matters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#who-should-read-which-section" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Who should read which section
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-core-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Core Concepts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Core Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-measure-the-right-numbers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Measure the right numbers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-littles-law" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Little's law
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-utilization-and-the-latency-cliff" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Utilization and the latency cliff
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-latency-budgets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Latency budgets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-load-test-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Load test types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-profiling-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6 Profiling tools
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27-flame-graphs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.7 Flame graphs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#28-gc-in-one-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.8 GC in one table
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-how-it-works-internally" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. How It Works Internally
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. How It Works Internally">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-where-a-requests-time-goes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Where a request's time goes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-latency-under-saturation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Latency under saturation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-gc-and-allocation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 GC and allocation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-hands-on-code-level-1-beginner" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Hands-On Code — Level 1 (Beginner)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Hands-On Code — Level 1 (Beginner)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-a-first-load-test-open-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 A first load test (open model)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-reading-the-result" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Reading the result
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-turning-on-jfr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Turning on JFR
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-the-cheapest-wins-first" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 The cheapest wins first
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-hands-on-code-level-2-intermediate-level-3-advanced" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Hands-On Code — Level 2 (Intermediate) &amp; Level 3 (Advanced)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Hands-On Code — Level 2 (Intermediate) &amp; Level 3 (Advanced)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-level-2-profiling-with-async-profiler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Level 2 — Profiling with async-profiler
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-level-2-database-side-measurement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Level 2 — Database-side measurement
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-level-2-memory-and-gc-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Level 2 — Memory and GC analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-level-3-allocation-reduction-where-it-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Level 3 — Allocation reduction where it matters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-level-3-gc-tuning-carefully" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 Level 3 — GC tuning, carefully
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#56-level-3-tail-latency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.6 Level 3 — Tail latency
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#57-level-3-jmh-for-the-rare-case-its-warranted" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.7 Level 3 — JMH, for the rare case it's warranted
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-hands-on-code-level-4-expert-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Hands-On Code — Level 4 (Expert / Production)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Hands-On Code — Level 4 (Expert / Production)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-sale-day-readiness-programme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Sale-day readiness programme
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-performance-regression-gate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Performance regression gate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-incident-time-performance-triage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Incident-time performance triage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-the-fixes-that-actually-moved-the-needle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 The fixes that actually moved the needle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-performance-as-a-practice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 Performance as a practice
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-spring-boot-3-vs-4-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Spring Boot 3 vs 4 &amp; Migration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Spring Boot 3 vs 4 &amp; Migration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#migration-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration checklist
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-production-playbook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Production Playbook
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Production Playbook">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best practices
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#anti-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anti-patterns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#production-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Production checklist
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-interview-questions-answers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Interview Questions &amp; Answers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Interview Questions &amp; Answers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#b1-02-years" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B1 · 0–2 years
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b2-25-years" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B2 · 2–5 years
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b3-58-years" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B3 · 5–8 years
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b4-812-years" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B4 · 8–12 years
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b5-1215-years" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B5 · 12–15+ years
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coding-exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Coding exercise
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Takeaways
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Further Reading
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../part-3-enterprise/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 3 · Enterprise
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Part 3 · Enterprise
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-3-enterprise/35-microservices-spring-cloud/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    35 Microservices with Spring Cloud
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-3-enterprise/36-distributed-data-consistency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    36 Distributed Data & Consistency
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-3-enterprise/37-architecture-styles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    37 DDD, Hexagonal, Modular Monolith
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-3-enterprise/38-multi-tenancy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    38 Multi-Tenancy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-3-enterprise/39-enterprise-security-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    39 Enterprise Security Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-3-enterprise/40-spring-ai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    40 Spring AI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-3-enterprise/41-internals-custom-starters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    41 Internals & Custom Starters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-3-enterprise/42-migration-upgrade/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    42 Migration & Upgrade Engineering
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-3-enterprise/43-engineering-leadership/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    43 Engineering Leadership
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-3-enterprise/44-capstone-grocery-marketplace/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    44 Capstone — Grocery Marketplace
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../annotations/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Annotations
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Annotations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/core-container/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Container
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/boot/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Spring Boot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web Layer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/validation-json/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation & JSON
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data & Transactions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/async-messaging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Async, Messaging & Resilience
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/testing-observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing & Observability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/deprecated/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Outdated → Replacement
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../appendices/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Appendices
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Appendices
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../appendices/a-interview-bank/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A Interview Bank
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    A Interview Bank
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/a-interview-bank/b1-0-2-years/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B1 · 0–2 years
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/a-interview-bank/b2-2-5-years/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B2 · 2–5 years
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/a-interview-bank/b3-5-8-years/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B3 · 5–8 years
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/a-interview-bank/b4-8-12-years/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B4 · 8–12 years
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/a-interview-bank/b5-12-15-years/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B5 · 12–15+ years
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/a-interview-bank/system-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/a-interview-bank/rapid-fire/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rapid Fire
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/b-coding-exercises/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B Coding Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/c-annotation-cheat-sheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C Annotation Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/d-properties-cheat-sheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D Properties Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/e-boot-3-vs-4-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    E Boot 3.5 vs 4.x Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/f-troubleshooting-playbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    F Troubleshooting Playbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/g-glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    G Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/h-resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    H Resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction-why-it-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introduction &amp; Why It Matters
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Introduction &amp; Why It Matters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#who-should-read-which-section" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Who should read which section
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-core-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Core Concepts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Core Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-measure-the-right-numbers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Measure the right numbers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-littles-law" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Little's law
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-utilization-and-the-latency-cliff" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Utilization and the latency cliff
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-latency-budgets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Latency budgets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-load-test-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Load test types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-profiling-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6 Profiling tools
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27-flame-graphs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.7 Flame graphs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#28-gc-in-one-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.8 GC in one table
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-how-it-works-internally" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. How It Works Internally
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. How It Works Internally">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-where-a-requests-time-goes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Where a request's time goes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-latency-under-saturation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Latency under saturation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-gc-and-allocation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 GC and allocation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-hands-on-code-level-1-beginner" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Hands-On Code — Level 1 (Beginner)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Hands-On Code — Level 1 (Beginner)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-a-first-load-test-open-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 A first load test (open model)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-reading-the-result" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Reading the result
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-turning-on-jfr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Turning on JFR
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-the-cheapest-wins-first" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 The cheapest wins first
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-hands-on-code-level-2-intermediate-level-3-advanced" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Hands-On Code — Level 2 (Intermediate) &amp; Level 3 (Advanced)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Hands-On Code — Level 2 (Intermediate) &amp; Level 3 (Advanced)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-level-2-profiling-with-async-profiler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Level 2 — Profiling with async-profiler
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-level-2-database-side-measurement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Level 2 — Database-side measurement
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-level-2-memory-and-gc-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Level 2 — Memory and GC analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-level-3-allocation-reduction-where-it-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Level 3 — Allocation reduction where it matters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-level-3-gc-tuning-carefully" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 Level 3 — GC tuning, carefully
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#56-level-3-tail-latency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.6 Level 3 — Tail latency
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#57-level-3-jmh-for-the-rare-case-its-warranted" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.7 Level 3 — JMH, for the rare case it's warranted
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-hands-on-code-level-4-expert-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Hands-On Code — Level 4 (Expert / Production)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Hands-On Code — Level 4 (Expert / Production)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-sale-day-readiness-programme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Sale-day readiness programme
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-performance-regression-gate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Performance regression gate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-incident-time-performance-triage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Incident-time performance triage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-the-fixes-that-actually-moved-the-needle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 The fixes that actually moved the needle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-performance-as-a-practice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 Performance as a practice
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-spring-boot-3-vs-4-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Spring Boot 3 vs 4 &amp; Migration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Spring Boot 3 vs 4 &amp; Migration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#migration-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migration checklist
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-production-playbook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Production Playbook
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Production Playbook">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best practices
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#anti-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anti-patterns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#production-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Production checklist
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-interview-questions-answers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Interview Questions &amp; Answers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Interview Questions &amp; Answers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#b1-02-years" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B1 · 0–2 years
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b2-25-years" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B2 · 2–5 years
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b3-58-years" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B3 · 5–8 years
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b4-812-years" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B4 · 8–12 years
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b5-1215-years" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B5 · 12–15+ years
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coding-exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Coding exercise
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Takeaways
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Further Reading
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="34-performance-engineering">34 · Performance Engineering<a class="headerlink" href="#34-performance-engineering" title="Permanent link">&para;</a></h1>
+<h2 id="1-introduction-why-it-matters">1. Introduction &amp; Why It Matters<a class="headerlink" href="#1-introduction-why-it-matters" title="Permanent link">&para;</a></h2>
+<p>Two weeks before Diwali, someone asks: "can we handle 5× traffic?" The honest answer is a number, not a feeling — and producing that number is what performance engineering does.</p>
+<p>Most performance work in the wild is guesswork: a developer suspects the JSON serializer, spends three days optimizing it, and ships a 2% improvement while the real cost was an N+1 query (Chapter 13) and a missing index (Chapter 12). The discipline that avoids this is boring and reliable:</p>
+<ol>
+<li><strong>Define the target</strong> — a latency budget per endpoint and a throughput goal.</li>
+<li><strong>Measure under realistic load</strong> — with an open-model load test, not a laptop benchmark.</li>
+<li><strong>Find the bottleneck</strong> — profiler and flame graph, not intuition.</li>
+<li><strong>Fix the top item</strong>, then re-measure. The bottleneck moves; the second-biggest problem is now the biggest.</li>
+<li><strong>Guard the gain</strong> — a performance test in CI so it doesn't quietly regress.</li>
+</ol>
+<p>This chapter covers that loop concretely: latency budgets and Little's law, load testing (including the coordinated-omission trap that makes most load tests lie), JFR and async-profiler with flame graphs, JVM memory and GC analysis, heap dumps and leak hunting, the Spring-specific bottlenecks that account for most real incidents, JMH for the rare micro-benchmark, capacity planning and sale-day readiness.</p>
+<h3 id="who-should-read-which-section">Who should read which section<a class="headerlink" href="#who-should-read-which-section" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Band</th>
+<th>Focus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>B1 · 0–2 yrs</td>
+<td>Parts 1, 2, 4 — percentiles, a first load test, obvious bottlenecks</td>
+</tr>
+<tr>
+<td>B2 · 2–5 yrs</td>
+<td>Parts 2, 5 — profiling, GC basics, common Spring problems</td>
+</tr>
+<tr>
+<td>B3 · 5–8 yrs</td>
+<td>Parts 3, 5, 6 — flame graphs, allocation, leak analysis, tail latency</td>
+</tr>
+<tr>
+<td>B4 · 8–12 yrs</td>
+<td>Parts 6, 8 — capacity planning, budgets, regression gates</td>
+</tr>
+<tr>
+<td>B5 · 12–15+ yrs</td>
+<td>Parts 8, 9 — performance as an organizational practice</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-core-concepts">2. Core Concepts<a class="headerlink" href="#2-core-concepts" title="Permanent link">&para;</a></h2>
+<h3 id="21-measure-the-right-numbers">2.1 Measure the right numbers<a class="headerlink" href="#21-measure-the-right-numbers" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>p50 / p95 / p99 / p99.9</strong></td>
+<td>Averages hide everything; a 40 ms average with a 3 s p99 means thousands of angry customers</td>
+</tr>
+<tr>
+<td><strong>Throughput</strong> (req/s) at a given latency</td>
+<td>"Fast" is meaningless without load</td>
+</tr>
+<tr>
+<td><strong>Concurrency</strong></td>
+<td>The link between the two (2.2)</td>
+</tr>
+<tr>
+<td><strong>Error rate under load</strong></td>
+<td>Degradation often appears as errors before latency</td>
+</tr>
+<tr>
+<td><strong>Saturation</strong> (queue depth, pool waits)</td>
+<td>The leading indicator — it rises before latency does</td>
+</tr>
+</tbody>
+</table>
+<p>RED for services (Rate, Errors, Duration), USE for resources (Utilization, Saturation, Errors) — the two checklists from Chapter 27, used here as a diagnostic order.</p>
+<h3 id="22-littles-law">2.2 Little's law<a class="headerlink" href="#22-littles-law" title="Permanent link">&para;</a></h3>
+<p><strong>L = λ × W</strong>: concurrency = throughput × latency.</p>
+<ul>
+<li>2,000 req/s at 50 ms → 100 requests in flight.</li>
+<li>Those 100 requests each hold a database connection for 20 ms → 40 connections needed (Chapter 12).</li>
+<li>If latency doubles to 100 ms at the same arrival rate, concurrency doubles to 200 — which is why <strong>latency growth causes resource exhaustion</strong>, not the other way round.</li>
+</ul>
+<p>This one formula sizes thread pools, connection pools, bulkheads and partition counts.</p>
+<h3 id="23-utilization-and-the-latency-cliff">2.3 Utilization and the latency cliff<a class="headerlink" href="#23-utilization-and-the-latency-cliff" title="Permanent link">&para;</a></h3>
+<p>Queueing theory, simplified: as utilization approaches 100%, queue length (and latency) grows non-linearly.</p>
+<table>
+<thead>
+<tr>
+<th>Utilization</th>
+<th>Relative queue wait</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>50%</td>
+<td>1×</td>
+</tr>
+<tr>
+<td>70%</td>
+<td>~2.3×</td>
+</tr>
+<tr>
+<td>80%</td>
+<td>~4×</td>
+</tr>
+<tr>
+<td>90%</td>
+<td>~9×</td>
+</tr>
+<tr>
+<td>95%</td>
+<td>~19×</td>
+</tr>
+</tbody>
+</table>
+<p>Which is why capacity plans target <strong>60–70%</strong> at peak, not 95%. The last 30% is headroom for spikes, deploys and losing a zone.</p>
+<h3 id="24-latency-budgets">2.4 Latency budgets<a class="headerlink" href="#24-latency-budgets" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><span class="filename">Example</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Checkout p99 target: 2000 ms
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  gateway + network            120 ms
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>  auth (token validation)       10 ms
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>  pricing (2 attempts × 600)  1200 ms worst case  ← the dominant risk
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>  inventory                    500 ms
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>  database transactions        200 ms
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>  serialization + overhead      50 ms
+</span></code></pre></div>
+<p>Budgets make trade-offs explicit: if pricing worst-case doesn't fit, either its timeout shrinks, its retry disappears, or it moves out of the synchronous path (Chapters 19, 26).</p>
+<h3 id="25-load-test-types">2.5 Load test types<a class="headerlink" href="#25-load-test-types" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Question</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Smoke</strong></td>
+<td>Does it work at all under a trickle?</td>
+</tr>
+<tr>
+<td><strong>Load</strong></td>
+<td>Does it meet the target at expected peak?</td>
+</tr>
+<tr>
+<td><strong>Stress</strong></td>
+<td>Where does it break, and how?</td>
+</tr>
+<tr>
+<td><strong>Spike</strong></td>
+<td>Can it survive a sudden 10× (flash sale, push notification)?</td>
+</tr>
+<tr>
+<td><strong>Soak</strong></td>
+<td>Does it degrade over 8 hours (leaks, fragmentation, log growth)?</td>
+</tr>
+<tr>
+<td><strong>Breakpoint</strong></td>
+<td>What is the maximum throughput per pod, for capacity math?</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition danger">
+<p class="admonition-title">Coordinated omission</p>
+<p>A closed-model test (N virtual users, each sending the next request after the previous completes) <strong>stops sending requests when the system is slow</strong>, so it never measures the queueing that real users experience. Use an <strong>open model</strong> (constant or ramping arrival rate) so requests keep arriving regardless of response time. This one setting is the difference between a load test that predicts production and one that flatters it.</p>
+</div>
+<h3 id="26-profiling-tools">2.6 Profiling tools<a class="headerlink" href="#26-profiling-tools" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Use</th>
+<th>Overhead</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>JFR</strong> (Java Flight Recorder)</td>
+<td>Always-on production profiling: CPU, allocation, locks, GC, I/O</td>
+<td>~1–2%</td>
+</tr>
+<tr>
+<td><strong>async-profiler</strong></td>
+<td>CPU, allocation, lock and wall-clock flame graphs; no safepoint bias</td>
+<td>~1–3%</td>
+</tr>
+<tr>
+<td><strong>Heap dumps + MAT/JOL</strong></td>
+<td>Leak analysis, retained sizes</td>
+<td>Pause to capture</td>
+</tr>
+<tr>
+<td><strong>Micrometer metrics</strong></td>
+<td>Continuous, aggregate (Chapter 27)</td>
+<td>Negligible</td>
+</tr>
+<tr>
+<td><strong><code>EXPLAIN (ANALYZE, BUFFERS)</code></strong></td>
+<td>Where the database actually spends time</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>JMH</strong></td>
+<td>Micro-benchmarks of small, hot code</td>
+<td>Offline only</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sampling profilers</strong> (JFR, async-profiler) show where time goes with low overhead; <strong>instrumenting</strong> profilers distort the very hot paths you're measuring.</p>
+<h3 id="27-flame-graphs">2.7 Flame graphs<a class="headerlink" href="#27-flame-graphs" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><span class="filename">Example</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>width  = share of samples (time or allocations)
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>stacked = call depth
+</span></code></pre></div>
+<p>Read them top-down for "what is running" and look for <strong>wide plateaus</strong>: a single wide frame is the bottleneck. A flat, evenly-divided graph usually means the bottleneck is <em>not</em> CPU — it's I/O, locks or a downstream service (check wall-clock mode).</p>
+<h3 id="28-gc-in-one-table">2.8 GC in one table<a class="headerlink" href="#28-gc-in-one-table" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Collector</th>
+<th>Best for</th>
+<th>Trade-off</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>G1</strong> (default)</td>
+<td>General server workloads</td>
+<td>Balanced pauses (target <code>MaxGCPauseMillis</code>)</td>
+</tr>
+<tr>
+<td><strong>Generational ZGC</strong></td>
+<td>Large heaps, low pause requirements</td>
+<td>More CPU/memory overhead</td>
+</tr>
+<tr>
+<td>Parallel</td>
+<td>Batch throughput (Chapter 33)</td>
+<td>Long pauses</td>
+</tr>
+<tr>
+<td>Serial</td>
+<td>Tiny containers</td>
+<td>Single-threaded</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Tune allocation before tuning GC.</strong> Most "GC problems" are allocation-rate problems: the fix is producing less garbage, not a new flag.</p>
+<hr />
+<h2 id="3-how-it-works-internally">3. How It Works Internally<a class="headerlink" href="#3-how-it-works-internally" title="Permanent link">&para;</a></h2>
+<h3 id="31-where-a-requests-time-goes">3.1 Where a request's time goes<a class="headerlink" href="#31-where-a-requests-time-goes" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart LR
+    A[Network + TLS] --&gt; B[Ingress / gateway]
+    B --&gt; C[Server accept + thread/virtual thread]
+    C --&gt; D[Filters: security, tracing, logging]
+    D --&gt; E[Controller + validation + mapping]
+    E --&gt; F[Service: business logic]
+    F --&gt; G[Database: pool wait + query + fetch]
+    F --&gt; H[HTTP clients: pool wait + network + parse]
+    F --&gt; I[Cache: network + serialization]
+    E --&gt; J[Serialization of the response]
+    J --&gt; K[Network write]</code></pre>
+<p>In practice, for a typical Spring service: <strong>G and H dominate</strong>, J matters for large payloads, and everything else is noise — which is why profiling before optimizing matters so much.</p>
+<h3 id="32-latency-under-saturation">3.2 Latency under saturation<a class="headerlink" href="#32-latency-under-saturation" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart TD
+    A[Arrival rate rises] --&gt; B{Service rate sufficient?}
+    B -- yes --&gt; C[Latency ≈ service time]
+    B -- no --&gt; D[Queues form: connection pool, thread pool, socket backlog]
+    D --&gt; E[Wait time grows non-linearly]
+    E --&gt; F[Concurrency grows — Little's law]
+    F --&gt; G[More memory, more context switches, more contention]
+    G --&gt; H[Service rate falls further]
+    H --&gt; E</code></pre>
+<p>That feedback loop is why an overloaded system doesn't degrade gracefully by itself — and why load shedding (Chapter 26) exists.</p>
+<h3 id="33-gc-and-allocation">3.3 GC and allocation<a class="headerlink" href="#33-gc-and-allocation" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart LR
+    A[Allocation in Eden] --&gt; B{Eden full?}
+    B -- yes --&gt; C[Young GC: copy survivors]
+    C --&gt; D{Survived enough cycles&lt;br/&gt;or survivor space full?}
+    D -- yes --&gt; E[Promote to Old]
+    E --&gt; F{Old fills up?}
+    F -- yes --&gt; G[Concurrent cycle / mixed GC]
+    G --&gt; H{Can't keep up?}
+    H -- yes --&gt; I[Full GC — long pause]</code></pre>
+<p>Key signals: <strong>allocation rate</strong> (MB/s), <strong>promotion rate</strong> (how much survives — high means objects live too long, often a cache or a big request buffer), and <strong>pause time distribution</strong>. Rising heap-after-full-GC over hours is the leak signature.</p>
+<hr />
+<h2 id="4-hands-on-code-level-1-beginner">4. Hands-On Code — Level 1 (Beginner)<a class="headerlink" href="#4-hands-on-code-level-1-beginner" title="Permanent link">&para;</a></h2>
+<h3 id="41-a-first-load-test-open-model">4.1 A first load test (open model)<a class="headerlink" href="#41-a-first-load-test-open-model" title="Permanent link">&para;</a></h3>
+<div class="language-javascript highlight"><span class="filename">perf/checkout.js (k6)</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">import</span><span class="w"> </span><span class="nx">http</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'k6/http'</span><span class="p">;</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">check</span><span class="p">,</span><span class="w"> </span><span class="nx">sleep</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'k6'</span><span class="p">;</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">options</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="nx">scenarios</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="nx">checkout</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">      </span><span class="nx">executor</span><span class="o">:</span><span class="w"> </span><span class="s1">'ramping-arrival-rate'</span><span class="p">,</span><span class="w">          </span><span class="c1">// (1)!</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">      </span><span class="nx">startRate</span><span class="o">:</span><span class="w"> </span><span class="mf">50</span><span class="p">,</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">      </span><span class="nx">timeUnit</span><span class="o">:</span><span class="w"> </span><span class="s1">'1s'</span><span class="p">,</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">      </span><span class="nx">preAllocatedVUs</span><span class="o">:</span><span class="w"> </span><span class="mf">200</span><span class="p">,</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">      </span><span class="nx">maxVUs</span><span class="o">:</span><span class="w"> </span><span class="mf">2000</span><span class="p">,</span><span class="w">                              </span><span class="c1">// (2)!</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">      </span><span class="nx">stages</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nx">target</span><span class="o">:</span><span class="w"> </span><span class="mf">200</span><span class="p">,</span><span class="w"> </span><span class="nx">duration</span><span class="o">:</span><span class="w"> </span><span class="s1">'2m'</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nx">target</span><span class="o">:</span><span class="w"> </span><span class="mf">600</span><span class="p">,</span><span class="w"> </span><span class="nx">duration</span><span class="o">:</span><span class="w"> </span><span class="s1">'5m'</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nx">target</span><span class="o">:</span><span class="w"> </span><span class="mf">600</span><span class="p">,</span><span class="w"> </span><span class="nx">duration</span><span class="o">:</span><span class="w"> </span><span class="s1">'10m'</span><span class="w"> </span><span class="p">},</span><span class="w">        </span><span class="c1">// steady state</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nx">target</span><span class="o">:</span><span class="w"> </span><span class="mf">0</span><span class="p">,</span><span class="w">   </span><span class="nx">duration</span><span class="o">:</span><span class="w"> </span><span class="s1">'2m'</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">      </span><span class="p">],</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">    </span><span class="p">},</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">  </span><span class="p">},</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">  </span><span class="nx">thresholds</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">    </span><span class="s1">'http_req_duration{endpoint:checkout}'</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s1">'p(99)&lt;2000'</span><span class="p">,</span><span class="w"> </span><span class="s1">'p(95)&lt;800'</span><span class="p">],</span><span class="w">   </span><span class="c1">// (3)!</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">    </span><span class="s1">'http_req_failed'</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s1">'rate&lt;0.001'</span><span class="p">],</span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="w">  </span><span class="p">},</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="p">};</span>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">__ENV</span><span class="p">.</span><span class="nx">TOKEN</span><span class="p">;</span>
+</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">params</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">headers</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Authorization</span><span class="o">:</span><span class="w"> </span><span class="sb">`Bearer </span><span class="si">${</span><span class="nx">token</span><span class="si">}</span><span class="sb">`</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="nx">tags</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">endpoint</span><span class="o">:</span><span class="w"> </span><span class="s1">'checkout'</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">};</span>
+</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a>
+</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">cart</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">__ENV</span><span class="p">.</span><span class="nx">BASE</span><span class="si">}</span><span class="sb">/api/v1/carts/</span><span class="si">${</span><span class="nx">__ENV</span><span class="p">.</span><span class="nx">CART</span><span class="si">}</span><span class="sb">/items`</span><span class="p">,</span>
+</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="w">      </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span><span class="w"> </span><span class="nx">sku</span><span class="o">:</span><span class="w"> </span><span class="s1">'MILK-1L'</span><span class="p">,</span><span class="w"> </span><span class="nx">quantity</span><span class="o">:</span><span class="w"> </span><span class="mf">2</span><span class="w"> </span><span class="p">}),</span><span class="w"> </span><span class="nx">params</span><span class="p">);</span>
+</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a><span class="w">  </span><span class="nx">check</span><span class="p">(</span><span class="nx">cart</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s1">'cart 200'</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">r</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">r</span><span class="p">.</span><span class="nx">status</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mf">200</span><span class="w"> </span><span class="p">});</span>
+</span><span id="__span-2-33"><a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a>
+</span><span id="__span-2-34"><a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">order</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">__ENV</span><span class="p">.</span><span class="nx">BASE</span><span class="si">}</span><span class="sb">/api/v1/orders`</span><span class="p">,</span>
+</span><span id="__span-2-35"><a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a><span class="w">      </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span><span class="w"> </span><span class="nx">cartId</span><span class="o">:</span><span class="w"> </span><span class="nx">__ENV</span><span class="p">.</span><span class="nx">CART</span><span class="p">,</span><span class="w"> </span><span class="nx">pincode</span><span class="o">:</span><span class="w"> </span><span class="s1">'560102'</span><span class="w"> </span><span class="p">}),</span>
+</span><span id="__span-2-36"><a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a><span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="nx">params</span><span class="p">,</span><span class="w"> </span><span class="nx">headers</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="nx">params</span><span class="p">.</span><span class="nx">headers</span><span class="p">,</span><span class="w"> </span><span class="s1">'Idempotency-Key'</span><span class="o">:</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="nx">__VU</span><span class="si">}</span><span class="sb">-</span><span class="si">${</span><span class="nx">__ITER</span><span class="si">}</span><span class="sb">`</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">});</span><span class="w">   </span><span class="c1">// (4)!</span>
+</span><span id="__span-2-37"><a id="__codelineno-2-37" name="__codelineno-2-37" href="#__codelineno-2-37"></a><span class="w">  </span><span class="nx">check</span><span class="p">(</span><span class="nx">order</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s1">'order 201'</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">r</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">r</span><span class="p">.</span><span class="nx">status</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mf">201</span><span class="w"> </span><span class="p">});</span>
+</span><span id="__span-2-38"><a id="__codelineno-2-38" name="__codelineno-2-38" href="#__codelineno-2-38"></a>
+</span><span id="__span-2-39"><a id="__codelineno-2-39" name="__codelineno-2-39" href="#__codelineno-2-39"></a><span class="w">  </span><span class="nx">sleep</span><span class="p">(</span><span class="mf">1</span><span class="p">);</span>
+</span><span id="__span-2-40"><a id="__codelineno-2-40" name="__codelineno-2-40" href="#__codelineno-2-40"></a><span class="p">}</span>
+</span></code></pre></div>
+<ol>
+<li><strong>Arrival-rate executor</strong> — the open model that avoids coordinated omission.</li>
+<li>VUs are allowed to grow when the system slows; the arrival rate stays fixed, which is what real traffic does.</li>
+<li>Thresholds turn the test into a <strong>pass/fail gate</strong>, not a report someone reads.</li>
+<li>Realistic headers matter: idempotency keys, auth, correlation ids all cost something (Chapters 04, 18).</li>
+</ol>
+<h3 id="42-reading-the-result">4.2 Reading the result<a class="headerlink" href="#42-reading-the-result" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><span class="filename">Example</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>     http_req_duration{endpoint:checkout}
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>       p(50)=142ms  p(95)=690ms  p(99)=2.41s   ← threshold breached
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>     http_req_failed................: 0.04%
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>     dropped_iterations.............: 0        ← the load generator kept up
+</span></code></pre></div>
+<p>The p99 breach is the question; the p50 is fine, which means <strong>something occasional is slow</strong> — GC, a pool wait, a cold cache or a slow dependency. That's a profiling job, not a guessing job.</p>
+<h3 id="43-turning-on-jfr">4.3 Turning on JFR<a class="headerlink" href="#43-turning-on-jfr" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><span class="filename">Terminal</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Always-on in production (Chapter 29 sets this in JAVA_TOOL_OPTIONS)</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>-XX:StartFlightRecording<span class="o">=</span><span class="nv">disk</span><span class="o">=</span>true,maxsize<span class="o">=</span>200M,maxage<span class="o">=</span>1h,dumponexit<span class="o">=</span>true,filename<span class="o">=</span>/dumps/app.jfr
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># Ad hoc, on a running pod</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>order-service-abc<span class="w"> </span>--<span class="w"> </span>jcmd<span class="w"> </span><span class="m">1</span><span class="w"> </span>JFR.start<span class="w"> </span><span class="nv">name</span><span class="o">=</span>triage<span class="w"> </span><span class="nv">settings</span><span class="o">=</span>profile<span class="w"> </span><span class="nv">duration</span><span class="o">=</span>120s<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="nv">filename</span><span class="o">=</span>/dumps/triage.jfr<span class="w">                                                   </span><span class="c1"># (1)!</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>kubectl<span class="w"> </span>cp<span class="w"> </span>order-service-abc:/dumps/triage.jfr<span class="w"> </span>./triage.jfr<span class="w">                      </span><span class="c1"># (2)!</span>
+</span></code></pre></div>
+<ol>
+<li><code>settings=profile</code> gives richer sampling than the default at slightly higher cost — fine for two minutes.</li>
+<li>Open in JDK Mission Control: hot methods, allocation by class, lock contention, GC pauses, and slow socket reads — all correlated in time.</li>
+</ol>
+<h3 id="44-the-cheapest-wins-first">4.4 The cheapest wins first<a class="headerlink" href="#44-the-cheapest-wins-first" title="Permanent link">&para;</a></h3>
+<p>Before any tuning, check the list that explains most Spring performance incidents:</p>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N+1 queries</td>
+<td>Query-count test (Chapter 13); <code>spring.jpa.properties.hibernate.generate_statistics</code></td>
+</tr>
+<tr>
+<td>Missing index</td>
+<td><code>EXPLAIN (ANALYZE, BUFFERS)</code> on the slow query (Chapter 12)</td>
+</tr>
+<tr>
+<td>No pagination</td>
+<td>Any endpoint returning an unbounded list</td>
+</tr>
+<tr>
+<td>Pool exhaustion</td>
+<td><code>hikaricp.connections.pending</code> &gt; 0 (Chapter 12)</td>
+</tr>
+<tr>
+<td>Chatty HTTP</td>
+<td>Calls per request to each dependency (Chapter 19)</td>
+</tr>
+<tr>
+<td>DEBUG logging in production</td>
+<td><code>logging.level</code> (Chapter 07)</td>
+</tr>
+<tr>
+<td>Serializing huge payloads</td>
+<td>Response size histogram</td>
+</tr>
+<tr>
+<td>Remote calls inside transactions</td>
+<td>Chapter 16</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="5-hands-on-code-level-2-intermediate-level-3-advanced">5. Hands-On Code — Level 2 (Intermediate) &amp; Level 3 (Advanced)<a class="headerlink" href="#5-hands-on-code-level-2-intermediate-level-3-advanced" title="Permanent link">&para;</a></h2>
+<h3 id="51-level-2-profiling-with-async-profiler">5.1 Level 2 — Profiling with async-profiler<a class="headerlink" href="#51-level-2-profiling-with-async-profiler" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><span class="filename">Terminal</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># CPU flame graph for 60 seconds</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>./profiler.sh<span class="w"> </span>-d<span class="w"> </span><span class="m">60</span><span class="w"> </span>-e<span class="w"> </span>cpu<span class="w"> </span>-f<span class="w"> </span>/dumps/cpu.html<span class="w"> </span><span class="k">$(</span>pgrep<span class="w"> </span>-f<span class="w"> </span>order-service<span class="k">)</span><span class="w">          </span><span class="c1"># (1)!</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Allocation profile (who creates the garbage)</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>./profiler.sh<span class="w"> </span>-d<span class="w"> </span><span class="m">60</span><span class="w"> </span>-e<span class="w"> </span>alloc<span class="w"> </span>-f<span class="w"> </span>/dumps/alloc.html<span class="w"> </span><span class="m">1</span><span class="w">                              </span><span class="c1"># (2)!</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># Wall-clock: where wall time goes, including waiting</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>./profiler.sh<span class="w"> </span>-d<span class="w"> </span><span class="m">60</span><span class="w"> </span>-e<span class="w"> </span>wall<span class="w"> </span>-t<span class="w"> </span>-f<span class="w"> </span>/dumps/wall.html<span class="w"> </span><span class="m">1</span><span class="w">                             </span><span class="c1"># (3)!</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="c1"># Lock contention</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>./profiler.sh<span class="w"> </span>-d<span class="w"> </span><span class="m">60</span><span class="w"> </span>-e<span class="w"> </span>lock<span class="w"> </span>-f<span class="w"> </span>/dumps/lock.html<span class="w"> </span><span class="m">1</span>
+</span></code></pre></div>
+<ol>
+<li>CPU mode answers "what burns CPU".</li>
+<li>Allocation mode answers "what creates garbage" — usually more actionable than GC tuning.</li>
+<li><strong>Wall-clock mode is the one people forget</strong>: when the service is slow but CPU is at 20%, the time is spent waiting, and only wall-clock profiling shows where.</li>
+</ol>
+<p>A real finding from a checkout profile:</p>
+<div class="language-text highlight"><span class="filename">Example</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>[wall] 62% in JdbcTemplate.query → PgConnection.receiveResponse   ← waiting on the database
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>[cpu]  18% in ObjectMapper.writeValue                              ← serializing a 400 KB response
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>[alloc] 41% char[] from StringBuilder in a logging call            ← string concatenation at DEBUG
+</span></code></pre></div>
+<p>Three fixes, in order of value: index the query, paginate the response, and use parameterized logging (Chapter 07). None of them is a JVM flag.</p>
+<h3 id="52-level-2-database-side-measurement">5.2 Level 2 — Database-side measurement<a class="headerlink" href="#52-level-2-database-side-measurement" title="Permanent link">&para;</a></h3>
+<div class="language-sql highlight"><span class="filename">Find the expensive statements</span><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">select</span><span class="w"> </span><span class="n">calls</span><span class="p">,</span><span class="w"> </span><span class="n">mean_exec_time</span><span class="p">,</span><span class="w"> </span><span class="n">total_exec_time</span><span class="p">,</span><span class="w"> </span><span class="k">rows</span><span class="p">,</span><span class="w"> </span><span class="n">query</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">from</span><span class="w"> </span><span class="n">pg_stat_statements</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">total_exec_time</span><span class="w"> </span><span class="k">desc</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="k">limit</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span><span class="w">                                                                          </span><span class="c1">-- (1)</span>
+</span></code></pre></div>
+<div class="language-sql highlight"><span class="filename">Understand one of them</span><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">explain</span><span class="w"> </span><span class="p">(</span><span class="k">analyze</span><span class="p">,</span><span class="w"> </span><span class="n">buffers</span><span class="p">,</span><span class="w"> </span><span class="k">verbose</span><span class="p">)</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">select</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">customer_order</span><span class="w"> </span><span class="n">o</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="k">where</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">customer_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'C-1'</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'DELIVERED'</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">placed_at</span><span class="w"> </span><span class="k">desc</span><span class="w"> </span><span class="k">limit</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span><span class="w">                                                </span><span class="c1">-- (2)</span>
+</span></code></pre></div>
+<ol>
+<li><code>total_exec_time</code> (not mean) finds what actually costs the system: a 3 ms query called 2 million times beats a 400 ms query called twice.</li>
+<li>Look for sequential scans on large tables, rows removed by filter, and <code>Buffers: read</code> (disk) versus <code>hit</code> (cache).</li>
+</ol>
+<h3 id="53-level-2-memory-and-gc-analysis">5.3 Level 2 — Memory and GC analysis<a class="headerlink" href="#53-level-2-memory-and-gc-analysis" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><span class="filename">Is it a leak?</span><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>order-service-abc<span class="w"> </span>--<span class="w"> </span>jcmd<span class="w"> </span><span class="m">1</span><span class="w"> </span>GC.heap_info<span class="w">                              </span><span class="c1"># (1)!</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="c1"># Repeat over an hour: heap used *after* full GC trending upward = leak</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>order-service-abc<span class="w"> </span>--<span class="w"> </span>jcmd<span class="w"> </span><span class="m">1</span><span class="w"> </span>GC.heap_dump<span class="w"> </span>/dumps/heap.hprof<span class="w">            </span><span class="c1"># (2)!</span>
+</span></code></pre></div>
+<ol>
+<li>Cheap, repeatable. Transient spikes are normal; a rising floor is not.</li>
+<li>Heap dumps pause the JVM and are large — take one from a <strong>single</strong> pod, ideally one already removed from rotation.</li>
+</ol>
+<p>In Eclipse MAT, the workflow is always: <strong>Leak Suspects report → dominator tree → path to GC roots</strong>. Typical culprits in Spring applications:</p>
+<table>
+<thead>
+<tr>
+<th>Leak</th>
+<th>Cause</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unbounded <code>ConcurrentHashMap</code> cache</td>
+<td>No eviction (Chapter 21's <code>maximumSize</code>)</td>
+</tr>
+<tr>
+<td><code>ThreadLocal</code> not cleared</td>
+<td>Pooled threads retain per-request objects</td>
+</tr>
+<tr>
+<td>Growing listener/observer lists</td>
+<td>Registration without deregistration</td>
+</tr>
+<tr>
+<td>Session data</td>
+<td>Large objects in HTTP sessions</td>
+</tr>
+<tr>
+<td>Large <code>ExecutionContext</code>/batch state</td>
+<td>Accumulating per-chunk state (Chapter 33)</td>
+</tr>
+<tr>
+<td>Classloader retention</td>
+<td>Hot reload/DevTools in the wrong environment (Chapter 05)</td>
+</tr>
+</tbody>
+</table>
+<div class="language-java highlight"><span class="filename">The leak that hides in plain sight</span><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">PriceView</span><span class="o">&gt;</span><span class="w"> </span><span class="n">priceCache</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ConcurrentHashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span><span class="w">        </span><span class="c1">// ❌ (1)!</span>
+</span></code></pre></div>
+<ol>
+<li>It works beautifully for a week, then the pod OOMs. Use Caffeine with <code>maximumSize</code> and a TTL (Chapter 21), or Redis.</li>
+</ol>
+<h3 id="54-level-3-allocation-reduction-where-it-matters">5.4 Level 3 — Allocation reduction where it matters<a class="headerlink" href="#54-level-3-allocation-reduction-where-it-matters" title="Permanent link">&para;</a></h3>
+<div class="language-java highlight"><span class="filename">Before: 41% of allocations</span><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">log</span><span class="p">.</span><span class="na">debug</span><span class="p">(</span><span class="s">"Pricing "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sku</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" for pincode "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">pincode</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" with rules "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rules</span><span class="p">);</span><span class="w">    </span><span class="c1">// (1)!</span>
+</span></code></pre></div>
+<div class="language-java highlight"><span class="filename">After</span><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">log</span><span class="p">.</span><span class="na">debug</span><span class="p">(</span><span class="s">"Pricing {} for pincode {} with rules {}"</span><span class="p">,</span><span class="w"> </span><span class="n">sku</span><span class="p">,</span><span class="w"> </span><span class="n">pincode</span><span class="p">,</span><span class="w"> </span><span class="n">rules</span><span class="p">);</span><span class="w">           </span><span class="c1">// (2)!</span>
+</span></code></pre></div>
+<ol>
+<li>String concatenation happens <strong>even when DEBUG is disabled</strong> — the arguments are evaluated and joined before the call.</li>
+<li>Parameterized logging defers formatting until the level check passes (Chapter 07).</li>
+</ol>
+<p>Other high-yield patterns:</p>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Boxing in hot loops (<code>Map&lt;String, Integer&gt;</code> counters)</td>
+<td>Primitive maps, or accumulate then box once</td>
+</tr>
+<tr>
+<td>Rebuilding the same immutable objects per request</td>
+<td>Cache them as constants</td>
+</tr>
+<tr>
+<td>Copying large collections defensively in hot paths</td>
+<td>Return unmodifiable views</td>
+</tr>
+<tr>
+<td>Serializing fields nobody reads</td>
+<td>Trim DTOs (Chapter 11)</td>
+</tr>
+<tr>
+<td>Regex compiled per call</td>
+<td><code>static final Pattern</code></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Don't micro-optimize the 2%</p>
+<p>Allocation work pays off when the profiler shows a <strong>wide</strong> allocation frame. Rewriting a stream into a loop because "streams are slow" without a profile is how teams spend a sprint gaining nothing and adding bugs.</p>
+</div>
+<h3 id="55-level-3-gc-tuning-carefully">5.5 Level 3 — GC tuning, carefully<a class="headerlink" href="#55-level-3-gc-tuning-carefully" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><span class="filename">Measure first</span><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>-Xlog:gc*:file<span class="o">=</span>/dumps/gc.log:time,uptime,level,tags:filecount<span class="o">=</span><span class="m">5</span>,filesize<span class="o">=</span>20M<span class="w">       </span><span class="c1"># (1)!</span>
+</span></code></pre></div>
+<p>Micrometer already exposes <code>jvm.gc.pause</code>, <code>jvm.gc.memory.allocated</code> and <code>jvm.gc.memory.promoted</code> (Chapter 27) — graph those before touching flags.</p>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Likely cause</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Frequent young GCs, short pauses</td>
+<td>High allocation rate</td>
+<td>Reduce allocation (5.4)</td>
+</tr>
+<tr>
+<td>Rising promotion rate</td>
+<td>Objects surviving too long: caches, large per-request buffers</td>
+<td>Fix lifetimes, cap caches</td>
+</tr>
+<tr>
+<td>Long mixed/full GCs</td>
+<td>Heap too small, fragmentation, humongous objects</td>
+<td>More heap, reduce large arrays, consider ZGC</td>
+</tr>
+<tr>
+<td>p99 spikes matching GC pauses</td>
+<td>Pause-sensitive workload</td>
+<td>Generational ZGC; smaller heap per pod, more pods</td>
+</tr>
+<tr>
+<td>Heap grows until OOM</td>
+<td>Leak</td>
+<td>Heap dump, not flags</td>
+</tr>
+</tbody>
+</table>
+<div class="language-bash highlight"><span class="filename">If (and only if) the data supports it</span><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>-XX:+UseZGC<span class="w"> </span>-XX:+ZGenerational<span class="w">        </span><span class="c1"># large heap, pause-sensitive (verify flags for your JDK)</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>-XX:MaxGCPauseMillis<span class="o">=</span><span class="m">100</span><span class="w">              </span><span class="c1"># G1 target — a goal, not a guarantee</span>
+</span></code></pre></div>
+<ol>
+<li>GC logs remain the ground truth; keep them on disk with rotation, like JFR.</li>
+</ol>
+<h3 id="56-level-3-tail-latency">5.6 Level 3 — Tail latency<a class="headerlink" href="#56-level-3-tail-latency" title="Permanent link">&para;</a></h3>
+<p>p99 is rarely "the code is slow". The usual contributors, in the order worth checking:</p>
+<table>
+<thead>
+<tr>
+<th>Cause</th>
+<th>Evidence</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Connection pool waits</td>
+<td><code>hikaricp.connections.pending</code></td>
+<td>Size pools (Chapter 12), shorten transactions</td>
+</tr>
+<tr>
+<td>GC pauses</td>
+<td><code>jvm.gc.pause</code> p99 aligned with request p99</td>
+<td>Allocation, collector choice</td>
+</tr>
+<tr>
+<td>CPU throttling</td>
+<td><code>container_cpu_cfs_throttled_seconds_total</code></td>
+<td>Remove/raise CPU limits (Chapter 30)</td>
+</tr>
+<tr>
+<td>Cold caches after deploy</td>
+<td>Hit-rate dip after rollout</td>
+<td>Warm-up (Chapter 21)</td>
+</tr>
+<tr>
+<td>JIT warm-up</td>
+<td>First-minute latency</td>
+<td>CDS/AOT (Chapter 29), traffic ramping</td>
+</tr>
+<tr>
+<td>Retries</td>
+<td>Duplicate downstream calls</td>
+<td>One retry layer, budget (Chapter 26)</td>
+</tr>
+<tr>
+<td>Lock contention</td>
+<td><code>lock</code> profile, <code>LongTaskTimer</code></td>
+<td>Reduce critical sections</td>
+</tr>
+<tr>
+<td>Slow dependency p99</td>
+<td><code>http.client.requests</code> p99</td>
+<td>Timeouts, bulkheads, degradation</td>
+</tr>
+<tr>
+<td>Noisy neighbours</td>
+<td>Node-level metrics</td>
+<td>Resource requests, anti-affinity</td>
+</tr>
+</tbody>
+</table>
+<div class="language-java highlight"><span class="filename">Making tail latency visible per dependency</span><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">Timer</span><span class="p">.</span><span class="na">builder</span><span class="p">(</span><span class="s">"grocery.dependency.call"</span><span class="p">)</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">     </span><span class="p">.</span><span class="na">tag</span><span class="p">(</span><span class="s">"dependency"</span><span class="p">,</span><span class="w"> </span><span class="s">"pricing"</span><span class="p">)</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">     </span><span class="p">.</span><span class="na">publishPercentileHistogram</span><span class="p">()</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">     </span><span class="p">.</span><span class="na">serviceLevelObjectives</span><span class="p">(</span><span class="n">Duration</span><span class="p">.</span><span class="na">ofMillis</span><span class="p">(</span><span class="mi">200</span><span class="p">),</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">ofMillis</span><span class="p">(</span><span class="mi">600</span><span class="p">))</span><span class="w">        </span><span class="c1">// (1)!</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">     </span><span class="p">.</span><span class="na">register</span><span class="p">(</span><span class="n">meters</span><span class="p">);</span>
+</span></code></pre></div>
+<ol>
+<li>SLO buckets make "how often did pricing exceed its budget?" a cheap query rather than an estimate (Chapter 27).</li>
+</ol>
+<h3 id="57-level-3-jmh-for-the-rare-case-its-warranted">5.7 Level 3 — JMH, for the rare case it's warranted<a class="headerlink" href="#57-level-3-jmh-for-the-rare-case-its-warranted" title="Permanent link">&para;</a></h3>
+<div class="language-java highlight"><span class="filename">src/jmh/java/in/grocery/pricing/GstCalculationBenchmark.java</span><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nd">@BenchmarkMode</span><span class="p">(</span><span class="n">Mode</span><span class="p">.</span><span class="na">AverageTime</span><span class="p">)</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="nd">@OutputTimeUnit</span><span class="p">(</span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">NANOSECONDS</span><span class="p">)</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="nd">@State</span><span class="p">(</span><span class="n">Scope</span><span class="p">.</span><span class="na">Benchmark</span><span class="p">)</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="nd">@Fork</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">jvmArgs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">"-Xms1g"</span><span class="p">,</span><span class="w"> </span><span class="s">"-Xmx1g"</span><span class="p">})</span><span class="w">                                    </span><span class="c1">// (1)!</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="nd">@Warmup</span><span class="p">(</span><span class="n">iterations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="nd">@Measurement</span><span class="p">(</span><span class="n">iterations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="n">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">GstCalculationBenchmark</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">GstCalculator</span><span class="w"> </span><span class="n">calculator</span><span class="p">;</span>
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">OrderLine</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lines</span><span class="p">;</span>
+</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>
+</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="w">    </span><span class="nd">@Setup</span>
+</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="w">        </span><span class="n">calculator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">GstCalculator</span><span class="p">(</span><span class="n">rates</span><span class="p">());</span>
+</span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a><span class="w">        </span><span class="n">lines</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sampleLines</span><span class="p">(</span><span class="mi">50</span><span class="p">);</span>
+</span><span id="__span-16-16"><a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a>
+</span><span id="__span-16-18"><a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a><span class="w">    </span><span class="nd">@Benchmark</span>
+</span><span id="__span-16-19"><a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">BigDecimal</span><span class="w"> </span><span class="nf">calculateGst</span><span class="p">(</span><span class="n">Blackhole</span><span class="w"> </span><span class="n">blackhole</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">                            </span><span class="c1">// (2)!</span>
+</span><span id="__span-16-20"><a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a><span class="w">        </span><span class="n">BigDecimal</span><span class="w"> </span><span class="n">total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calculator</span><span class="p">.</span><span class="na">totalTax</span><span class="p">(</span><span class="n">lines</span><span class="p">);</span>
+</span><span id="__span-16-21"><a id="__codelineno-16-21" name="__codelineno-16-21" href="#__codelineno-16-21"></a><span class="w">        </span><span class="n">blackhole</span><span class="p">.</span><span class="na">consume</span><span class="p">(</span><span class="n">total</span><span class="p">);</span>
+</span><span id="__span-16-22"><a id="__codelineno-16-22" name="__codelineno-16-22" href="#__codelineno-16-22"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">total</span><span class="p">;</span>
+</span><span id="__span-16-23"><a id="__codelineno-16-23" name="__codelineno-16-23" href="#__codelineno-16-23"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-16-24"><a id="__codelineno-16-24" name="__codelineno-16-24" href="#__codelineno-16-24"></a><span class="p">}</span>
+</span></code></pre></div>
+<ol>
+<li>Forks isolate JIT state; warm-up lets the JIT compile before measurement.</li>
+<li><code>Blackhole</code> prevents dead-code elimination — without it the JIT may delete the computation entirely and report impossibly fast results.</li>
+</ol>
+<p><strong>When JMH is appropriate</strong>: comparing two implementations of a genuinely hot, CPU-bound routine (tax calculation over large carts, a parser, a hash). <strong>When it isn't</strong>: anything dominated by I/O, or "which is faster, stream or loop" questions that don't appear in a profile.</p>
+<hr />
+<h2 id="6-hands-on-code-level-4-expert-production">6. Hands-On Code — Level 4 (Expert / Production)<a class="headerlink" href="#6-hands-on-code-level-4-expert-production" title="Permanent link">&para;</a></h2>
+<h3 id="61-sale-day-readiness-programme">6.1 Sale-day readiness programme<a class="headerlink" href="#61-sale-day-readiness-programme" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart LR
+    A[Forecast: 5× peak orders/min] --&gt; B[Model per-service load&lt;br/&gt;from production ratios]
+    B --&gt; C[Breakpoint tests: max req/s per pod]
+    C --&gt; D[Capacity plan: pods, DB, cache, partitions]
+    D --&gt; E[Load test at 1.5× forecast&lt;br/&gt;full journey, open model]
+    E --&gt; F{Thresholds met?}
+    F -- no --&gt; G[Profile → fix top bottleneck → repeat]
+    F -- yes --&gt; H[Soak test 8h + spike test]
+    H --&gt; I[Game day: chaos + degradation&lt;br/&gt;Chapters 26, 30]
+    I --&gt; J[Pre-scale, freeze deploys, runbooks ready]</code></pre>
+<div class="language-text highlight"><span class="filename">Capacity math, written down</span><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>Forecast peak: 3,000 orders/min = 50 orders/s
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>Checkout path per order: 1 cart write, 1 pricing call, 1 inventory call, 1 payment call, 3 DB tx
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>order-service:
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>  measured breakpoint: 180 req/s per pod at p99 &lt; 800ms (2 vCPU, 1 GiB)
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>  target utilization 65% → 117 req/s per pod
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>  checkout req/s at peak ≈ 50 × 4 (cart, quote, order, poll) = 200 req/s
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>  pods = ceil(200 / 117) = 2 → minimum 6 for zone loss + headroom      ← replicas: 6
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>database:
+</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>  connections = pods × pool(20) = 120 (order) + 80 (catalog) + ...  = 340 &lt; max_connections 500  ✅
+</span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>  writes/s at peak ≈ 150 → within measured 1,200/s headroom          ✅
+</span><span id="__span-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>
+</span><span id="__span-17-14"><a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>Kafka:
+</span><span id="__span-17-15"><a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a>  order events 50/s × 5 consumers; partitions 12 ✅
+</span><span id="__span-17-16"><a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a>Redis:
+</span><span id="__span-17-17"><a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a>  price cache 2,000 gets/s, p99 0.6 ms at 3× load ✅
+</span></code></pre></div>
+<p>The value isn't the numbers — it's that each one is <strong>measured, written down, and rechecked</strong> when something changes.</p>
+<h3 id="62-performance-regression-gate">6.2 Performance regression gate<a class="headerlink" href="#62-performance-regression-gate" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><span class="filename">.github/workflows/nightly-perf.yml (excerpt)</span><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deploy to perf environment</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./scripts/deploy-perf.sh "$IMAGE_DIGEST"</span><span class="w">                                </span><span class="c1"># (1)!</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run checkout scenario</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">k6 run --out json=results.json perf/checkout.js</span>
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Compare against baseline</span>
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="w">          </span><span class="no">python scripts/compare_perf.py results.json baselines/checkout.json \</span>
+</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="w">            </span><span class="no">--max-p95-regression 15 --max-p99-regression 20                          # (2)!</span>
+</span></code></pre></div>
+<ol>
+<li>Same digest as the release candidate (Chapter 29) against production-like data volumes.</li>
+<li>Fail on a <strong>relative</strong> regression: absolute thresholds drift with environment noise, while "15% slower than last week" is a real signal. Update baselines deliberately, with a comment explaining why.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>What to guard</th>
+<th>Budget</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Checkout p95 / p99</td>
+<td>800 ms / 2 s</td>
+</tr>
+<tr>
+<td>Product page p95</td>
+<td>300 ms</td>
+</tr>
+<tr>
+<td>Search p95</td>
+<td>400 ms</td>
+</tr>
+<tr>
+<td>Startup time (Chapter 29)</td>
+<td>5 s</td>
+</tr>
+<tr>
+<td>Batch throughput (Chapter 33)</td>
+<td>50k rows / 2 min</td>
+</tr>
+<tr>
+<td>Image size</td>
+<td>250 MB</td>
+</tr>
+</tbody>
+</table>
+<h3 id="63-incident-time-performance-triage">6.3 Incident-time performance triage<a class="headerlink" href="#63-incident-time-performance-triage" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart TD
+    A[Latency alert fires] --&gt; B[SLO dashboard: which endpoint, since when?]
+    B --&gt; C{Deploy or config change at that time?}
+    C -- yes --&gt; D[Roll back by digest first, investigate after]
+    C -- no --&gt; E[Dependency panel: which client call is slow?]
+    E -- a dependency --&gt; F["Their dashboards; breaker state; degrade"]
+    E -- none --&gt; G[Resource panel: pool pending, GC pause, CPU throttling]
+    G -- pool pending --&gt; H[Long transactions? Slow query? Pool too small?]
+    G -- GC --&gt; I[Allocation spike? Leak? Heap after full GC?]
+    G -- throttling --&gt; J[CPU limits — Chapter 30]
+    G -- clean --&gt; K[JFR/async-profiler wall-clock for 60s on one pod]
+    K --&gt; L[Flame graph → the wide frame]</code></pre>
+<p>The first branch matters most: <strong>most latency regressions are changes</strong>, and rolling back is faster than diagnosing.</p>
+<h3 id="64-the-fixes-that-actually-moved-the-needle">6.4 The fixes that actually moved the needle<a class="headerlink" href="#64-the-fixes-that-actually-moved-the-needle" title="Permanent link">&para;</a></h3>
+<p>A record from the platform's own tuning cycles, roughly in order of impact:</p>
+<table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Fix</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N+1 on order lines</td>
+<td><code>@EntityGraph</code> + query-count test (Chapter 13)</td>
+<td>p99 2.4 s → 380 ms</td>
+</tr>
+<tr>
+<td>Missing composite index on <code>(customer_id, placed_at)</code></td>
+<td>Index + <code>EXPLAIN</code> verification</td>
+<td>Order history 1.1 s → 40 ms</td>
+</tr>
+<tr>
+<td>Pricing called per cart line</td>
+<td>Bulk endpoint (Chapter 20)</td>
+<td>22 calls → 1 per checkout</td>
+</tr>
+<tr>
+<td>Unbounded product list endpoint</td>
+<td>Pagination + size cap</td>
+<td>400 KB → 18 KB responses</td>
+</tr>
+<tr>
+<td>Remote call inside a transaction</td>
+<td>Moved outside (Chapter 16)</td>
+<td>Pool pending → 0</td>
+</tr>
+<tr>
+<td>DEBUG logging in production</td>
+<td>Level fixed; parameterized logging</td>
+<td>15% CPU reclaimed</td>
+</tr>
+<tr>
+<td>Cold cache after every deploy</td>
+<td>Warm-up before readiness (Chapter 21)</td>
+<td>Post-deploy spike removed</td>
+</tr>
+<tr>
+<td>CPU limits causing throttling</td>
+<td>Limits removed on latency-sensitive services</td>
+<td>p99 −220 ms</td>
+</tr>
+<tr>
+<td>Synchronous notification in checkout</td>
+<td>Moved to outbox/async (Chapters 23, 25)</td>
+<td>−150 ms p50</td>
+</tr>
+</tbody>
+</table>
+<p>Not one of them was a JVM flag. That's the pattern, not a coincidence.</p>
+<h3 id="65-performance-as-a-practice">6.5 Performance as a practice<a class="headerlink" href="#65-performance-as-a-practice" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Practice</th>
+<th>Cadence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Latency budget per critical endpoint</td>
+<td>Defined once, reviewed quarterly</td>
+</tr>
+<tr>
+<td>Nightly perf run with regression gate</td>
+<td>Every night</td>
+</tr>
+<tr>
+<td>Breakpoint test per service</td>
+<td>Quarterly and before peak season</td>
+</tr>
+<tr>
+<td>Soak test</td>
+<td>Before peak season, and after major runtime upgrades</td>
+</tr>
+<tr>
+<td>Capacity model refresh</td>
+<td>Quarterly, and on traffic-pattern changes</td>
+</tr>
+<tr>
+<td>Profiling during load tests</td>
+<td>Every load test, not only when it fails</td>
+</tr>
+<tr>
+<td>"Top 5 slow queries" review</td>
+<td>Monthly with the database owner</td>
+</tr>
+<tr>
+<td>Post-incident performance actions</td>
+<td>Tracked like any other defect</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="7-spring-boot-3-vs-4-migration">7. Spring Boot 3 vs 4 &amp; Migration<a class="headerlink" href="#7-spring-boot-3-vs-4-migration" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Boot 3.5</th>
+<th>Boot 4.x</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Baseline throughput</td>
+<td>—</td>
+<td>Similar; gains come from the JDK and your code</td>
+</tr>
+<tr>
+<td>Virtual threads</td>
+<td>Java 21+</td>
+<td>Same; bottleneck moves to dependencies (Chapter 25)</td>
+</tr>
+<tr>
+<td>Startup</td>
+<td>CDS supported</td>
+<td>CDS + JDK AOT cache (Chapter 29)</td>
+</tr>
+<tr>
+<td>Jackson</td>
+<td>2</td>
+<td>3 — re-measure serialization-heavy paths (Chapter 11)</td>
+</tr>
+<tr>
+<td>Micrometer histograms</td>
+<td>✅</td>
+<td>✅ (verify metric names)</td>
+</tr>
+<tr>
+<td>GC defaults</td>
+<td>JDK-dependent</td>
+<td>Generational ZGC matured in recent JDKs</td>
+</tr>
+</tbody>
+</table>
+<h3 id="migration-checklist">Migration checklist<a class="headerlink" href="#migration-checklist" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Re-run the full load suite before and after the upgrade on the same data and hardware.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Compare allocation profiles (Jackson 3 and Framework changes shift them).</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Re-measure startup and batch throughput budgets.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Re-check pool sizing if virtual threads are newly enabled.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Refresh performance baselines deliberately, with a note explaining the change.</li>
+</ul>
+<hr />
+<h2 id="8-production-playbook">8. Production Playbook<a class="headerlink" href="#8-production-playbook" title="Permanent link">&para;</a></h2>
+<h3 id="best-practices">Best practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Budget first</strong>: latency targets per endpoint, derived from user expectations, decomposed across dependencies.</li>
+<li><strong>Open-model load tests</strong> with thresholds as pass/fail gates.</li>
+<li><strong>Profile before optimizing</strong>; use wall-clock mode when CPU looks idle.</li>
+<li><strong>Fix the top item, then re-measure</strong> — bottlenecks move.</li>
+<li><strong>Reduce allocation before tuning GC</strong>; tune GC only with data.</li>
+<li><strong>Watch saturation</strong> (pool pending, queue depth) as the leading indicator.</li>
+<li><strong>Target 60–70% utilization</strong> at peak; the rest is headroom.</li>
+<li><strong>Guard gains</strong> with a nightly regression gate on relative change.</li>
+<li><strong>Capacity math written down</strong> and rechecked when anything changes.</li>
+<li><strong>Triage starts with "what changed?"</strong>, and rollback beats diagnosis during an incident.</li>
+</ol>
+<h3 id="anti-patterns">Anti-patterns<a class="headerlink" href="#anti-patterns" title="Permanent link">&para;</a></h3>
+<p>❌ Optimizing without a profile ("I think it's the serializer").</p>
+<p>❌ Closed-model load tests that hide queueing (coordinated omission).</p>
+<p>❌ Reporting averages; ignoring p99 and p99.9.</p>
+<p>❌ Load testing against an empty database or a single pod, then extrapolating.</p>
+<p>❌ GC flag tuning as a first response to latency problems.</p>
+<p>❌ Micro-benchmarks of code that never appears in a profile.</p>
+<p>❌ Adding caching to hide an unindexed query (now you have two problems, and a cold-start cliff).</p>
+<p>❌ Running at 90% utilization "for efficiency".</p>
+<p>❌ Performance work with no regression guard — the gain is gone in two sprints.</p>
+<p>❌ Using production as the load-test environment without controls.</p>
+<h3 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>First checks</th>
+<th>Typical cause</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>p99 high, p50 fine</td>
+<td>GC pauses, pool pending, CPU throttling, retries</td>
+<td>Saturation or pauses, not code</td>
+</tr>
+<tr>
+<td>Throughput plateaus below target</td>
+<td>Pool sizes, downstream limits, CPU saturation</td>
+<td>A bounded resource (Little's law)</td>
+</tr>
+<tr>
+<td>Latency rises steadily over hours</td>
+<td>Heap after full GC, cache size, connection counts</td>
+<td>Leak or unbounded growth</td>
+</tr>
+<tr>
+<td>CPU low, latency high</td>
+<td>Wall-clock profile</td>
+<td>Waiting on I/O, locks or a dependency</td>
+</tr>
+<tr>
+<td>Slow only after deploy</td>
+<td>Cold caches, JIT warm-up, config change</td>
+<td>Warm-up, CDS/AOT</td>
+</tr>
+<tr>
+<td>Fast in staging, slow in production</td>
+<td>Data volume, network, noisy neighbours, config differences</td>
+<td>Test with production-sized data</td>
+</tr>
+<tr>
+<td>Database CPU pegged</td>
+<td><code>pg_stat_statements</code>, missing indexes, N+1</td>
+<td>Query problems, not app problems</td>
+</tr>
+<tr>
+<td>Memory OK but pods OOM-killed</td>
+<td>Non-heap (metaspace, threads, direct buffers)</td>
+<td>Chapter 29's sizing</td>
+</tr>
+<tr>
+<td>Load generator is the bottleneck</td>
+<td><code>dropped_iterations</code>, generator CPU</td>
+<td>Scale the generator, distribute it</td>
+</tr>
+</tbody>
+</table>
+<h3 id="production-checklist">Production checklist<a class="headerlink" href="#production-checklist" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Latency budget documented per critical endpoint</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Load, stress, spike and soak scenarios exist and run on a schedule</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Load tests use an open model with thresholds</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> JFR always on; async-profiler available for triage</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> GC logs and JVM metrics collected and graphed</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Breakpoint numbers per service feed a written capacity model</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Nightly performance regression gate with maintained baselines</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Triage runbook linked from latency alerts</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Pre-peak programme: capacity, soak, game day, pre-scale, deploy freeze</li>
+</ul>
+<hr />
+<h2 id="9-interview-questions-answers">9. Interview Questions &amp; Answers<a class="headerlink" href="#9-interview-questions-answers" title="Permanent link">&para;</a></h2>
+<h3 id="b1-02-years">B1 · 0–2 years<a class="headerlink" href="#b1-02-years" title="Permanent link">&para;</a></h3>
+<details class="question">
+<summary>B1 · Why look at p99 instead of the average?</summary>
+<p><strong>Short answer:</strong> Averages hide the slow tail. With 2,000 requests/s, a 1% slow tail is 20 users per second having a bad experience — and the tail is what drives timeouts and retries.</p>
+</details>
+<details class="question">
+<summary>B1 · What is a latency budget?</summary>
+<p><strong>Short answer:</strong> A target for an endpoint, split across its dependencies and internal work, so every component knows how much time it may consume.</p>
+</details>
+<details class="question">
+<summary>B1 · Name three common causes of slow Spring endpoints.</summary>
+<p><strong>Short answer:</strong> N+1 queries, missing database indexes, and unpaginated responses. Chatty HTTP calls and long transactions are close behind.</p>
+</details>
+<details class="question">
+<summary>B1 · What does a profiler tell you that metrics don't?</summary>
+<p><strong>Short answer:</strong> Which code paths consume time or memory. Metrics say <em>that</em> something is slow; the profiler says <em>where</em>.</p>
+</details>
+<details class="question">
+<summary>B1 · What is JFR?</summary>
+<p><strong>Short answer:</strong> Java Flight Recorder — a low-overhead, built-in profiler that records CPU, allocation, locks, GC and I/O events, suitable for always-on production use.</p>
+</details>
+<h3 id="b2-25-years">B2 · 2–5 years<a class="headerlink" href="#b2-25-years" title="Permanent link">&para;</a></h3>
+<details class="question">
+<summary>B2 · What is Little's law and how do you use it?</summary>
+<p><strong>Short answer:</strong> Concurrency = throughput × latency. It sizes thread and connection pools, explains why rising latency exhausts resources, and converts a throughput target into a capacity number.</p>
+</details>
+<details class="question">
+<summary>B2 · What is coordinated omission?</summary>
+<p><strong>Short answer:</strong> A closed-model load test stops sending requests while waiting for slow responses, so it under-reports latency. Use an arrival-rate (open model) executor so load continues regardless of response time.</p>
+</details>
+<details class="question">
+<summary>B2 · How do you find a memory leak?</summary>
+<p><strong>Short answer:</strong> Track heap used <strong>after full GC</strong> over time; if the floor rises, take a heap dump and analyze the dominator tree and paths to GC roots. Common causes: unbounded caches, uncleaned ThreadLocals, growing listener lists.</p>
+</details>
+<details class="question">
+<summary>B2 · How do you decide whether to tune GC?</summary>
+<p><strong>Short answer:</strong> Only after looking at allocation rate, promotion rate and pause distribution. Most GC symptoms are allocation problems; reduce garbage first, and change collectors only with supporting data.</p>
+</details>
+<details class="question">
+<summary>B2 · Why can adding a cache make things worse?</summary>
+<p><strong>Short answer:</strong> It hides the real problem (an unindexed query), adds a cold-start cliff, invites staleness bugs and creates a new failure mode. Fix the query first; cache afterwards if reuse justifies it.</p>
+</details>
+<details class="question">
+<summary>B2 · What's the difference between CPU and wall-clock profiling?</summary>
+<p><strong>Short answer:</strong> CPU profiling shows where processing time goes; wall-clock shows where <em>elapsed</em> time goes, including blocking. When CPU is low and latency high, wall-clock is the mode you need.</p>
+</details>
+<h3 id="b3-58-years">B3 · 5–8 years<a class="headerlink" href="#b3-58-years" title="Permanent link">&para;</a></h3>
+<details class="question">
+<summary>B3 · Walk through diagnosing a p99 regression.</summary>
+<p><strong>Short answer:</strong> Check what changed (deploy/config) and roll back if so; otherwise look at dependency latency, then saturation signals (pool pending, queue depth, GC pause, CPU throttling); if those are clean, capture a 60-second wall-clock profile and read the flame graph for a wide frame.</p>
+</details>
+<details class="question">
+<summary>B3 · Why does latency explode near 100% utilization?</summary>
+<p><strong>Short answer:</strong> Queueing: wait time grows non-linearly with utilization, and rising latency increases concurrency (Little's law), which increases contention and reduces service rate — a feedback loop. Hence 60–70% targets and load shedding.</p>
+</details>
+<details class="question">
+<summary>B3 · How do you read a flame graph?</summary>
+<p><strong>Short answer:</strong> Width is share of samples; look for wide plateaus rather than deep stacks. An even, flat distribution usually means the bottleneck isn't CPU — switch to wall-clock or lock profiling.</p>
+</details>
+<details class="question">
+<summary>B3 · When is JMH the right tool?</summary>
+<p><strong>Short answer:</strong> For small, CPU-bound routines that a profiler has shown to be hot, comparing implementations — with warm-up, forks and <code>Blackhole</code> to avoid JIT artifacts. Never for I/O-bound code or code that never appears in a profile.</p>
+</details>
+<details class="question">
+<summary>B3 · How do virtual threads change performance work?</summary>
+<p><strong>Short answer:</strong> Thread count stops being the limit, so bottlenecks move to downstream resources — connection pools, dependency capacity, API quotas. Pool sizing and bulkheads become the tuning surface (Chapters 25, 26).</p>
+</details>
+<h3 id="b4-812-years">B4 · 8–12 years<a class="headerlink" href="#b4-812-years" title="Permanent link">&para;</a></h3>
+<details class="question">
+<summary>B4 · How do you prepare a platform for 5× traffic?</summary>
+<p><strong>Short answer:</strong> Forecast and decompose per service; measure per-pod breakpoints; build a written capacity model covering pods, connections, partitions and cache; load test the full journey at 1.5× forecast with thresholds; profile and fix iteratively; soak and spike test; run game days; pre-scale and freeze deploys.</p>
+</details>
+<details class="question">
+<summary>B4 · How do you stop performance from regressing?</summary>
+<p><strong>Short answer:</strong> Budgets per endpoint, a nightly load test with relative-regression thresholds, startup and batch budgets, profiling during load tests, and treating regressions as defects with owners rather than "we'll look at it later".</p>
+</details>
+<details class="question">
+<summary>B4 · A team asks to double the connection pool to fix latency. Response?</summary>
+<p><strong>Short answer:</strong> Check <code>pending</code> and query durations first. Pool waits usually mean slow queries or long transactions; doubling the pool moves contention into the database, where it's worse. Fix the query, shorten the transaction, then size the pool against database capacity (Chapter 12).</p>
+</details>
+<h3 id="b5-1215-years">B5 · 12–15+ years<a class="headerlink" href="#b5-1215-years" title="Permanent link">&para;</a></h3>
+<details class="question">
+<summary>B5 · How do you build performance into engineering culture?</summary>
+<p><strong>Short answer:</strong> Budgets as part of design; load tests and profiles as normal deliverables; regression gates in CI; capacity models owned and reviewed; incident reviews that produce performance actions; and visible dashboards so the organization sees the cost of decisions rather than discovering it during a sale.</p>
+</details>
+<details class="question">
+<summary>B5 · When is 'good enough' the right answer?</summary>
+<p><strong>Short answer:</strong> When latency is within budget and headroom is adequate at forecast peak, further optimization has negative return compared with features or reliability work. Performance effort belongs where user-visible budgets are threatened or costs scale badly — not everywhere.</p>
+</details>
+<h3 id="scenario-questions">Scenario questions<a class="headerlink" href="#scenario-questions" title="Permanent link">&para;</a></h3>
+<details class="example">
+<summary>Scenario · Checkout p99 is 2.4 s but CPU is 20%</summary>
+<p>A wall-clock profile showed 62% of time waiting on a single query missing a composite index, plus pool waits behind it. Fixes: add <code>(customer_id, status, placed_at)</code>, verify with <code>EXPLAIN (ANALYZE, BUFFERS)</code>, add a query-count test, re-run the load test — p99 fell to 380 ms and pool pending returned to zero.</p>
+</details>
+<details class="example">
+<summary>Scenario · Pods OOM after eight hours, never in a load test</summary>
+<p>The load test ran for ten minutes; the soak test (added afterwards) reproduced it in three hours. A <code>ConcurrentHashMap</code> price cache had no eviction. Fixes: Caffeine with <code>maximumSize</code> and TTL, heap-after-GC monitoring, and an 8-hour soak test added to the pre-peak programme.</p>
+</details>
+<h3 id="coding-exercise">Coding exercise<a class="headerlink" href="#coding-exercise" title="Permanent link">&para;</a></h3>
+<div class="admonition example">
+<p class="admonition-title">Exercise · Diagnose and fix a slow endpoint</p>
+<p><code>GET /api/v1/customers/{id}/orders?page=0&amp;size=20</code> takes 1.8 s at p95 under load. Produce: a load test isolating it, the profiling commands you'd run, the database analysis, the likely fixes, and the regression guard you'd add.</p>
+</div>
+<details class="success">
+<summary>Solution</summary>
+<div class="language-javascript highlight"><span class="filename">perf/order-history.js</span><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">options</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="w">  </span><span class="nx">scenarios</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">history</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="w">    </span><span class="nx">executor</span><span class="o">:</span><span class="w"> </span><span class="s1">'constant-arrival-rate'</span><span class="p">,</span><span class="w"> </span><span class="nx">rate</span><span class="o">:</span><span class="w"> </span><span class="mf">150</span><span class="p">,</span><span class="w"> </span><span class="nx">timeUnit</span><span class="o">:</span><span class="w"> </span><span class="s1">'1s'</span><span class="p">,</span>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="w">    </span><span class="nx">duration</span><span class="o">:</span><span class="w"> </span><span class="s1">'5m'</span><span class="p">,</span><span class="w"> </span><span class="nx">preAllocatedVUs</span><span class="o">:</span><span class="w"> </span><span class="mf">100</span><span class="p">,</span><span class="w"> </span><span class="nx">maxVUs</span><span class="o">:</span><span class="w"> </span><span class="mf">800</span><span class="p">,</span>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="w">  </span><span class="p">}},</span>
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="w">  </span><span class="nx">thresholds</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s1">'http_req_duration'</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s1">'p(95)&lt;300'</span><span class="p">],</span><span class="w"> </span><span class="s1">'http_req_failed'</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s1">'rate&lt;0.001'</span><span class="p">]</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="p">};</span>
+</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a><span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="w">  </span><span class="nx">http</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">__ENV</span><span class="p">.</span><span class="nx">BASE</span><span class="si">}</span><span class="sb">/api/v1/customers/</span><span class="si">${</span><span class="nx">randomCustomer</span><span class="p">()</span><span class="si">}</span><span class="sb">/orders?page=0&amp;size=20`</span><span class="p">,</span><span class="w">   </span><span class="c1">// (1)!</span>
+</span><span id="__span-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a><span class="w">           </span><span class="p">{</span><span class="w"> </span><span class="nx">headers</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Authorization</span><span class="o">:</span><span class="w"> </span><span class="sb">`Bearer </span><span class="si">${</span><span class="nx">__ENV</span><span class="p">.</span><span class="nx">TOKEN</span><span class="si">}</span><span class="sb">`</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">});</span>
+</span><span id="__span-19-11"><a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a><span class="p">}</span>
+</span></code></pre></div>
+<ol>
+<li><strong>Random customers</strong>, not one repeated id — otherwise the database and caches serve one hot row and the test proves nothing.</li>
+</ol>
+<div class="language-bash highlight"><span class="filename">Profile during the run</span><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>./profiler.sh<span class="w"> </span>-d<span class="w"> </span><span class="m">60</span><span class="w"> </span>-e<span class="w"> </span>wall<span class="w"> </span>-t<span class="w"> </span>-f<span class="w"> </span>wall.html<span class="w"> </span><span class="m">1</span><span class="w">          </span><span class="c1"># where does elapsed time go?</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>./profiler.sh<span class="w"> </span>-d<span class="w"> </span><span class="m">60</span><span class="w"> </span>-e<span class="w"> </span>alloc<span class="w"> </span>-f<span class="w"> </span>alloc.html<span class="w"> </span><span class="m">1</span><span class="w">           </span><span class="c1"># garbage from serialization?</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>pod<span class="w"> </span>--<span class="w"> </span>jcmd<span class="w"> </span><span class="m">1</span><span class="w"> </span>JFR.start<span class="w"> </span><span class="nv">settings</span><span class="o">=</span>profile<span class="w"> </span><span class="nv">duration</span><span class="o">=</span>120s<span class="w"> </span><span class="nv">filename</span><span class="o">=</span>/dumps/t.jfr
+</span></code></pre></div>
+<div class="language-sql highlight"><span class="filename">Database analysis</span><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="k">select</span><span class="w"> </span><span class="n">calls</span><span class="p">,</span><span class="w"> </span><span class="n">mean_exec_time</span><span class="p">,</span><span class="w"> </span><span class="n">total_exec_time</span><span class="p">,</span><span class="w"> </span><span class="n">query</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">pg_stat_statements</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="k">where</span><span class="w"> </span><span class="n">query</span><span class="w"> </span><span class="k">ilike</span><span class="w"> </span><span class="s1">'%customer_order%'</span><span class="w"> </span><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">total_exec_time</span><span class="w"> </span><span class="k">desc</span><span class="w"> </span><span class="k">limit</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="k">explain</span><span class="w"> </span><span class="p">(</span><span class="k">analyze</span><span class="p">,</span><span class="w"> </span><span class="n">buffers</span><span class="p">)</span>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="k">select</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="o">*</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">customer_order</span><span class="w"> </span><span class="n">o</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">customer_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">$</span><span class="mi">1</span>
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="k">order</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">placed_at</span><span class="w"> </span><span class="k">desc</span><span class="w"> </span><span class="k">limit</span><span class="w"> </span><span class="mi">20</span><span class="w"> </span><span class="k">offset</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span></code></pre></div>
+<p><strong>Findings and fixes (the usual shape):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Finding</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Seq scan on <code>customer_order</code> (8M rows)</td>
+<td>Index <code>(customer_id, placed_at desc)</code></td>
+</tr>
+<tr>
+<td>Each order triggers a query for its lines (N+1)</td>
+<td><code>@EntityGraph</code> / projection, plus a query-count test (Chapter 13)</td>
+</tr>
+<tr>
+<td>Response includes full line details nobody displays</td>
+<td>Slim the DTO; separate detail endpoint (Chapter 11)</td>
+</tr>
+<tr>
+<td><code>count(*)</code> for total pages on every page</td>
+<td>Cursor pagination, or drop the exact total (Chapter 20)</td>
+</tr>
+<tr>
+<td>Pool <code>pending</code> &gt; 0 during the test</td>
+<td>Falls to zero once the query is fast — no pool change needed</td>
+</tr>
+</tbody>
+</table>
+<div class="language-java highlight"><span class="filename">Regression guard</span><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="nd">@Test</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">orderHistoryUsesBoundedQueries</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">QueryCountAssertions</span><span class="p">.</span><span class="na">measure</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">service</span><span class="p">.</span><span class="na">history</span><span class="p">(</span><span class="s">"C-1"</span><span class="p">,</span><span class="w"> </span><span class="n">PageRequest</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">)));</span>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="w">    </span><span class="n">assertThat</span><span class="p">(</span><span class="n">count</span><span class="p">.</span><span class="na">selects</span><span class="p">()).</span><span class="na">isLessThanOrEqualTo</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span><span class="w">                                   </span><span class="c1">// (1)!</span>
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="p">}</span>
+</span></code></pre></div>
+<div class="language-yaml highlight"><span class="filename">And in the nightly gate</span><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">k6 run perf/order-history.js</span><span class="w">        </span><span class="c1"># thresholds: p95 &lt; 300ms</span>
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python scripts/compare_perf.py results.json baselines/order-history.json --max-p95-regression 15</span>
+</span></code></pre></div>
+<ol>
+<li>The query-count test catches the N+1 returning long before the nightly load test would — fast feedback for a cheap assertion.</li>
+</ol>
+</details>
+<hr />
+<h2 id="key-takeaways">Key Takeaways<a class="headerlink" href="#key-takeaways" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Budget, measure, profile, fix the top item, re-measure, guard</strong> — in that order.</li>
+<li><strong>Little's law</strong> connects throughput, latency and concurrency; it sizes everything.</li>
+<li><strong>Latency explodes above ~80% utilization</strong> — plan for 60–70% at peak.</li>
+<li><strong>Open-model load tests</strong> or your numbers are optimistic fiction.</li>
+<li><strong>Wall-clock profiling</strong> when CPU is idle but latency is high.</li>
+<li><strong>Reduce allocation before tuning GC</strong>; heap-after-full-GC trending up means a leak, not a flag.</li>
+<li>The <strong>real fixes are usually indexes, N+1s, pagination, transaction scope and logging</strong> — not JVM tuning.</li>
+<li><strong>Guard every gain</strong> with a regression gate and a written capacity model.</li>
+</ul>
+<h2 id="further-reading">Further Reading<a class="headerlink" href="#further-reading" title="Permanent link">&para;</a></h2>
+<ul>
+<li><em>Systems Performance</em> (Brendan Gregg) — USE method, flame graphs, methodology</li>
+<li>JDK Mission Control / JFR documentation; async-profiler documentation</li>
+<li>k6 / Gatling documentation — executors, thresholds, open vs closed models</li>
+<li>PostgreSQL documentation — <code>EXPLAIN</code>, <code>pg_stat_statements</code>, planner behaviour</li>
+<li>JMH samples — correct micro-benchmark construction</li>
+</ul>
+<hr />
+<p><a href="../33-batch-integration/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg></span> 33 Spring Batch &amp; Integration</a> · <a href="../../part-3-enterprise/35-microservices-spring-cloud/">35 Microservices &amp; Spring Cloud <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg></span></a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../33-batch-integration/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 33 Batch &amp; Integration">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                33 Batch & Integration
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../part-3-enterprise/" class="md-footer__link md-footer__link--next" aria-label="Next: Part 3 · Enterprise">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Part 3 · Enterprise
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Personal knowledge base — Spring Boot 3 & 4 Enterprise Handbook
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "navigation.footer", "navigation.tracking", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.tooltips"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

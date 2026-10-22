@@ -1,0 +1,5718 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Beginner to 15+ years — Spring Boot 3.5 and 4.x, grounded in a multi-vendor grocery marketplace">
+      
+      
+        <meta name="author" content="Ashish">
+      
+      
+        <link rel="canonical" href="https://khiruashish.github.io/spring-boot-playbook/part-3-enterprise/42-migration-upgrade/">
+      
+      
+        <link rel="prev" href="../41-internals-custom-starters/">
+      
+      
+        <link rel="next" href="../43-engineering-leadership/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>42 Migration & Upgrade Engineering - Spring Boot 3 & 4 Enterprise Handbook</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#42-migration-upgrade-engineering" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Spring Boot 3 &amp; 4 Enterprise Handbook" class="md-header__button md-logo" aria-label="Spring Boot 3 & 4 Enterprise Handbook" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Spring Boot 3 & 4 Enterprise Handbook
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              42 Migration & Upgrade Engineering
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="deep-orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="deep-orange"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/khiruashish/spring-boot-playbook" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    spring-boot-playbook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+    
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../part-1-foundations/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Part 1 · Foundations
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../part-2-production/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Part 2 · Production
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Part 3 · Enterprise
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../annotations/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Annotations
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../appendices/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Appendices
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Spring Boot 3 &amp; 4 Enterprise Handbook" class="md-nav__button md-logo" aria-label="Spring Boot 3 & 4 Enterprise Handbook" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Spring Boot 3 & 4 Enterprise Handbook
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/khiruashish/spring-boot-playbook" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    spring-boot-playbook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../.." class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Home
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reading-paths/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reading Paths
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-0-orientation/00-handbook-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Handbook Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../part-1-foundations/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 1 · Foundations
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Part 1 · Foundations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/01-java-and-build-prerequisites/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 Java & Build Prerequisites
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/02-ioc-and-dependency-injection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 IoC & Dependency Injection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/03-bean-lifecycle-events-extension-points/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 Bean Lifecycle, Events & Extension Points
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/04-aop/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04 AOP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/05-spring-boot-fundamentals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05 Spring Boot Fundamentals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/06-externalized-configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06 Externalized Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/07-logging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07 Logging
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/08-rest-apis-spring-mvc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08 REST APIs with Spring MVC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/09-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09 Validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/10-error-handling-problem-details/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10 Error Handling & Problem Details
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/11-json-serialization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11 JSON & Serialization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/12-data-access-jdbc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12 Data Access — JDBC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/13-spring-data-jpa-hibernate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13 Spring Data JPA & Hibernate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/14-database-migrations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14 Database Migrations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/15-testing-fundamentals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15 Testing Fundamentals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../part-2-production/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 2 · Production
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Part 2 · Production
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/16-transactions-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    16 Transactions Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/17-spring-security-fundamentals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    17 Spring Security Fundamentals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/18-security-tokens-oauth2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    18 Tokens, OAuth2 & Modern Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/19-http-clients/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    19 HTTP Clients
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/20-api-design-versioning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    20 API Design & Versioning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/21-caching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    21 Caching
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/22-nosql-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    22 NoSQL & Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/23-messaging-kafka/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    23 Messaging with Kafka
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/24-other-messaging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    24 RabbitMQ, Pulsar, JMS, Cloud Stream
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/25-async-scheduling-virtual-threads/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    25 Async, Scheduling & Virtual Threads
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/26-resilience/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    26 Resilience
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/27-observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    27 Observability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/28-integration-contract-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    28 Integration & Contract Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/29-packaging-deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    29 Packaging & Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/30-kubernetes-cloud-native/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    30 Kubernetes & Cloud-Native
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/31-reactive-spring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    31 Reactive Spring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/32-graphql-grpc-websocket-sse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    32 GraphQL, gRPC, WebSocket, SSE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/33-batch-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    33 Batch & Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/34-performance-engineering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    34 Performance Engineering
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 3 · Enterprise
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Part 3 · Enterprise
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../35-microservices-spring-cloud/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    35 Microservices with Spring Cloud
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../36-distributed-data-consistency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    36 Distributed Data & Consistency
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../37-architecture-styles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    37 DDD, Hexagonal, Modular Monolith
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../38-multi-tenancy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    38 Multi-Tenancy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../39-enterprise-security-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    39 Enterprise Security Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../40-spring-ai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    40 Spring AI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../41-internals-custom-starters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    41 Internals & Custom Starters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    42 Migration & Upgrade Engineering
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    42 Migration & Upgrade Engineering
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction-why-it-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introduction &amp; Why It Matters
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Introduction &amp; Why It Matters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#who-should-read-which-section" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Who should read which section
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-core-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Core Concepts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Core Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-why-upgrade-at-all" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Why upgrade at all
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-the-cadence-that-keeps-upgrades-cheap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 The cadence that keeps upgrades cheap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-what-changes-in-a-major-upgrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 What changes in a major upgrade
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-the-toolbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 The toolbox
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-the-upgrade-sequence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 The upgrade sequence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-mixed-version-compatibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6 Mixed-version compatibility
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-how-it-works-internally" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. How It Works Internally
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. How It Works Internally">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-openrewrite" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 OpenRewrite
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-the-properties-migrator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 The properties migrator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-a-fleet-upgrade-over-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 A fleet upgrade over time
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-hands-on-code-level-1-beginner" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Hands-On Code — Level 1 (Beginner)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Hands-On Code — Level 1 (Beginner)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-before-upgrading-clean-the-current-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Before upgrading: clean the current version
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-the-properties-migrator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 The properties migrator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-openrewrite" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 OpenRewrite
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-a-minimal-upgrade-pr-done-properly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 A minimal upgrade PR, done properly
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-hands-on-code-level-2-intermediate-level-3-advanced" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Hands-On Code — Level 2 (Intermediate) &amp; Level 3 (Advanced)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Hands-On Code — Level 2 (Intermediate) &amp; Level 3 (Advanced)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-level-2-boot-2-3-in-practice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Level 2 — Boot 2 → 3 in practice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-level-2-boot-3-4-in-practice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Level 2 — Boot 3 → 4 in practice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-level-2-tests-that-catch-behaviour-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Level 2 — Tests that catch behaviour change
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-level-3-cross-version-compatibility-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Level 3 — Cross-version compatibility testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-level-3-upgrading-platform-libraries-first" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 Level 3 — Upgrading platform libraries first
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#56-level-3-replacing-frameworks-not-just-versions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.6 Level 3 — Replacing frameworks, not just versions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#57-level-3-jdk-upgrades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.7 Level 3 — JDK upgrades
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-hands-on-code-level-4-expert-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Hands-On Code — Level 4 (Expert / Production)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Hands-On Code — Level 4 (Expert / Production)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-a-fleet-upgrade-programme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 A fleet upgrade programme
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-readiness-scorecard-per-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Readiness scorecard per service
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-fleet-version-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Fleet version dashboard
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-rollback-and-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Rollback and safety
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-database-major-upgrades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 Database major upgrades
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#66-modernizing-a-legacy-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.6 Modernizing a legacy application
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-spring-boot-3-vs-4-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Spring Boot 3 vs 4 &amp; Migration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-production-playbook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Production Playbook
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Production Playbook">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best practices
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#anti-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anti-patterns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#production-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Production checklist
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-interview-questions-answers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Interview Questions &amp; Answers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Interview Questions &amp; Answers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#b1-02-years" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B1 · 0–2 years
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b2-25-years" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B2 · 2–5 years
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b3-58-years" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B3 · 5–8 years
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b4-812-years" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B4 · 8–12 years
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b5-1215-years" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B5 · 12–15+ years
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coding-exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Coding exercise
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Takeaways
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Further Reading
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../43-engineering-leadership/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    43 Engineering Leadership
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../44-capstone-grocery-marketplace/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    44 Capstone — Grocery Marketplace
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../annotations/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Annotations
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Annotations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/core-container/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Container
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/boot/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Spring Boot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web Layer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/validation-json/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation & JSON
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data & Transactions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/async-messaging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Async, Messaging & Resilience
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/testing-observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing & Observability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/deprecated/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Outdated → Replacement
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../appendices/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Appendices
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Appendices
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../appendices/a-interview-bank/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A Interview Bank
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    A Interview Bank
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/a-interview-bank/b1-0-2-years/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B1 · 0–2 years
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/a-interview-bank/b2-2-5-years/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B2 · 2–5 years
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/a-interview-bank/b3-5-8-years/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B3 · 5–8 years
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/a-interview-bank/b4-8-12-years/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B4 · 8–12 years
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/a-interview-bank/b5-12-15-years/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B5 · 12–15+ years
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/a-interview-bank/system-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/a-interview-bank/rapid-fire/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rapid Fire
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/b-coding-exercises/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B Coding Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/c-annotation-cheat-sheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C Annotation Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/d-properties-cheat-sheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D Properties Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/e-boot-3-vs-4-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    E Boot 3.5 vs 4.x Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/f-troubleshooting-playbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    F Troubleshooting Playbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/g-glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    G Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/h-resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    H Resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction-why-it-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introduction &amp; Why It Matters
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Introduction &amp; Why It Matters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#who-should-read-which-section" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Who should read which section
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-core-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Core Concepts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Core Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-why-upgrade-at-all" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Why upgrade at all
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-the-cadence-that-keeps-upgrades-cheap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 The cadence that keeps upgrades cheap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-what-changes-in-a-major-upgrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 What changes in a major upgrade
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-the-toolbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 The toolbox
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-the-upgrade-sequence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 The upgrade sequence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-mixed-version-compatibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6 Mixed-version compatibility
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-how-it-works-internally" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. How It Works Internally
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. How It Works Internally">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-openrewrite" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 OpenRewrite
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-the-properties-migrator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 The properties migrator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-a-fleet-upgrade-over-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 A fleet upgrade over time
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-hands-on-code-level-1-beginner" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Hands-On Code — Level 1 (Beginner)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Hands-On Code — Level 1 (Beginner)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-before-upgrading-clean-the-current-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Before upgrading: clean the current version
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-the-properties-migrator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 The properties migrator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-openrewrite" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 OpenRewrite
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-a-minimal-upgrade-pr-done-properly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 A minimal upgrade PR, done properly
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-hands-on-code-level-2-intermediate-level-3-advanced" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Hands-On Code — Level 2 (Intermediate) &amp; Level 3 (Advanced)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Hands-On Code — Level 2 (Intermediate) &amp; Level 3 (Advanced)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-level-2-boot-2-3-in-practice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Level 2 — Boot 2 → 3 in practice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-level-2-boot-3-4-in-practice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Level 2 — Boot 3 → 4 in practice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-level-2-tests-that-catch-behaviour-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Level 2 — Tests that catch behaviour change
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-level-3-cross-version-compatibility-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Level 3 — Cross-version compatibility testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-level-3-upgrading-platform-libraries-first" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 Level 3 — Upgrading platform libraries first
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#56-level-3-replacing-frameworks-not-just-versions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.6 Level 3 — Replacing frameworks, not just versions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#57-level-3-jdk-upgrades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.7 Level 3 — JDK upgrades
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-hands-on-code-level-4-expert-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Hands-On Code — Level 4 (Expert / Production)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Hands-On Code — Level 4 (Expert / Production)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-a-fleet-upgrade-programme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 A fleet upgrade programme
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-readiness-scorecard-per-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Readiness scorecard per service
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-fleet-version-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Fleet version dashboard
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-rollback-and-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Rollback and safety
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-database-major-upgrades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 Database major upgrades
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#66-modernizing-a-legacy-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.6 Modernizing a legacy application
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-spring-boot-3-vs-4-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Spring Boot 3 vs 4 &amp; Migration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-production-playbook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Production Playbook
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Production Playbook">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best practices
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#anti-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anti-patterns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#production-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Production checklist
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-interview-questions-answers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Interview Questions &amp; Answers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Interview Questions &amp; Answers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#b1-02-years" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B1 · 0–2 years
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b2-25-years" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B2 · 2–5 years
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b3-58-years" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B3 · 5–8 years
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b4-812-years" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B4 · 8–12 years
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b5-1215-years" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B5 · 12–15+ years
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenario questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coding-exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Coding exercise
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Takeaways
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Further Reading
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="42-migration-upgrade-engineering">42 · Migration &amp; Upgrade Engineering<a class="headerlink" href="#42-migration-upgrade-engineering" title="Permanent link">&para;</a></h1>
+<h2 id="1-introduction-why-it-matters">1. Introduction &amp; Why It Matters<a class="headerlink" href="#1-introduction-why-it-matters" title="Permanent link">&para;</a></h2>
+<p>Every chapter in this handbook ended with a "Boot 3 vs 4" section. This chapter is about doing it — across 26 services, eight platform libraries, three JDK versions in flight, and a team that also has features to ship.</p>
+<p>Upgrades fail in predictable ways:</p>
+<ul>
+<li><strong>The big bang</strong>: one team spends a quarter on a branch that upgrades everything, merges it, and spends the next quarter fixing production incidents from twenty simultaneous changes.</li>
+<li><strong>The indefinite deferral</strong>: "we'll upgrade after Diwali" — repeated until the Boot minor is out of open-source support, a CVE lands, and the upgrade becomes an emergency spanning three major versions.</li>
+<li><strong>The silent behaviour change</strong>: the code compiles, the tests pass, and a changed default (trailing-slash matching, a Jackson date format, a transaction propagation nuance) breaks a client in production.</li>
+<li><strong>The mixed-version trap</strong>: during a rolling deploy, old and new pods read each other's cache entries, Kafka messages and sessions — and disagree about the format (Chapters 21, 23).</li>
+</ul>
+<p>Upgrade engineering is the discipline that makes this routine: a cadence that keeps upgrades small, automation (OpenRewrite, the properties migrator) that removes the mechanical work, tests that catch behaviour change rather than just compilation, wave-based rollout with platform libraries first, explicit handling of cross-version data, and dashboards that show where the fleet stands.</p>
+<p>This chapter covers Java, Spring Boot, framework-replacement and database migrations, with the Boot 2 → 3 and 3 → 4 migrations as worked examples.</p>
+<h3 id="who-should-read-which-section">Who should read which section<a class="headerlink" href="#who-should-read-which-section" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Band</th>
+<th>Focus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>B1 · 0–2 yrs</td>
+<td>Parts 1, 2, 4 — what changes, running the tools</td>
+</tr>
+<tr>
+<td>B2 · 2–5 yrs</td>
+<td>Parts 2, 5 — OpenRewrite, fixing breakages, testing</td>
+</tr>
+<tr>
+<td>B3 · 5–8 yrs</td>
+<td>Parts 3, 5, 6 — behaviour changes, mixed versions, libraries</td>
+</tr>
+<tr>
+<td>B4 · 8–12 yrs</td>
+<td>Parts 6, 8 — fleet programmes, waves, risk</td>
+</tr>
+<tr>
+<td>B5 · 12–15+ yrs</td>
+<td>Parts 8, 9 — cadence, funding and upgrade culture</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-core-concepts">2. Core Concepts<a class="headerlink" href="#2-core-concepts" title="Permanent link">&para;</a></h2>
+<h3 id="21-why-upgrade-at-all">2.1 Why upgrade at all<a class="headerlink" href="#21-why-upgrade-at-all" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Reason</th>
+<th>Cost of not doing it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Security fixes</td>
+<td>Unsupported versions stop receiving CVE patches</td>
+</tr>
+<tr>
+<td>Support window</td>
+<td>Open-source support for a Boot minor is limited (roughly a year); commercial support costs money</td>
+</tr>
+<tr>
+<td>Ecosystem</td>
+<td>Libraries drop support for old versions, blocking unrelated upgrades</td>
+</tr>
+<tr>
+<td>Performance</td>
+<td>JDK and framework improvements (virtual threads, CDS/AOT, GC)</td>
+</tr>
+<tr>
+<td>Hiring and morale</td>
+<td>Engineers don't want to work on 2019's stack</td>
+</tr>
+<tr>
+<td>Compounding</td>
+<td>Each skipped version makes the next jump larger and riskier</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Verify support windows</p>
+<p>Spring's support policy defines open-source and commercial support periods per release line. Check the current dates on the Spring support page — they drive the upgrade calendar, not the other way round.</p>
+</div>
+<h3 id="22-the-cadence-that-keeps-upgrades-cheap">2.2 The cadence that keeps upgrades cheap<a class="headerlink" href="#22-the-cadence-that-keeps-upgrades-cheap" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Policy</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stay within <strong>N-1 Boot minors</strong></td>
+<td>Each upgrade is a small step</td>
+</tr>
+<tr>
+<td>Patch releases within 2 weeks</td>
+<td>Security fixes land quickly</td>
+</tr>
+<tr>
+<td>JDK: stay on an LTS, move to the next LTS within a year</td>
+<td>Predictable, well-supported runtime</td>
+</tr>
+<tr>
+<td>Dependency updates via Renovate weekly</td>
+<td>No drift, small PRs (Chapter 39)</td>
+</tr>
+<tr>
+<td>Platform libraries released first</td>
+<td>Services are never blocked by the platform</td>
+</tr>
+<tr>
+<td>Upgrade work budgeted every quarter</td>
+<td>Not competing with features for permission</td>
+</tr>
+</tbody>
+</table>
+<p>Six-monthly minor upgrades take days. A four-year jump takes quarters. The engineering difference is entirely cadence.</p>
+<h3 id="23-what-changes-in-a-major-upgrade">2.3 What changes in a major upgrade<a class="headerlink" href="#23-what-changes-in-a-major-upgrade" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Examples (Boot 2 → 3)</th>
+<th>Examples (Boot 3 → 4)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Baseline</td>
+<td>Java 17, Jakarta EE 9/10</td>
+<td>Jakarta EE 11, Java 25 recommended</td>
+</tr>
+<tr>
+<td>Namespaces</td>
+<td><code>javax.*</code> → <code>jakarta.*</code></td>
+<td>Jackson 2 → 3 packages (Chapter 11)</td>
+</tr>
+<tr>
+<td>Removed APIs</td>
+<td><code>WebSecurityConfigurerAdapter</code>, Sleuth</td>
+<td>Deprecated 3.x APIs, non-lambda Security DSL</td>
+</tr>
+<tr>
+<td>Changed defaults</td>
+<td>Trailing-slash matching off, observation-based tracing</td>
+<td>Varies — read the migration guide</td>
+</tr>
+<tr>
+<td>Library majors</td>
+<td>Hibernate 6, Security 6</td>
+<td>Hibernate 7, Security 7, Framework 7</td>
+</tr>
+<tr>
+<td>Structure</td>
+<td><code>spring.factories</code> → imports file for auto-configuration</td>
+<td>Modularized auto-configuration artifacts</td>
+</tr>
+<tr>
+<td>New capabilities</td>
+<td>Observation API, native images</td>
+<td>API versioning, HTTP service clients, core resilience</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition danger">
+<p class="admonition-title">Behaviour changes are the real risk</p>
+<p>Compilation errors are loud and cheap. Changed defaults are silent and expensive. Every major upgrade must be tested for <strong>behaviour</strong>: API responses (contract and golden-file tests), serialization (Chapter 11), security rules (Chapter 17), transaction behaviour (Chapter 16), and performance (Chapter 34).</p>
+</div>
+<h3 id="24-the-toolbox">2.4 The toolbox<a class="headerlink" href="#24-the-toolbox" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Migration guides</strong></td>
+<td>The authoritative list of changes per release</td>
+</tr>
+<tr>
+<td><strong>OpenRewrite</strong></td>
+<td>Automated, reviewable source transformations (recipes for Boot, Jakarta, JUnit, Jackson…)</td>
+</tr>
+<tr>
+<td><code>spring-boot-properties-migrator</code></td>
+<td>Reports renamed/removed properties at runtime, temporarily remaps them</td>
+</tr>
+<tr>
+<td>Deprecation warnings</td>
+<td>Fix them on the old version before upgrading</td>
+</tr>
+<tr>
+<td>BOM</td>
+<td>One place to change versions (Chapter 01)</td>
+</tr>
+<tr>
+<td>Contract/golden-file tests</td>
+<td>Detect behaviour change at API boundaries (Chapters 11, 20, 28)</td>
+</tr>
+<tr>
+<td>Performance baselines</td>
+<td>Detect regressions (Chapter 34)</td>
+</tr>
+<tr>
+<td>Fleet version dashboard</td>
+<td>Where every service stands</td>
+</tr>
+</tbody>
+</table>
+<h3 id="25-the-upgrade-sequence">2.5 The upgrade sequence<a class="headerlink" href="#25-the-upgrade-sequence" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart LR
+    A[Fix deprecations on the current version] --&gt; B[Upgrade to the latest patch/minor of the current line]
+    B --&gt; C[Upgrade platform libraries + BOM]
+    C --&gt; D[Pilot service: automated recipes + manual fixes]
+    D --&gt; E[Behaviour tests, performance baseline, canary]
+    E --&gt; F[Waves: low-risk services → core services]
+    F --&gt; G["Remove compatibility shims; raise the floor"]</code></pre>
+<p>The first two steps are the most skipped and the most valuable: <strong>every deprecation fixed on the old version is a breakage that never happens on the new one</strong>.</p>
+<h3 id="26-mixed-version-compatibility">2.6 Mixed-version compatibility<a class="headerlink" href="#26-mixed-version-compatibility" title="Permanent link">&para;</a></h3>
+<p>During a rolling deploy, old and new versions coexist. Anything shared must work in both directions:</p>
+<table>
+<thead>
+<tr>
+<th>Shared state</th>
+<th>Risk</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cache entries (Redis)</td>
+<td>Serialization format change</td>
+<td>Versioned key prefixes (Chapter 21)</td>
+</tr>
+<tr>
+<td>Kafka/Rabbit messages</td>
+<td>JSON/type-header differences</td>
+<td>Golden-file tests, cross-version produce/consume tests (Chapter 23)</td>
+</tr>
+<tr>
+<td>HTTP sessions</td>
+<td>Serialized session objects</td>
+<td>Session namespace per version, or stateless</td>
+</tr>
+<tr>
+<td>Database schema</td>
+<td>Migrations incompatible with old code</td>
+<td>Expand/contract (Chapter 14)</td>
+</tr>
+<tr>
+<td>Outbox payloads</td>
+<td>Old rows read by new relay</td>
+<td>Tolerant readers (Chapter 36)</td>
+</tr>
+<tr>
+<td>Batch job repository</td>
+<td>Schema changes between Batch majors</td>
+<td>Drain jobs first (Chapter 33)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-how-it-works-internally">3. How It Works Internally<a class="headerlink" href="#3-how-it-works-internally" title="Permanent link">&para;</a></h2>
+<h3 id="31-openrewrite">3.1 OpenRewrite<a class="headerlink" href="#31-openrewrite" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart LR
+    A[Source + classpath] --&gt; B[Parse into a lossless semantic tree&lt;br/&gt;types resolved]
+    B --&gt; C[Recipes: visitors matching patterns]
+    C --&gt; D[Transformations preserving formatting]
+    D --&gt; E[Diff]
+    E --&gt; F[dryRun: patch for review]
+    E --&gt; G[run: apply to sources]</code></pre>
+<p>Because recipes operate on <strong>type-resolved</strong> trees, not text, they can distinguish <code>javax.persistence.Entity</code> from a string that happens to contain it — which is why they're safe to run across a large codebase and why their output is reviewable.</p>
+<h3 id="32-the-properties-migrator">3.2 The properties migrator<a class="headerlink" href="#32-the-properties-migrator" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart LR
+    A[App starts with the migrator on the classpath] --&gt; B[Scan property sources]
+    B --&gt; C{property renamed or removed?}
+    C -- renamed --&gt; D["Log warning with the replacement;&lt;br/&gt;temporarily remap the value"]
+    C -- removed --&gt; E[Log error with the reason]
+    D &amp; E --&gt; F[Report at startup]</code></pre>
+<p>It's a <strong>diagnostic</strong>, not a permanent shim: fix the properties, then remove the dependency.</p>
+<h3 id="33-a-fleet-upgrade-over-time">3.3 A fleet upgrade over time<a class="headerlink" href="#33-a-fleet-upgrade-over-time" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>gantt
+    title Boot 3.5 → 4.0 across the platform (illustrative)
+    dateFormat  YYYY-MM-DD
+    section Preparation
+    Fix deprecations on 3.5          :a1, 2026-01-05, 21d
+    Platform libraries on 4.0        :a2, after a1, 14d
+    section Pilot
+    notification-service            :b1, after a2, 7d
+    section Wave 1 (low risk)
+    8 supporting services            :c1, after b1, 14d
+    section Wave 2 (medium)
+    10 services                      :c2, after c1, 21d
+    section Wave 3 (core)
+    order, payment, pricing, inventory :c3, after c2, 21d
+    section Cleanup
+    Remove shims, raise floor        :d1, after c3, 7d</code></pre>
+<hr />
+<h2 id="4-hands-on-code-level-1-beginner">4. Hands-On Code — Level 1 (Beginner)<a class="headerlink" href="#4-hands-on-code-level-1-beginner" title="Permanent link">&para;</a></h2>
+<h3 id="41-before-upgrading-clean-the-current-version">4.1 Before upgrading: clean the current version<a class="headerlink" href="#41-before-upgrading-clean-the-current-version" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><span class="filename">Terminal</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>./gradlew<span class="w"> </span>compileJava<span class="w"> </span>-Xlint:deprecation<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>deprecat<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w"> </span>-c<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-rn<span class="w">   </span><span class="c1"># (1)!</span>
+</span></code></pre></div>
+<ol>
+<li>Every deprecation warning on the current version is a future compilation error. Fixing them now is cheap and can ship independently.</li>
+</ol>
+<div class="language-kotlin highlight"><span class="filename">build.gradle.kts — fail on new deprecations</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">tasks</span><span class="p">.</span><span class="na">withType</span><span class="o">&lt;</span><span class="n">JavaCompile</span><span class="o">&gt;</span><span class="p">().</span><span class="na">configureEach</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="n">options</span><span class="p">.</span><span class="na">compilerArgs</span><span class="p">.</span><span class="na">addAll</span><span class="p">(</span><span class="n">listOf</span><span class="p">(</span><span class="s">"-Xlint:deprecation"</span><span class="p">,</span><span class="w"> </span><span class="s">"-Werror"</span><span class="p">))</span><span class="w">                  </span><span class="c1">// (1)!</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="p">}</span>
+</span></code></pre></div>
+<ol>
+<li>Once the count reaches zero, keep it there. (Use a suppression file for unavoidable third-party cases.)</li>
+</ol>
+<h3 id="42-the-properties-migrator">4.2 The properties migrator<a class="headerlink" href="#42-the-properties-migrator" title="Permanent link">&para;</a></h3>
+<div class="language-kotlin highlight"><span class="filename">build.gradle.kts (temporarily)</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">runtimeOnly</span><span class="p">(</span><span class="s">"org.springframework.boot:spring-boot-properties-migrator"</span><span class="p">)</span><span class="w">                  </span><span class="c1">// (1)!</span>
+</span></code></pre></div>
+<div class="language-text highlight"><span class="filename">Example</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>The use of configuration keys that have been renamed was found in the environment:
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>Property source 'Config resource 'class path resource [application.yml]'':
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    Key: spring.redis.host
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>        Line: 14
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>        Replacement: spring.data.redis.host                                              # (2)!
+</span></code></pre></div>
+<ol>
+<li>Add for the upgrade, remove afterwards.</li>
+<li>Exact file, line and replacement — fix them all, including in Kubernetes ConfigMaps (Chapter 30), which the migrator only sees if they're loaded in the environment you run it in.</li>
+</ol>
+<h3 id="43-openrewrite">4.3 OpenRewrite<a class="headerlink" href="#43-openrewrite" title="Permanent link">&para;</a></h3>
+<div class="language-kotlin highlight"><span class="filename">build.gradle.kts</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">plugins</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">id</span><span class="p">(</span><span class="s">"org.openrewrite.rewrite"</span><span class="p">)</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="s">"7.x"</span><span class="w"> </span><span class="p">}</span><span class="w">                                  </span><span class="c1">// (1)!</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">rewrite</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="n">activeRecipe</span><span class="p">(</span><span class="s">"org.openrewrite.java.spring.boot3.UpgradeSpringBoot_3_5"</span><span class="p">)</span><span class="w">               </span><span class="c1">// (2)!</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="p">}</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="n">dependencies</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="n">rewrite</span><span class="p">(</span><span class="s">"org.openrewrite.recipe:rewrite-spring:latest.release"</span><span class="p">)</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="p">}</span>
+</span></code></pre></div>
+<ol>
+<li><strong>Verify</strong> plugin and recipe versions — recipes for new Boot versions appear shortly after release.</li>
+<li>Composite recipes bundle dozens of transformations: dependency versions, <code>javax</code> → <code>jakarta</code>, Security DSL changes, property renames, JUnit updates.</li>
+</ol>
+<div class="language-bash highlight"><span class="filename">Terminal</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>./gradlew<span class="w"> </span>rewriteDryRun<span class="w">          </span><span class="c1"># produces build/reports/rewrite/rewrite.patch      # (1)!</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>./gradlew<span class="w"> </span>rewriteRun<span class="w">             </span><span class="c1"># applies the changes</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>git<span class="w"> </span>diff<span class="w"> </span>--stat<span class="w">                  </span><span class="c1"># review like any other PR                            # (2)!</span>
+</span></code></pre></div>
+<ol>
+<li>Always dry-run first and read the patch.</li>
+<li>Recipe output is code — it gets reviewed, tested and merged like a human's change.</li>
+</ol>
+<h3 id="44-a-minimal-upgrade-pr-done-properly">4.4 A minimal upgrade PR, done properly<a class="headerlink" href="#44-a-minimal-upgrade-pr-done-properly" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><span class="filename">Example</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>PR: Upgrade catalog-service to Spring Boot 3.5.x
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>1. rewriteRun (UpgradeSpringBoot_3_5)                     — automated, reviewed
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>2. Property renames from the migrator                     — application.yml + ConfigMap
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>3. Manual fixes: 2 deprecated APIs recipes didn't cover   — listed below
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>4. Tests: unit, slice, integration, contract — all green
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>5. Golden-file JSON tests unchanged                       — no serialization drift  (1)
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>6. Performance: p95 within 3% of baseline                 — nightly run attached
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>7. Removed properties-migrator
+</span></code></pre></div>
+<ol>
+<li>The line reviewers should look for first: <strong>no behaviour change at the API boundary</strong>.</li>
+</ol>
+<hr />
+<h2 id="5-hands-on-code-level-2-intermediate-level-3-advanced">5. Hands-On Code — Level 2 (Intermediate) &amp; Level 3 (Advanced)<a class="headerlink" href="#5-hands-on-code-level-2-intermediate-level-3-advanced" title="Permanent link">&para;</a></h2>
+<h3 id="51-level-2-boot-2-3-in-practice">5.1 Level 2 — Boot 2 → 3 in practice<a class="headerlink" href="#51-level-2-boot-2-3-in-practice" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Change</th>
+<th>Automated?</th>
+<th>Manual attention</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Java 17 baseline</td>
+<td>Build config</td>
+<td>Remove <code>--illegal-access</code>, check reflective libraries</td>
+</tr>
+<tr>
+<td><code>javax.*</code> → <code>jakarta.*</code></td>
+<td>✅ OpenRewrite</td>
+<td>Third-party libraries must have Jakarta versions</td>
+</tr>
+<tr>
+<td><code>WebSecurityConfigurerAdapter</code> removed</td>
+<td>Partly</td>
+<td>Rewrite as <code>SecurityFilterChain</code> beans (Chapter 17)</td>
+</tr>
+<tr>
+<td>Sleuth removed</td>
+<td>Dependencies ✅</td>
+<td>Micrometer Tracing configuration (Chapter 27)</td>
+</tr>
+<tr>
+<td>Hibernate 6</td>
+<td>Versions ✅</td>
+<td>Query semantics, ID generation, type mappings (Chapter 13)</td>
+</tr>
+<tr>
+<td>Trailing-slash matching disabled</td>
+<td>❌</td>
+<td>Clients calling <code>/orders/</code> start getting 404s</td>
+</tr>
+<tr>
+<td><code>spring.factories</code> auto-configuration registration</td>
+<td>✅</td>
+<td>Platform starters (Chapter 41)</td>
+</tr>
+<tr>
+<td>Property renames</td>
+<td>Migrator</td>
+<td>ConfigMaps</td>
+</tr>
+<tr>
+<td><code>RestTemplate</code> still works</td>
+<td>—</td>
+<td>Plan the move to <code>RestClient</code> (Chapter 19)</td>
+</tr>
+</tbody>
+</table>
+<div class="language-java highlight"><span class="filename">The trailing-slash change, handled deliberately</span><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nd">@Configuration</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kd">class</span> <span class="nc">TrailingSlashCompatibility</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">WebMvcConfigurer</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="nd">@Override</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">configurePathMatch</span><span class="p">(</span><span class="n">PathMatchConfigurer</span><span class="w"> </span><span class="n">configurer</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">        </span><span class="c1">// Temporarily re-enable during migration if clients depend on it,       (1)</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">        </span><span class="c1">// with telemetry to find them, then remove.</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="p">}</span>
+</span></code></pre></div>
+<ol>
+<li>The better fix is a gateway rewrite or a redirect <strong>plus</strong> a metric counting trailing-slash requests per client, so the compatibility can be removed with evidence rather than hope. (<strong>Verify</strong> the exact API; the option was deprecated when the default changed.)</li>
+</ol>
+<h3 id="52-level-2-boot-3-4-in-practice">5.2 Level 2 — Boot 3 → 4 in practice<a class="headerlink" href="#52-level-2-boot-3-4-in-practice" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Change</th>
+<th>Chapter</th>
+<th>Main risk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Modularized auto-configuration</td>
+<td>05, 41</td>
+<td>Moved imports in platform libraries and tests</td>
+</tr>
+<tr>
+<td>Jackson 3</td>
+<td>11</td>
+<td>Package names, defaults, <strong>cross-version payloads</strong></td>
+</tr>
+<tr>
+<td>Security 7: lambda DSL only, matcher changes</td>
+<td>17</td>
+<td>Rules that silently change meaning</td>
+</tr>
+<tr>
+<td>Framework 7: API versioning, HTTP service clients, <code>@Retryable</code></td>
+<td>19, 20, 26</td>
+<td>Adoption is optional — don't bundle it with the upgrade</td>
+</tr>
+<tr>
+<td>Hibernate 7</td>
+<td>13</td>
+<td>Query and mapping edge cases</td>
+</tr>
+<tr>
+<td>Test slice packages</td>
+<td>15</td>
+<td>Mechanical, noisy</td>
+</tr>
+<tr>
+<td>JSpecify nullness annotations</td>
+<td>—</td>
+<td>New compiler warnings in strict builds</td>
+</tr>
+<tr>
+<td>Removed deprecations</td>
+<td>all</td>
+<td>Fixed in advance (4.1)</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Separate the upgrade from the modernization</p>
+<p>Upgrade to Boot 4 <strong>without</strong> adopting API versioning, HTTP service clients or core <code>@Retryable</code> in the same change. Get to a green, behaviour-identical state first; adopt new features in later, independent PRs. Mixing them makes every regression ambiguous.</p>
+</div>
+<h3 id="53-level-2-tests-that-catch-behaviour-change">5.3 Level 2 — Tests that catch behaviour change<a class="headerlink" href="#53-level-2-tests-that-catch-behaviour-change" title="Permanent link">&para;</a></h3>
+<div class="language-java highlight"><span class="filename">Golden-file API contract (Chapters 11, 20)</span><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nd">@Test</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">orderResponseShapeIsUnchanged</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">json</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mvc</span><span class="p">.</span><span class="na">get</span><span class="p">().</span><span class="na">uri</span><span class="p">(</span><span class="s">"/api/v1/orders/ORD-1"</span><span class="p">).</span><span class="na">exchange</span><span class="p">().</span><span class="na">getResponse</span><span class="p">().</span><span class="na">getContentAsString</span><span class="p">();</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="n">assertThatJson</span><span class="p">(</span><span class="n">json</span><span class="p">).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="n">resource</span><span class="p">(</span><span class="s">"golden/order-v1.json"</span><span class="p">));</span><span class="w">                     </span><span class="c1">// (1)!</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="p">}</span>
+</span></code></pre></div>
+<ol>
+<li>The single most effective upgrade test: if Jackson or Spring changed a date format, null handling, enum casing or number representation, this fails with an exact diff.</li>
+</ol>
+<div class="language-java highlight"><span class="filename">Security rules unchanged (Chapter 17)</span><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nd">@ParameterizedTest</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nd">@MethodSource</span><span class="p">(</span><span class="s">"accessMatrix"</span><span class="p">)</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="kt">void</span><span class="w"> </span><span class="nf">accessMatrixIsUnchanged</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">role</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">HttpMethod</span><span class="w"> </span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">HttpStatus</span><span class="w"> </span><span class="n">expected</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="n">assertThat</span><span class="p">(</span><span class="n">callAs</span><span class="p">(</span><span class="n">role</span><span class="p">,</span><span class="w"> </span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">path</span><span class="p">).</span><span class="na">getStatusCode</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="n">expected</span><span class="p">);</span><span class="w">            </span><span class="c1">// (1)!</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="p">}</span>
+</span></code></pre></div>
+<ol>
+<li>The access matrix from Chapter 39 — matcher semantics changing silently is the classic Security major-version risk.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Behaviour</th>
+<th>Test that catches it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JSON shape and formats</td>
+<td>Golden files</td>
+</tr>
+<tr>
+<td>Security rules</td>
+<td>Access matrix</td>
+</tr>
+<tr>
+<td>Error responses</td>
+<td>Problem-detail contract tests (Chapter 10)</td>
+</tr>
+<tr>
+<td>Transaction behaviour</td>
+<td>Rollback/propagation tests (Chapter 16)</td>
+</tr>
+<tr>
+<td>Query results</td>
+<td>Repository integration tests on real PostgreSQL (Chapter 28)</td>
+</tr>
+<tr>
+<td>Event payloads</td>
+<td>Event golden files + consumer contracts (Chapter 23)</td>
+</tr>
+<tr>
+<td>Performance</td>
+<td>Nightly baseline comparison (Chapter 34)</td>
+</tr>
+<tr>
+<td>Startup and image size</td>
+<td>Budgets (Chapter 29)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="54-level-3-cross-version-compatibility-testing">5.4 Level 3 — Cross-version compatibility testing<a class="headerlink" href="#54-level-3-cross-version-compatibility-testing" title="Permanent link">&para;</a></h3>
+<div class="language-java highlight"><span class="filename">Kafka payloads across versions</span><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nd">@Test</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">newProducerPayloadIsReadableByOldConsumerModel</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="kt">byte</span><span class="o">[]</span><span class="w"> </span><span class="n">produced</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newVersionMapper</span><span class="p">.</span><span class="na">writeValueAsBytes</span><span class="p">(</span><span class="n">sampleOrderPlaced</span><span class="p">());</span><span class="w">            </span><span class="c1">// (1)!</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="n">parsed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">oldVersionMapper</span><span class="p">.</span><span class="na">readValue</span><span class="p">(</span><span class="n">produced</span><span class="p">,</span><span class="w"> </span><span class="n">LegacyOrderPlacedEvent</span><span class="p">.</span><span class="na">class</span><span class="p">);</span><span class="w">       </span><span class="c1">// (2)!</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">    </span><span class="n">assertThat</span><span class="p">(</span><span class="n">parsed</span><span class="p">.</span><span class="na">orderRef</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">"ORD-1"</span><span class="p">);</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">    </span><span class="n">assertThat</span><span class="p">(</span><span class="n">parsed</span><span class="p">.</span><span class="na">total</span><span class="p">()).</span><span class="na">isEqualByComparingTo</span><span class="p">(</span><span class="s">"578.00"</span><span class="p">);</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="p">}</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="nd">@Test</span>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="kt">void</span><span class="w"> </span><span class="nf">oldProducerPayloadIsReadableByNewConsumer</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="w">    </span><span class="kt">byte</span><span class="o">[]</span><span class="w"> </span><span class="n">legacy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Files</span><span class="p">.</span><span class="na">readAllBytes</span><span class="p">(</span><span class="n">Path</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">"src/test/resources/payloads/order-placed-3.5.json"</span><span class="p">));</span><span class="w">  </span><span class="c1">// (3)!</span>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="n">parsed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newVersionMapper</span><span class="p">.</span><span class="na">readValue</span><span class="p">(</span><span class="n">legacy</span><span class="p">,</span><span class="w"> </span><span class="n">OrderPlacedEvent</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="w">    </span><span class="n">assertThat</span><span class="p">(</span><span class="n">parsed</span><span class="p">.</span><span class="na">orderRef</span><span class="p">()).</span><span class="na">isEqualTo</span><span class="p">(</span><span class="s">"ORD-1"</span><span class="p">);</span>
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="p">}</span>
+</span></code></pre></div>
+<ol>
+<li>Serialize with the new stack's configured mapper.</li>
+<li>Deserialize with a mapper configured like the old one — both directions matter during a rolling deploy.</li>
+<li><strong>Real payloads captured from the old version</strong>, checked into the repository — the most reliable fixture you can have.</li>
+</ol>
+<div class="language-yaml highlight"><span class="filename">Cache namespace per major version (Chapter 21)</span><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nt">spring</span><span class="p">:</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="nt">cache</span><span class="p">:</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="nt">redis</span><span class="p">:</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">      </span><span class="nt">key-prefix</span><span class="p">:</span><span class="w"> </span><span class="s">"grocery:v4:"</span><span class="w">                                                            </span><span class="c1"># (1)!</span>
+</span></code></pre></div>
+<ol>
+<li>Old and new pods use separate namespaces during the rollout; the old namespace expires naturally afterwards. A cold cache for the new version is a known, planned cost (Chapter 34) — corrupted cache reads are not.</li>
+</ol>
+<h3 id="55-level-3-upgrading-platform-libraries-first">5.5 Level 3 — Upgrading platform libraries first<a class="headerlink" href="#55-level-3-upgrading-platform-libraries-first" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart LR
+    A[Platform BOM 3.x on Boot 3.5] --&gt; B[Platform BOM 4.0 on Boot 4.0&lt;br/&gt;all starters compiled + tested]
+    B --&gt; C[Compatibility: services on 3.x keep working with BOM 3.x]
+    C --&gt; D[Services move one by one to BOM 4.0]
+    D --&gt; E[BOM 3.x in maintenance until the last service moves]</code></pre>
+<p>Rules from Chapter 41 that make this work: N-1 support, no lockstep upgrades, a compatibility matrix published before services start. <strong>The platform team upgrades first so service teams are never blocked.</strong></p>
+<h3 id="56-level-3-replacing-frameworks-not-just-versions">5.6 Level 3 — Replacing frameworks, not just versions<a class="headerlink" href="#56-level-3-replacing-frameworks-not-just-versions" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Replacement</th>
+<th>Strategy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>RestTemplate</code> → <code>RestClient</code></td>
+<td>Same request factories and interceptors; convert per client (Chapter 19)</td>
+</tr>
+<tr>
+<td>Feign → HTTP interfaces</td>
+<td>Interface-by-interface, contract tests comparing behaviour</td>
+</tr>
+<tr>
+<td>Sleuth → Micrometer Tracing</td>
+<td>Configuration change; verify propagation end to end (Chapter 27)</td>
+</tr>
+<tr>
+<td>Hystrix → Resilience4j</td>
+<td>Map each command's thresholds explicitly; chaos-test (Chapter 26)</td>
+</tr>
+<tr>
+<td>Ribbon/Eureka → Kubernetes DNS</td>
+<td>Per client; remove discovery last (Chapter 35)</td>
+</tr>
+<tr>
+<td>Spring Cloud Config → ConfigMaps</td>
+<td>Service by service; config hash rollouts (Chapter 30)</td>
+</tr>
+<tr>
+<td>JPA → JDBC for a hot path</td>
+<td>Behind a repository port (Chapter 37)</td>
+</tr>
+</tbody>
+</table>
+<div class="language-java highlight"><span class="filename">Strangling a framework with a port (Chapter 37)</span><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">PricingPort</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">PriceView</span><span class="w"> </span><span class="nf">priceFor</span><span class="p">(</span><span class="n">Sku</span><span class="w"> </span><span class="n">sku</span><span class="p">,</span><span class="w"> </span><span class="n">Pincode</span><span class="w"> </span><span class="n">pincode</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="nd">@Component</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="nd">@ConditionalOnProperty</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"grocery.pricing.client"</span><span class="p">,</span><span class="w"> </span><span class="n">havingValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"feign"</span><span class="p">,</span><span class="w"> </span><span class="n">matchIfMissing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="kd">class</span> <span class="nc">FeignPricingAdapter</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">PricingPort</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span><span class="w">                                  </span><span class="c1">// (1)!</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="nd">@Component</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="nd">@ConditionalOnProperty</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"grocery.pricing.client"</span><span class="p">,</span><span class="w"> </span><span class="n">havingValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"http-interface"</span><span class="p">)</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="kd">class</span> <span class="nc">HttpInterfacePricingAdapter</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">PricingPort</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span><span class="w">                           </span><span class="c1">// (2)!</span>
+</span></code></pre></div>
+<ol>
+<li>Old implementation, still the default.</li>
+<li>New implementation, switched by configuration per environment — canary it, compare metrics, then flip the default and delete the old adapter. The port is what makes the swap a configuration change rather than a rewrite.</li>
+</ol>
+<h3 id="57-level-3-jdk-upgrades">5.7 Level 3 — JDK upgrades<a class="headerlink" href="#57-level-3-jdk-upgrades" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Run the test suite on the new JDK in CI <strong>before</strong> switching</td>
+<td>A second CI job with the new toolchain</td>
+</tr>
+<tr>
+<td>Check <code>--add-opens</code> and reflective libraries</td>
+<td>Strong encapsulation breaks old libraries</td>
+</tr>
+<tr>
+<td>Re-baseline GC and memory</td>
+<td>Defaults and ergonomics change (Chapter 34)</td>
+</tr>
+<tr>
+<td>Regenerate CDS/AOT caches</td>
+<td>JDK-specific (Chapter 29)</td>
+</tr>
+<tr>
+<td>Revisit virtual-thread pinning</td>
+<td>JDK 24+ removed <code>synchronized</code> pinning (Chapter 25)</td>
+</tr>
+<tr>
+<td>Update base images</td>
+<td>Chapter 29's policy</td>
+</tr>
+</tbody>
+</table>
+<div class="language-kotlin highlight"><span class="filename">Testing on the next JDK early</span><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">java</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">    </span><span class="n">toolchain</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">languageVersion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">JavaLanguageVersion</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="m">25</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w">                             </span><span class="c1">// (1)!</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="p">}</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="n">tasks</span><span class="p">.</span><span class="na">register</span><span class="o">&lt;</span><span class="n">Test</span><span class="o">&gt;</span><span class="p">(</span><span class="s">"testOnNextJdk"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">    </span><span class="n">javaLauncher</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">javaToolchains</span><span class="p">.</span><span class="na">launcherFor</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">languageVersion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">JavaLanguageVersion</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="m">26</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w">   </span><span class="c1">// (2)!</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="p">}</span>
+</span></code></pre></div>
+<ol>
+<li>The production toolchain.</li>
+<li>An early-warning job on the next release — breakages are found months before the upgrade, when they're cheap.</li>
+</ol>
+<hr />
+<h2 id="6-hands-on-code-level-4-expert-production">6. Hands-On Code — Level 4 (Expert / Production)<a class="headerlink" href="#6-hands-on-code-level-4-expert-production" title="Permanent link">&para;</a></h2>
+<h3 id="61-a-fleet-upgrade-programme">6.1 A fleet upgrade programme<a class="headerlink" href="#61-a-fleet-upgrade-programme" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Owner</th>
+<th>Exit criterion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>0. Readiness</strong></td>
+<td>Platform</td>
+<td>Deprecations at zero on the current version; migration guide read; risks listed</td>
+</tr>
+<tr>
+<td><strong>1. Platform libraries</strong></td>
+<td>Platform</td>
+<td>All starters on the new version, tests + native tests green, matrix published</td>
+</tr>
+<tr>
+<td><strong>2. Pilot</strong></td>
+<td>Platform + one team</td>
+<td>One low-risk service in production for a week with no regressions</td>
+</tr>
+<tr>
+<td><strong>3. Waves</strong></td>
+<td>Service teams</td>
+<td>Each wave in production, contracts green, performance within budget</td>
+</tr>
+<tr>
+<td><strong>4. Core services</strong></td>
+<td>Service teams + platform</td>
+<td>Canary with SLO analysis (Chapter 30), extra review</td>
+</tr>
+<tr>
+<td><strong>5. Cleanup</strong></td>
+<td>Platform</td>
+<td>Shims removed, old BOM retired, floor raised</td>
+</tr>
+</tbody>
+</table>
+<div class="language-yaml highlight"><span class="filename">upgrade/boot-4.yaml — the programme as data</span><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nt">target</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">spring-boot-4.0</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nt">waves</span><span class="p">:</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pilot</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">    </span><span class="nt">services</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">notification-service</span><span class="p p-Indicator">]</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">wave-1</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">    </span><span class="nt">services</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">seller-onboarding</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">catalog-feed</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">search-indexer</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">tracking-stream</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">reporting</span><span class="p p-Indicator">]</span>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">wave-2</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="w">    </span><span class="nt">services</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">catalog</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">delivery</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">dispatch</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">cart</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">loyalty</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">settlement</span><span class="p p-Indicator">]</span>
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">wave-3-core</span>
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="w">    </span><span class="nt">services</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">order</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">payment</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">pricing</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">inventory</span><span class="p p-Indicator">]</span>
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="w">    </span><span class="nt">requires</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">canary-with-slo-analysis</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">cross-version-payload-tests</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">on-call-aware</span><span class="p p-Indicator">]</span>
+</span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="nt">freeze_windows</span><span class="p">:</span>
+</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2026-10-15..2026-11-10</span><span class="w">   </span><span class="c1"># Diwali — no core upgrades                         # (1)</span>
+</span></code></pre></div>
+<ol>
+<li>The upgrade calendar respects the business calendar. Core services never upgrade during peak season.</li>
+</ol>
+<h3 id="62-readiness-scorecard-per-service">6.2 Readiness scorecard per service<a class="headerlink" href="#62-readiness-scorecard-per-service" title="Permanent link">&para;</a></h3>
+<div class="language-java highlight"><span class="filename">in/grocery/platform/upgrade/UpgradeReadinessCheck.java</span><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">record</span> <span class="nc">UpgradeReadiness</span><span class="p">(</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">service</span><span class="p">,</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">deprecationWarnings</span><span class="p">,</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">        </span><span class="kt">boolean</span><span class="w"> </span><span class="n">onLatestCurrentMinor</span><span class="p">,</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">        </span><span class="kt">boolean</span><span class="w"> </span><span class="n">onPlatformBomLatest</span><span class="p">,</span>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="w">        </span><span class="kt">boolean</span><span class="w"> </span><span class="n">goldenFileTestsPresent</span><span class="p">,</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="w">        </span><span class="kt">boolean</span><span class="w"> </span><span class="n">contractTestsPresent</span><span class="p">,</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="w">        </span><span class="kt">boolean</span><span class="w"> </span><span class="n">accessMatrixPresent</span><span class="p">,</span>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="w">        </span><span class="kt">boolean</span><span class="w"> </span><span class="n">perfBaselinePresent</span><span class="p">,</span>
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">blockingDependencies</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">                                              </span><span class="c1">// (1)!</span>
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>
+</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">ready</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">deprecationWarnings</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">onLatestCurrentMinor</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">onPlatformBomLatest</span>
+</span><span id="__span-15-14"><a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a><span class="w">                </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">goldenFileTestsPresent</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">contractTestsPresent</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">blockingDependencies</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">();</span>
+</span><span id="__span-15-15"><a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-15-16"><a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a><span class="p">}</span>
+</span></code></pre></div>
+<ol>
+<li>Third-party libraries without a compatible release — the items that turn a two-day upgrade into a two-month one. Identify them in phase 0.</li>
+</ol>
+<p>The scorecard is computed in CI for every service and rendered on the fleet dashboard. <strong>A service without golden-file and contract tests isn't ready to upgrade</strong> — the scorecard makes the prerequisite visible instead of discovering it in production.</p>
+<h3 id="63-fleet-version-dashboard">6.3 Fleet version dashboard<a class="headerlink" href="#63-fleet-version-dashboard" title="Permanent link">&para;</a></h3>
+<div class="language-java highlight"><span class="filename">Reporting versions from every service (Chapter 41&#x27;s platform endpoint)</span><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nd">@ReadOperation</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="kd">public</span><span class="w"> </span><span class="n">PlatformVersions</span><span class="w"> </span><span class="nf">versions</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PlatformVersions</span><span class="p">(</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">            </span><span class="n">SpringBootVersion</span><span class="p">.</span><span class="na">getVersion</span><span class="p">(),</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">            </span><span class="n">SpringVersion</span><span class="p">.</span><span class="na">getVersion</span><span class="p">(),</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">            </span><span class="n">Runtime</span><span class="p">.</span><span class="na">version</span><span class="p">().</span><span class="na">toString</span><span class="p">(),</span>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">            </span><span class="n">platformBomVersion</span><span class="p">(),</span>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="w">            </span><span class="n">hibernateVersion</span><span class="p">(),</span>
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="w">            </span><span class="n">jacksonVersion</span><span class="p">());</span><span class="w">                                                             </span><span class="c1">// (1)!</span>
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="p">}</span>
+</span></code></pre></div>
+<ol>
+<li>Scraped into a dashboard: Boot version by service, JDK by service, platform BOM by service, days behind the latest patch. "Where are we?" becomes a glance, not a spreadsheet chase.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Dashboard panel</th>
+<th>Question</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Services by Boot minor</td>
+<td>How much of the fleet is on the target?</td>
+</tr>
+<tr>
+<td>Days since last patch per service</td>
+<td>Who is falling behind on security fixes?</td>
+</tr>
+<tr>
+<td>Services on unsupported versions</td>
+<td>Where is the risk today?</td>
+</tr>
+<tr>
+<td>Wave progress</td>
+<td>Is the programme on schedule?</td>
+</tr>
+<tr>
+<td>Regressions attributed to the upgrade</td>
+<td>Is the process working?</td>
+</tr>
+</tbody>
+</table>
+<h3 id="64-rollback-and-safety">6.4 Rollback and safety<a class="headerlink" href="#64-rollback-and-safety" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Mechanism</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Deploy by digest (Chapter 29)</td>
+<td>Rollback is exact</td>
+</tr>
+<tr>
+<td>Expand/contract migrations (Chapter 14)</td>
+<td>Old code works against the new schema</td>
+</tr>
+<tr>
+<td>Versioned cache namespaces</td>
+<td>Old pods keep their own cache</td>
+</tr>
+<tr>
+<td>Tolerant readers on messages</td>
+<td>Both versions consume each other's events</td>
+</tr>
+<tr>
+<td>Canary with SLO analysis (Chapter 30)</td>
+<td>Automatic rollback on regression</td>
+</tr>
+<tr>
+<td>Feature flags for new behaviour</td>
+<td>New framework features adopted separately, toggled independently</td>
+</tr>
+</tbody>
+</table>
+<div class="language-markdown highlight"><span class="filename">Upgrade runbook — order-service (core)</span><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="gu">## Before</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="k">- [ ]</span> Readiness scorecard green
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="k">- [ ]</span> Cross-version payload tests green (Kafka, cache, outbox)
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="k">- [ ]</span> Canary analysis template references the new version label
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="k">- [ ]</span> On-call informed; no freeze window active
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="gu">## During</span>
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="k">- [ ]</span> Canary 5% → 25% → 50% → 100% with SLO analysis between steps
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="k">- [ ]</span> Watch: error rate, p99, DLT rate, outbox pending, cache hit ratio
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>
+</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="gu">## Rollback</span>
+</span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a><span class="k">-</span><span class="w"> </span>Revert to digest sha256:… (recorded in release notes)
+</span><span id="__span-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a><span class="k">-</span><span class="w"> </span>Cache namespace v3 still warm; no data migration to undo
+</span><span id="__span-17-14"><a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>
+</span><span id="__span-17-15"><a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a><span class="gu">## After</span>
+</span><span id="__span-17-16"><a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a><span class="k">- [ ]</span> Remove properties migrator and temporary shims
+</span><span id="__span-17-17"><a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a><span class="k">- [ ]</span> Update the readiness dashboard
+</span></code></pre></div>
+<h3 id="65-database-major-upgrades">6.5 Database major upgrades<a class="headerlink" href="#65-database-major-upgrades" title="Permanent link">&para;</a></h3>
+<p>PostgreSQL major versions follow the same logic with higher stakes:</p>
+<pre class="mermaid"><code>flowchart LR
+    A[Current primary v16] --&gt;|logical replication| B[New cluster v17]
+    B --&gt; C[Verify: row counts, checksums, query plans]
+    C --&gt; D[Application tests against v17 in staging]
+    D --&gt; E[Cutover: stop writes briefly, catch up, switch the DNS/connection string]
+    E --&gt; F[Keep v16 as a rollback target for a defined window]</code></pre>
+<table>
+<thead>
+<tr>
+<th>Concern</th>
+<th>Practice</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Downtime</td>
+<td>Logical replication or managed blue/green reduces it to seconds</td>
+</tr>
+<tr>
+<td>Query plan changes</td>
+<td>Compare <code>EXPLAIN</code> for the top queries from <code>pg_stat_statements</code> (Chapter 34)</td>
+</tr>
+<tr>
+<td>Extensions</td>
+<td>Verify versions (pgvector, PostGIS) exist for the new major</td>
+</tr>
+<tr>
+<td>CDC connectors</td>
+<td>Replication slots don't survive the move — re-create and re-snapshot (Chapter 36)</td>
+</tr>
+<tr>
+<td>Rollback</td>
+<td>Reverse replication or a defined window with the old cluster intact</td>
+</tr>
+</tbody>
+</table>
+<h3 id="66-modernizing-a-legacy-application">6.6 Modernizing a legacy application<a class="headerlink" href="#66-modernizing-a-legacy-application" title="Permanent link">&para;</a></h3>
+<p>A decade-old Spring MVC 4 / Java 8 application is a different problem from a version bump:</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Goal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Characterize</td>
+<td>Golden-file and approval tests around current behaviour, before touching anything</td>
+</tr>
+<tr>
+<td>2. Build</td>
+<td>Move to Gradle/Maven with a BOM; reproducible builds (Chapter 01)</td>
+</tr>
+<tr>
+<td>3. Runtime</td>
+<td>Java 8 → 11 → 17 (each step deployed), then Boot 2.7 as a bridge</td>
+</tr>
+<tr>
+<td>4. Boot 3</td>
+<td><code>jakarta</code> migration with OpenRewrite</td>
+</tr>
+<tr>
+<td>5. Structure</td>
+<td>Modularize in place (Chapter 37); extract only where justified (Chapter 35)</td>
+</tr>
+<tr>
+<td>6. Operations</td>
+<td>Containers, probes, observability (Chapters 27, 29, 30)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 1 is non-negotiable.</strong> Without characterization tests, you can't distinguish "the upgrade changed behaviour" from "it always did that".</p>
+<hr />
+<h2 id="7-spring-boot-3-vs-4-migration">7. Spring Boot 3 vs 4 &amp; Migration<a class="headerlink" href="#7-spring-boot-3-vs-4-migration" title="Permanent link">&para;</a></h2>
+<p>This whole chapter is the migration section. The consolidated checklist, drawn from every chapter:</p>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Check</th>
+<th>Chapter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Build</td>
+<td>BOM, toolchain, reproducibility</td>
+<td>01</td>
+</tr>
+<tr>
+<td>Configuration</td>
+<td>Properties migrator clean; ConfigMaps updated</td>
+<td>06</td>
+</tr>
+<tr>
+<td>Logging</td>
+<td>Structured logging and MDC propagation intact</td>
+<td>07</td>
+</tr>
+<tr>
+<td>Web</td>
+<td>Error format, validation, API versioning adoption deferred</td>
+<td>08–10, 20</td>
+</tr>
+<tr>
+<td>JSON</td>
+<td>Jackson 3 packages, golden files green</td>
+<td>11</td>
+</tr>
+<tr>
+<td>Data</td>
+<td>Hibernate 7 queries, transaction tests, migrations</td>
+<td>12–16</td>
+</tr>
+<tr>
+<td>Security</td>
+<td>Lambda DSL, matcher semantics, access matrix</td>
+<td>17, 18, 39</td>
+</tr>
+<tr>
+<td>Clients</td>
+<td>Request factory APIs, timeouts intact</td>
+<td>19</td>
+</tr>
+<tr>
+<td>Caching</td>
+<td>Versioned namespaces, serializer classes</td>
+<td>21</td>
+</tr>
+<tr>
+<td>Messaging</td>
+<td>Cross-version payloads, trusted packages</td>
+<td>23, 24</td>
+</tr>
+<tr>
+<td>Async</td>
+<td>Executors, virtual threads, pinning</td>
+<td>25</td>
+</tr>
+<tr>
+<td>Resilience</td>
+<td>Aspect ordering, one retry implementation</td>
+<td>26</td>
+</tr>
+<tr>
+<td>Observability</td>
+<td>Metric names unchanged, tracing propagation</td>
+<td>27</td>
+</tr>
+<tr>
+<td>Testing</td>
+<td>Slice packages, <code>@MockitoBean</code></td>
+<td>15, 28</td>
+</tr>
+<tr>
+<td>Packaging</td>
+<td><code>jarmode=tools</code>, CDS/AOT regenerated, native tests</td>
+<td>29</td>
+</tr>
+<tr>
+<td>Platform libraries</td>
+<td>Compiled and tested first, matrix published</td>
+<td>41</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="8-production-playbook">8. Production Playbook<a class="headerlink" href="#8-production-playbook" title="Permanent link">&para;</a></h2>
+<h3 id="best-practices">Best practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Cadence over heroics</strong>: stay within N-1 minors; patch within two weeks.</li>
+<li><strong>Fix deprecations on the current version</strong> before upgrading.</li>
+<li><strong>Automate the mechanical work</strong> (OpenRewrite, properties migrator) and review it like code.</li>
+<li><strong>Test behaviour, not compilation</strong>: golden files, access matrix, contracts, performance.</li>
+<li><strong>Platform libraries first</strong>, with N-1 compatibility.</li>
+<li><strong>Pilot, then waves</strong>, core services last and outside freeze windows.</li>
+<li><strong>Plan for mixed versions</strong>: cache namespaces, tolerant payloads, expand/contract schemas.</li>
+<li><strong>Separate upgrading from modernizing</strong>; adopt new features in later PRs.</li>
+<li><strong>Measure the fleet</strong>: versions, patch age and readiness on a dashboard.</li>
+<li><strong>Budget upgrade work every quarter</strong> so it never competes for permission.</li>
+</ol>
+<h3 id="anti-patterns">Anti-patterns<a class="headerlink" href="#anti-patterns" title="Permanent link">&para;</a></h3>
+<p>❌ Big-bang upgrades of everything at once.</p>
+<p>❌ Deferring until a version is unsupported and a CVE forces an emergency.</p>
+<p>❌ Upgrading and adopting new features in the same change.</p>
+<p>❌ Trusting a green build without behaviour tests.</p>
+<p>❌ Leaving the properties migrator in permanently.</p>
+<p>❌ Services upgrading before the platform libraries they depend on.</p>
+<p>❌ Ignoring cross-version data during rolling deploys.</p>
+<p>❌ Upgrading core services during peak season.</p>
+<p>❌ Applying OpenRewrite output without reading it.</p>
+<p>❌ No record of which service runs which version.</p>
+<h3 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>404s for some clients after Boot 3</td>
+<td>Trailing-slash matching disabled</td>
+<td>Gateway rewrite + telemetry, then remove</td>
+</tr>
+<tr>
+<td>JSON fields changed format</td>
+<td>Jackson defaults changed</td>
+<td>Golden files; explicit mapper configuration (Chapter 11)</td>
+</tr>
+<tr>
+<td>Security rule stopped protecting a path</td>
+<td>Matcher semantics changed</td>
+<td>Access matrix; review every rule</td>
+</tr>
+<tr>
+<td>Deserialization errors during rollout</td>
+<td>Cross-version payloads</td>
+<td>Tolerant readers; versioned namespaces</td>
+</tr>
+<tr>
+<td>Bean missing after upgrade</td>
+<td>Auto-configuration moved or condition changed</td>
+<td><code>/actuator/conditions</code> (Chapter 41)</td>
+</tr>
+<tr>
+<td>Performance regression</td>
+<td>New defaults, GC ergonomics, query plans</td>
+<td>Nightly baseline, profile (Chapter 34)</td>
+</tr>
+<tr>
+<td>Upgrade blocked for months</td>
+<td>Third-party library without a compatible release</td>
+<td>Identify in readiness; fork, replace or isolate</td>
+</tr>
+<tr>
+<td>Tests pass, production differs</td>
+<td>Config in ConfigMaps not migrated</td>
+<td>Run the migrator against production-like config</td>
+</tr>
+<tr>
+<td>Native build fails</td>
+<td>Hints missing for new versions</td>
+<td><code>nativeTest</code> in CI (Chapter 29)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="production-checklist">Production checklist<a class="headerlink" href="#production-checklist" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Support calendar tracked; upgrade programme scheduled against it</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Deprecations at zero on the current version</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Platform libraries upgraded first; compatibility matrix published</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Readiness scorecard green for each service before its wave</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Golden-file, access-matrix, contract and performance tests in place</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Cross-version payload and cache compatibility verified</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Canary with SLO analysis for core services; freeze windows respected</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Rollback by digest documented per service</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Temporary shims and the properties migrator removed afterwards</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Fleet version dashboard updated</li>
+</ul>
+<hr />
+<h2 id="9-interview-questions-answers">9. Interview Questions &amp; Answers<a class="headerlink" href="#9-interview-questions-answers" title="Permanent link">&para;</a></h2>
+<h3 id="b1-02-years">B1 · 0–2 years<a class="headerlink" href="#b1-02-years" title="Permanent link">&para;</a></h3>
+<details class="question">
+<summary>B1 · Why keep Spring Boot up to date?</summary>
+<p><strong>Short answer:</strong> Security fixes and support end for old versions, libraries drop compatibility, and each skipped version makes the next upgrade bigger and riskier.</p>
+</details>
+<details class="question">
+<summary>B1 · What does the properties migrator do?</summary>
+<p><strong>Short answer:</strong> At startup it reports renamed or removed configuration properties with their replacements and temporarily remaps renamed ones. You fix the properties and then remove it.</p>
+</details>
+<details class="question">
+<summary>B1 · What is OpenRewrite?</summary>
+<p><strong>Short answer:</strong> A tool that applies automated, type-aware source transformations (recipes) — for example <code>javax</code> to <code>jakarta</code>, dependency upgrades, API replacements — producing reviewable diffs.</p>
+</details>
+<details class="question">
+<summary>B1 · What was the biggest mechanical change in Boot 3?</summary>
+<p><strong>Short answer:</strong> The move from <code>javax.*</code> to <code>jakarta.*</code> packages with Jakarta EE 9/10, alongside the Java 17 baseline.</p>
+</details>
+<details class="question">
+<summary>B1 · Why fix deprecation warnings before upgrading?</summary>
+<p><strong>Short answer:</strong> Deprecated APIs are usually removed in the next major; fixing them on the current version turns future compile errors into small, independent changes.</p>
+</details>
+<h3 id="b2-25-years">B2 · 2–5 years<a class="headerlink" href="#b2-25-years" title="Permanent link">&para;</a></h3>
+<details class="question">
+<summary>B2 · How do you detect behaviour changes during an upgrade?</summary>
+<p><strong>Short answer:</strong> Golden-file tests for JSON and events, access-matrix tests for security, contract tests at API boundaries, integration tests on real infrastructure, and performance baselines — compilation alone proves very little.</p>
+</details>
+<details class="question">
+<summary>B2 · How do you use OpenRewrite safely?</summary>
+<p><strong>Short answer:</strong> Dry-run first, read the patch, apply on a branch, review it like any code change, and run the full test suite. Recipes handle the mechanical 80%; the remaining 20% is manual and deliberate.</p>
+</details>
+<details class="question">
+<summary>B2 · Why separate upgrading from adopting new features?</summary>
+<p><strong>Short answer:</strong> So regressions have a single cause. Reach a green, behaviour-identical state on the new version first, then adopt new capabilities in independent changes.</p>
+</details>
+<details class="question">
+<summary>B2 · What breaks during a rolling upgrade that tests don't catch?</summary>
+<p><strong>Short answer:</strong> Shared state read by both versions — cache entries, messages, sessions, database schema. Plan with versioned cache namespaces, tolerant readers and expand/contract migrations.</p>
+</details>
+<details class="question">
+<summary>B2 · How do you handle a third-party library without a compatible release?</summary>
+<p><strong>Short answer:</strong> Identify it early in the readiness phase, then upgrade it, replace it, isolate it behind a port, or temporarily fork it — before it blocks the whole programme.</p>
+</details>
+<h3 id="b3-58-years">B3 · 5–8 years<a class="headerlink" href="#b3-58-years" title="Permanent link">&para;</a></h3>
+<details class="question">
+<summary>B3 · Walk through upgrading a service to a new Boot major.</summary>
+<p><strong>Short answer:</strong> Clear deprecations on the current line, move to the latest minor, wait for platform libraries, run the OpenRewrite recipe and the properties migrator, fix remaining issues manually, verify golden files, access matrix, contracts and performance, test cross-version payloads, canary with SLO analysis, then remove shims.</p>
+</details>
+<details class="question">
+<summary>B3 · How do you test cross-version message compatibility?</summary>
+<p><strong>Short answer:</strong> Check real captured payloads from the old version into the repository and deserialize them with the new stack, and serialize with the new stack and read with an old-configured mapper — both directions, for every topic.</p>
+</details>
+<details class="question">
+<summary>B3 · How do you replace a framework (Feign, Hystrix) without a big bang?</summary>
+<p><strong>Short answer:</strong> Put a port in front of it, implement the new adapter alongside the old, switch by configuration per environment, compare metrics under canary, then flip the default and delete the old adapter.</p>
+</details>
+<details class="question">
+<summary>B3 · What changes when upgrading the JDK?</summary>
+<p><strong>Short answer:</strong> Strong encapsulation affecting reflective libraries, GC and memory ergonomics, invalidated CDS/AOT caches, virtual-thread behaviour, and base images. Run the suite on the new JDK in a parallel CI job well before switching.</p>
+</details>
+<h3 id="b4-812-years">B4 · 8–12 years<a class="headerlink" href="#b4-812-years" title="Permanent link">&para;</a></h3>
+<details class="question">
+<summary>B4 · How do you run an upgrade across 26 services?</summary>
+<p><strong>Short answer:</strong> A programme with phases: readiness (deprecations, blockers), platform libraries first with a compatibility matrix, a pilot, waves from low-risk to core, canary for core services outside freeze windows, a readiness scorecard and fleet dashboard, then cleanup. Service teams own their waves; the platform team unblocks them.</p>
+</details>
+<details class="question">
+<summary>B4 · How do you fund upgrade work against feature pressure?</summary>
+<p><strong>Short answer:</strong> Make it continuous rather than episodic — a fixed quarterly allocation, Renovate for small constant updates, and a dashboard showing support-window risk in business terms (unpatched CVEs, unsupported versions). Small, regular upgrades are cheap enough that they stop needing special approval.</p>
+</details>
+<details class="question">
+<summary>B4 · How do you upgrade a database major version safely?</summary>
+<p><strong>Short answer:</strong> Logical replication to a new cluster, verification of data and query plans for the top statements, application tests against the new version, a short write-freeze cutover, and the old cluster retained as a rollback target — with CDC slots re-created afterwards.</p>
+</details>
+<h3 id="b5-1215-years">B5 · 12–15+ years<a class="headerlink" href="#b5-1215-years" title="Permanent link">&para;</a></h3>
+<details class="question">
+<summary>B5 · What does a healthy upgrade culture look like?</summary>
+<p><strong>Short answer:</strong> Upgrades are boring: small, frequent, automated, measured and owned. Teams trust the tests enough to upgrade without fear, the platform team is always one step ahead, and nobody remembers the last emergency upgrade because there hasn't been one.</p>
+</details>
+<details class="question">
+<summary>B5 · When would you let a system stay on an old version?</summary>
+<p><strong>Short answer:</strong> When it's scheduled for retirement soon, isolated from untrusted input, and the cost of upgrading exceeds the residual risk — with that decision recorded, time-bound and revisited. Indefinite exceptions are how estates end up three majors behind.</p>
+</details>
+<details class="question">
+<summary>B5 · How do you choose between an in-place upgrade and a rewrite of a legacy application?</summary>
+<p><strong>Short answer:</strong> Default to incremental upgrade: characterization tests, then Java and Boot steps, then modularization. Rewrite only when the domain has changed enough that the old model is wrong, not merely old — and even then strangle it piece by piece rather than cutting over at once.</p>
+</details>
+<h3 id="scenario-questions">Scenario questions<a class="headerlink" href="#scenario-questions" title="Permanent link">&para;</a></h3>
+<details class="example">
+<summary>Scenario · After the Boot 3 upgrade, the mobile app's order history broke</summary>
+<p>The Android app called <code>/api/orders/</code> with a trailing slash; Boot 3 disabled trailing-slash matching by default. Fixes: a gateway rewrite as immediate mitigation, a metric counting trailing-slash requests by client version, a fix in the app, a golden-path contract test with the real client paths, and removal of the rewrite once telemetry reached zero.</p>
+</details>
+<details class="example">
+<summary>Scenario · Checkout errors spiked during a rolling upgrade, then disappeared</summary>
+<p>New pods wrote Jackson-3-formatted price entries to the shared Redis cache; old pods failed to deserialize them until the rollout finished. Fixes: a versioned cache key prefix per major, cross-version cache tests, and the rule that shared serialized state is part of every upgrade's risk assessment.</p>
+</details>
+<h3 id="coding-exercise">Coding exercise<a class="headerlink" href="#coding-exercise" title="Permanent link">&para;</a></h3>
+<div class="admonition example">
+<p class="admonition-title">Exercise · Plan and automate one service's Boot 3.5 → 4 upgrade</p>
+<p>For <code>catalog-service</code>: list the readiness checks, the automated steps, the tests proving behaviour is unchanged, the cross-version risks, and the rollout and rollback plan. Write the Gradle and CI configuration for the automated parts.</p>
+</div>
+<details class="success">
+<summary>Solution</summary>
+<p><strong>Readiness</strong>
+<div class="language-text highlight"><span class="filename">Example</span><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>deprecations = 0 on 3.5.x              ./gradlew compileJava -Xlint:deprecation -Werror
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>platform BOM 4.0 available + matrix    in.grocery:grocery-platform-bom:4.0.0
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>third-party blockers                   springdoc 4.x compatible? opensearch client? → verified
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>tests present                          golden JSON, access matrix, contracts, perf baseline
+</span></code></pre></div></p>
+<p><strong>Automation</strong>
+<div class="language-kotlin highlight"><span class="filename">build.gradle.kts</span><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="n">plugins</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">id</span><span class="p">(</span><span class="s">"org.openrewrite.rewrite"</span><span class="p">)</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="s">"7.x"</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="n">rewrite</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">activeRecipe</span><span class="p">(</span><span class="s">"org.openrewrite.java.spring.boot4.UpgradeSpringBoot_4_0"</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w">   </span><span class="c1">// (1)!</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="n">dependencies</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="w">    </span><span class="n">rewrite</span><span class="p">(</span><span class="s">"org.openrewrite.recipe:rewrite-spring:latest.release"</span><span class="p">)</span>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="n">platform</span><span class="p">(</span><span class="s">"in.grocery:grocery-platform-bom:4.0.0"</span><span class="p">))</span>
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="w">    </span><span class="n">runtimeOnly</span><span class="p">(</span><span class="s">"org.springframework.boot:spring-boot-properties-migrator"</span><span class="p">)</span><span class="w">           </span><span class="c1">// removed after</span>
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="p">}</span>
+</span></code></pre></div></p>
+<ol>
+<li><strong>Verify</strong> the recipe name for your OpenRewrite version.</li>
+</ol>
+<div class="language-yaml highlight"><span class="filename">.github/workflows/upgrade-check.yml</span><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="nt">jobs</span><span class="p">:</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="w">  </span><span class="nt">upgrade</span><span class="p">:</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./gradlew rewriteDryRun</span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/upload-artifact@v4</span>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="w">        </span><span class="nt">with</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> name</span><span class="p">:</span><span class="w"> </span><span class="nv">rewrite-patch</span><span class="p p-Indicator">,</span><span class="nt"> path</span><span class="p">:</span><span class="w"> </span><span class="nv">build/reports/rewrite/rewrite.patch</span><span class="w"> </span><span class="p p-Indicator">}</span><span class="w">       </span><span class="c1"># (1)!</span>
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./gradlew rewriteRun build integrationTest</span>
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./gradlew test --tests '*Golden*' --tests '*AccessMatrix*' --tests '*Contract*'</span>
+</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./scripts/perf-compare.sh --max-p95-regression 10</span>
+</span></code></pre></div>
+<ol>
+<li>The patch is an artifact reviewers read before approving.</li>
+</ol>
+<p><strong>Cross-version risks</strong>
+| Shared state | Mitigation |
+|---|---|
+| Redis price and product caches | <code>key-prefix: grocery:v4:</code> |
+| <code>product-changed</code> Kafka events | Captured 3.5 payloads deserialized by the 4.0 build; 4.0 payloads read by a 3.5-configured mapper |
+| Search index documents | Unchanged mapping; indexer tolerant of both |
+| Database | No schema changes in this PR |</p>
+<p><strong>Rollout</strong>: canary 5% → 25% → 100% with SLO analysis (error rate, p99, cache hit ratio, DLT rate).
+<strong>Rollback</strong>: previous digest recorded; v3 cache namespace still warm; no data migration to reverse.
+<strong>Cleanup</strong>: remove the migrator, update the dashboard, delete the v3 cache namespace after 48 hours.</p>
+</details>
+<hr />
+<h2 id="key-takeaways">Key Takeaways<a class="headerlink" href="#key-takeaways" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Cadence makes upgrades cheap</strong>; deferral makes them emergencies.</li>
+<li><strong>Fix deprecations first</strong>, on the version you're leaving.</li>
+<li><strong>Automate the mechanical work</strong> with OpenRewrite and the properties migrator — and review the output.</li>
+<li><strong>Test behaviour</strong>, not compilation: golden files, access matrix, contracts, performance.</li>
+<li><strong>Platform libraries lead</strong>; services follow in waves; core services go last, outside peak season.</li>
+<li><strong>Mixed versions coexist</strong> during rollouts — design caches, messages and schemas for it.</li>
+<li><strong>Upgrade and modernize separately.</strong></li>
+<li><strong>Measure the fleet</strong>, and budget upgrade work continuously.</li>
+</ul>
+<h2 id="further-reading">Further Reading<a class="headerlink" href="#further-reading" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Spring Boot migration guides (2.x → 3.0, 3.x → 4.0) and release notes</li>
+<li>OpenRewrite documentation — Spring, Jakarta, JUnit and Jackson recipes</li>
+<li>Spring support policy — release lines and support windows</li>
+<li><em>Working Effectively with Legacy Code</em> (Michael Feathers) — characterization tests</li>
+</ul>
+<hr />
+<p><a href="../41-internals-custom-starters/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg></span> 41 Spring Internals &amp; Custom Starters</a> · <a href="../43-engineering-leadership/">43 Engineering Leadership <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg></span></a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../41-internals-custom-starters/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 41 Internals &amp; Custom Starters">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                41 Internals & Custom Starters
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../43-engineering-leadership/" class="md-footer__link md-footer__link--next" aria-label="Next: 43 Engineering Leadership">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                43 Engineering Leadership
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Personal knowledge base — Spring Boot 3 & 4 Enterprise Handbook
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "navigation.footer", "navigation.tracking", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.tooltips"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

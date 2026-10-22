@@ -1,0 +1,5177 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Beginner to 15+ years — Spring Boot 3.5 and 4.x, grounded in a multi-vendor grocery marketplace">
+      
+      
+        <meta name="author" content="Ashish">
+      
+      
+        <link rel="canonical" href="https://khiruashish.github.io/spring-boot-playbook/part-3-enterprise/44-capstone-grocery-marketplace/">
+      
+      
+        <link rel="prev" href="../43-engineering-leadership/">
+      
+      
+        <link rel="next" href="../../annotations/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>44 Capstone — Grocery Marketplace - Spring Boot 3 & 4 Enterprise Handbook</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#44-capstone-the-grocery-marketplace" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Spring Boot 3 &amp; 4 Enterprise Handbook" class="md-header__button md-logo" aria-label="Spring Boot 3 & 4 Enterprise Handbook" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Spring Boot 3 & 4 Enterprise Handbook
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              44 Capstone — Grocery Marketplace
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="deep-orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="deep-orange"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/khiruashish/spring-boot-playbook" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    spring-boot-playbook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+    
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../part-1-foundations/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Part 1 · Foundations
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../part-2-production/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Part 2 · Production
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Part 3 · Enterprise
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../annotations/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Annotations
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../appendices/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Appendices
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Spring Boot 3 &amp; 4 Enterprise Handbook" class="md-nav__button md-logo" aria-label="Spring Boot 3 & 4 Enterprise Handbook" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Spring Boot 3 & 4 Enterprise Handbook
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/khiruashish/spring-boot-playbook" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    spring-boot-playbook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../.." class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Home
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reading-paths/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reading Paths
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-0-orientation/00-handbook-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Handbook Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../part-1-foundations/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 1 · Foundations
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Part 1 · Foundations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/01-java-and-build-prerequisites/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 Java & Build Prerequisites
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/02-ioc-and-dependency-injection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 IoC & Dependency Injection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/03-bean-lifecycle-events-extension-points/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 Bean Lifecycle, Events & Extension Points
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/04-aop/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04 AOP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/05-spring-boot-fundamentals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05 Spring Boot Fundamentals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/06-externalized-configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06 Externalized Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/07-logging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07 Logging
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/08-rest-apis-spring-mvc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08 REST APIs with Spring MVC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/09-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09 Validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/10-error-handling-problem-details/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10 Error Handling & Problem Details
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/11-json-serialization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11 JSON & Serialization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/12-data-access-jdbc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12 Data Access — JDBC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/13-spring-data-jpa-hibernate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13 Spring Data JPA & Hibernate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/14-database-migrations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14 Database Migrations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/15-testing-fundamentals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15 Testing Fundamentals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../part-2-production/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 2 · Production
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Part 2 · Production
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/16-transactions-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    16 Transactions Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/17-spring-security-fundamentals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    17 Spring Security Fundamentals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/18-security-tokens-oauth2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    18 Tokens, OAuth2 & Modern Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/19-http-clients/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    19 HTTP Clients
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/20-api-design-versioning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    20 API Design & Versioning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/21-caching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    21 Caching
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/22-nosql-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    22 NoSQL & Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/23-messaging-kafka/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    23 Messaging with Kafka
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/24-other-messaging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    24 RabbitMQ, Pulsar, JMS, Cloud Stream
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/25-async-scheduling-virtual-threads/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    25 Async, Scheduling & Virtual Threads
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/26-resilience/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    26 Resilience
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/27-observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    27 Observability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/28-integration-contract-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    28 Integration & Contract Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/29-packaging-deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    29 Packaging & Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/30-kubernetes-cloud-native/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    30 Kubernetes & Cloud-Native
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/31-reactive-spring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    31 Reactive Spring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/32-graphql-grpc-websocket-sse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    32 GraphQL, gRPC, WebSocket, SSE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/33-batch-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    33 Batch & Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/34-performance-engineering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    34 Performance Engineering
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 3 · Enterprise
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Part 3 · Enterprise
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../35-microservices-spring-cloud/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    35 Microservices with Spring Cloud
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../36-distributed-data-consistency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    36 Distributed Data & Consistency
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../37-architecture-styles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    37 DDD, Hexagonal, Modular Monolith
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../38-multi-tenancy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    38 Multi-Tenancy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../39-enterprise-security-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    39 Enterprise Security Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../40-spring-ai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    40 Spring AI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../41-internals-custom-starters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    41 Internals & Custom Starters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../42-migration-upgrade/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    42 Migration & Upgrade Engineering
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../43-engineering-leadership/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    43 Engineering Leadership
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    44 Capstone — Grocery Marketplace
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    44 Capstone — Grocery Marketplace
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction-why-it-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introduction &amp; Why It Matters
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Introduction &amp; Why It Matters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-use-this-chapter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to use this chapter
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-core-concepts-the-platform-at-a-glance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Core Concepts — The Platform at a Glance
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Core Concepts — The Platform at a Glance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-services-and-ownership" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Services and ownership
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-architecture-decisions-consolidated" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Architecture decisions, consolidated
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-non-functional-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Non-functional targets
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-how-it-works-one-order-end-to-end" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. How It Works — One Order, End to End
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. How It Works — One Order, End to End">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-the-journey" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 The journey
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-the-same-journey-chapter-by-chapter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 The same journey, chapter by chapter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-the-same-journey-on-a-bad-evening" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 The same journey on a bad evening
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-data-flow-and-ownership" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Data flow and ownership
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-level-1-project-milestones-m1m2-b1b2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Level 1 Project — Milestones M1–M2 (B1/B2)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Level 1 Project — Milestones M1–M2 (B1/B2)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#m1-catalog-service-one-service-done-properly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        M1 · Catalog service (one service, done properly)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#m2-cart-and-pricing-with-caching-and-concurrency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        M2 · Cart and pricing, with caching and concurrency
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-level-23-project-milestones-m3m5-b3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Level 2–3 Project — Milestones M3–M5 (B3)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Level 2–3 Project — Milestones M3–M5 (B3)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#m3-orders-with-outbox-and-kafka" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        M3 · Orders with outbox and Kafka
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#m4-checkout-saga-and-payments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        M4 · Checkout saga and payments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#m5-security-and-observability-end-to-end" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        M5 · Security and observability, end to end
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-level-4-project-milestones-m6m8-b4b5-and-the-readiness-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Level 4 Project — Milestones M6–M8 (B4/B5) and the Readiness Review
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Level 4 Project — Milestones M6–M8 (B4/B5) and the Readiness Review">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#m6-multi-tenancy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        M6 · Multi-tenancy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#m7-production-delivery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        M7 · Production delivery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#m8-platform-extraction-and-leadership-artifacts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        M8 · Platform extraction and leadership artifacts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#61-the-platform-starter-set-youll-end-with" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 The platform starter set you'll end with
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-local-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Local environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-game-day-script-for-the-capstone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Game-day script for the capstone
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-production-readiness-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Production readiness review
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-spring-boot-3-vs-4-the-capstone-upgrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Spring Boot 3 vs 4 — The Capstone Upgrade
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-production-playbook-what-the-capstone-teaches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Production Playbook — What the Capstone Teaches
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Production Playbook — What the Capstone Teaches">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-ten-ideas-that-recur-in-every-chapter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The ten ideas that recur in every chapter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#anti-patterns-the-capstone-deliberately-avoids" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anti-patterns the capstone deliberately avoids
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#capstone-completion-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capstone completion checklist
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-interview-questions-answers-system-design-from-the-capstone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Interview Questions &amp; Answers — System Design from the Capstone
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Interview Questions &amp; Answers — System Design from the Capstone">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-final-exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The final exercise
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Takeaways
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Further Reading
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../annotations/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Annotations
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Annotations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/core-container/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Container
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/boot/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Spring Boot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web Layer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/validation-json/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation & JSON
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data & Transactions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/async-messaging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Async, Messaging & Resilience
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/testing-observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing & Observability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/deprecated/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Outdated → Replacement
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../appendices/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Appendices
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Appendices
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../appendices/a-interview-bank/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A Interview Bank
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    A Interview Bank
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/a-interview-bank/b1-0-2-years/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B1 · 0–2 years
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/a-interview-bank/b2-2-5-years/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B2 · 2–5 years
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/a-interview-bank/b3-5-8-years/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B3 · 5–8 years
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/a-interview-bank/b4-8-12-years/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B4 · 8–12 years
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/a-interview-bank/b5-12-15-years/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B5 · 12–15+ years
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/a-interview-bank/system-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/a-interview-bank/rapid-fire/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rapid Fire
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/b-coding-exercises/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B Coding Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/c-annotation-cheat-sheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C Annotation Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/d-properties-cheat-sheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D Properties Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/e-boot-3-vs-4-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    E Boot 3.5 vs 4.x Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/f-troubleshooting-playbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    F Troubleshooting Playbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/g-glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    G Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/h-resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    H Resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction-why-it-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introduction &amp; Why It Matters
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Introduction &amp; Why It Matters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-use-this-chapter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to use this chapter
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-core-concepts-the-platform-at-a-glance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Core Concepts — The Platform at a Glance
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Core Concepts — The Platform at a Glance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-services-and-ownership" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Services and ownership
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-architecture-decisions-consolidated" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Architecture decisions, consolidated
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-non-functional-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Non-functional targets
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-how-it-works-one-order-end-to-end" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. How It Works — One Order, End to End
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. How It Works — One Order, End to End">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-the-journey" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 The journey
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-the-same-journey-chapter-by-chapter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 The same journey, chapter by chapter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-the-same-journey-on-a-bad-evening" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 The same journey on a bad evening
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-data-flow-and-ownership" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Data flow and ownership
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-level-1-project-milestones-m1m2-b1b2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Level 1 Project — Milestones M1–M2 (B1/B2)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Level 1 Project — Milestones M1–M2 (B1/B2)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#m1-catalog-service-one-service-done-properly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        M1 · Catalog service (one service, done properly)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#m2-cart-and-pricing-with-caching-and-concurrency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        M2 · Cart and pricing, with caching and concurrency
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-level-23-project-milestones-m3m5-b3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Level 2–3 Project — Milestones M3–M5 (B3)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Level 2–3 Project — Milestones M3–M5 (B3)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#m3-orders-with-outbox-and-kafka" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        M3 · Orders with outbox and Kafka
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#m4-checkout-saga-and-payments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        M4 · Checkout saga and payments
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#m5-security-and-observability-end-to-end" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        M5 · Security and observability, end to end
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-level-4-project-milestones-m6m8-b4b5-and-the-readiness-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Level 4 Project — Milestones M6–M8 (B4/B5) and the Readiness Review
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Level 4 Project — Milestones M6–M8 (B4/B5) and the Readiness Review">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#m6-multi-tenancy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        M6 · Multi-tenancy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#m7-production-delivery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        M7 · Production delivery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#m8-platform-extraction-and-leadership-artifacts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        M8 · Platform extraction and leadership artifacts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#61-the-platform-starter-set-youll-end-with" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 The platform starter set you'll end with
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-local-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Local environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-game-day-script-for-the-capstone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Game-day script for the capstone
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-production-readiness-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Production readiness review
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-spring-boot-3-vs-4-the-capstone-upgrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Spring Boot 3 vs 4 — The Capstone Upgrade
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-production-playbook-what-the-capstone-teaches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Production Playbook — What the Capstone Teaches
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Production Playbook — What the Capstone Teaches">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-ten-ideas-that-recur-in-every-chapter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The ten ideas that recur in every chapter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#anti-patterns-the-capstone-deliberately-avoids" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anti-patterns the capstone deliberately avoids
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#capstone-completion-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capstone completion checklist
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-interview-questions-answers-system-design-from-the-capstone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Interview Questions &amp; Answers — System Design from the Capstone
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Interview Questions &amp; Answers — System Design from the Capstone">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-final-exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The final exercise
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Takeaways
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Further Reading
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="44-capstone-the-grocery-marketplace">44 · Capstone — The Grocery Marketplace<a class="headerlink" href="#44-capstone-the-grocery-marketplace" title="Permanent link">&para;</a></h1>
+<h2 id="1-introduction-why-it-matters">1. Introduction &amp; Why It Matters<a class="headerlink" href="#1-introduction-why-it-matters" title="Permanent link">&para;</a></h2>
+<p>Forty-three chapters taught one concern at a time: configuration, transactions, Kafka, resilience, tenancy, security. Real systems don't arrive one concern at a time. A single tap on "Place order" in the grocery app touches authentication, validation, pricing, caching, a database transaction, an outbox, a saga, three services over HTTP and Kafka, a payment gateway, observability, and — on a bad evening — circuit breakers and degradation paths.</p>
+<p>This capstone does two things:</p>
+<ol>
+<li><strong>Assembles the platform.</strong> It walks one order from a customer's phone to a rider's doorstep and back to a seller's settlement, naming at every step which chapter's pattern is doing the work and why. If you understand this walkthrough, you understand how the handbook fits together.</li>
+<li><strong>Gives you a project.</strong> A staged build of a scaled-down version of the platform — four services, then eight — with milestones and acceptance criteria for each band (B1–B5). Built honestly, it is the best preparation for senior interviews there is, because every design question has a concrete answer you've implemented and tested.</li>
+</ol>
+<p>It closes with a <strong>production readiness review</strong> — the checklist a principal engineer walks through before a platform like this handles a Diwali sale — and a set of system-design interview questions answered from the architecture itself.</p>
+<h3 id="how-to-use-this-chapter">How to use this chapter<a class="headerlink" href="#how-to-use-this-chapter" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Reader</th>
+<th>Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Learning the stack</td>
+<td>Read §3's walkthrough, then build milestones M1–M3</td>
+</tr>
+<tr>
+<td>Preparing for B3/B4 interviews</td>
+<td>Build M1–M6; answer §9 using your own implementation</td>
+</tr>
+<tr>
+<td>Leading a team</td>
+<td>Use §6.4's readiness review against your own system</td>
+</tr>
+<tr>
+<td>Onboarding engineers</td>
+<td>Assign the milestones as a structured onboarding track</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-core-concepts-the-platform-at-a-glance">2. Core Concepts — The Platform at a Glance<a class="headerlink" href="#2-core-concepts-the-platform-at-a-glance" title="Permanent link">&para;</a></h2>
+<h3 id="21-services-and-ownership">2.1 Services and ownership<a class="headerlink" href="#21-services-and-ownership" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Capability</th>
+<th>Services</th>
+<th>Owns</th>
+<th>Key chapters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Edge</td>
+<td>api-gateway, mobile-bff</td>
+<td>Nothing (routing, composition)</td>
+<td>32, 35</td>
+</tr>
+<tr>
+<td>Identity</td>
+<td>identity-service</td>
+<td>Customers' credentials, tokens</td>
+<td>17, 18</td>
+</tr>
+<tr>
+<td>Catalog</td>
+<td>catalog, search-indexer, catalog-feed</td>
+<td>Products, index, feeds</td>
+<td>13, 22, 33</td>
+</tr>
+<tr>
+<td>Pricing</td>
+<td>pricing-service</td>
+<td>Prices, promotions</td>
+<td>21, 32</td>
+</tr>
+<tr>
+<td>Purchase</td>
+<td>cart, order, payment</td>
+<td>Carts, orders, payments</td>
+<td>16, 36, 37</td>
+</tr>
+<tr>
+<td>Fulfilment</td>
+<td>inventory, delivery, dispatch, tracking</td>
+<td>Stock, slots, assignments, positions</td>
+<td>24, 31</td>
+</tr>
+<tr>
+<td>Seller</td>
+<td>seller-portal (modular monolith), settlement</td>
+<td>Sellers, payouts</td>
+<td>33, 37</td>
+</tr>
+<tr>
+<td>Platform</td>
+<td>notification, reporting</td>
+<td>Messages, reports</td>
+<td>23, 25</td>
+</tr>
+</tbody>
+</table>
+<p>Twenty-six deployables in production; the capstone project builds a representative subset.</p>
+<h3 id="22-architecture-decisions-consolidated">2.2 Architecture decisions, consolidated<a class="headerlink" href="#22-architecture-decisions-consolidated" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Decision</th>
+<th>Choice</th>
+<th>Chapter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Framework baseline</td>
+<td>Spring Boot 3.5 → 4.x, Java 25</td>
+<td>01, 42</td>
+</tr>
+<tr>
+<td>Code structure</td>
+<td>Hexagonal for core domains; pragmatic layering elsewhere</td>
+<td>37</td>
+</tr>
+<tr>
+<td>Synchronous APIs</td>
+<td>REST with problem details; GraphQL BFF; gRPC for pricing</td>
+<td>08–10, 20, 32</td>
+</tr>
+<tr>
+<td>Asynchronous</td>
+<td>Kafka with outbox + inbox; RabbitMQ for dispatch</td>
+<td>23, 24, 36</td>
+</tr>
+<tr>
+<td>Data</td>
+<td>PostgreSQL per service; Redis; OpenSearch; pgvector</td>
+<td>12–14, 21, 22, 40</td>
+</tr>
+<tr>
+<td>Consistency</td>
+<td>Local ACID; sagas across services; reconciliation</td>
+<td>16, 36</td>
+</tr>
+<tr>
+<td>Identity</td>
+<td>OTP + PKCE for customers; OIDC + passkeys for staff; client credentials between services</td>
+<td>17, 18</td>
+</tr>
+<tr>
+<td>Resilience</td>
+<td>Timeouts, breakers, bulkheads, degradation per dependency</td>
+<td>19, 26</td>
+</tr>
+<tr>
+<td>Concurrency</td>
+<td>MVC + virtual threads; WebFlux only for streaming</td>
+<td>25, 31</td>
+</tr>
+<tr>
+<td>Observability</td>
+<td>Micrometer, OTLP, SLOs with burn-rate alerts</td>
+<td>07, 27</td>
+</tr>
+<tr>
+<td>Delivery</td>
+<td>Layered signed images, digest promotion, canary on SLOs</td>
+<td>29, 30</td>
+</tr>
+<tr>
+<td>Tenancy</td>
+<td>Shared schema + RLS; dedicated DBs for large tenants</td>
+<td>38</td>
+</tr>
+<tr>
+<td>Platform</td>
+<td>Eight starters, one BOM</td>
+<td>41</td>
+</tr>
+</tbody>
+</table>
+<h3 id="23-non-functional-targets">2.3 Non-functional targets<a class="headerlink" href="#23-non-functional-targets" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Target</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Checkout availability</td>
+<td>99.5% / 30 days</td>
+</tr>
+<tr>
+<td>Checkout latency</td>
+<td>p99 &lt; 2 s</td>
+</tr>
+<tr>
+<td>Product page</td>
+<td>p95 &lt; 300 ms</td>
+</tr>
+<tr>
+<td>Peak load</td>
+<td>3,000 orders/min (Diwali forecast), 5× normal</td>
+</tr>
+<tr>
+<td>Order events freshness</td>
+<td>99.9% relayed within 60 s</td>
+</tr>
+<tr>
+<td>Search freshness</td>
+<td>Index lag &lt; 2 s p95</td>
+</tr>
+<tr>
+<td>Recovery</td>
+<td>Rollback &lt; 2 min; RTO 30 min, RPO 5 min for order data</td>
+</tr>
+<tr>
+<td>Security</td>
+<td>No PAN stored; PII field-encrypted; tenant leak suite green</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-how-it-works-one-order-end-to-end">3. How It Works — One Order, End to End<a class="headerlink" href="#3-how-it-works-one-order-end-to-end" title="Permanent link">&para;</a></h2>
+<h3 id="31-the-journey">3.1 The journey<a class="headerlink" href="#31-the-journey" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>sequenceDiagram
+    autonumber
+    participant App as Customer app
+    participant GW as api-gateway
+    participant BFF as mobile-bff
+    participant ID as identity
+    participant C as cart
+    participant O as order (saga)
+    participant P as pricing
+    participant I as inventory
+    participant PAY as payment
+    participant RZ as Razorpay
+    participant K as Kafka
+    participant D as dispatch (RabbitMQ)
+    participant T as tracking (SSE)
+
+    App-&gt;&gt;ID: OTP login → PKCE → tokens
+    App-&gt;&gt;GW: GraphQL HomeScreen
+    GW-&gt;&gt;BFF: route (token validated)
+    BFF-&gt;&gt;P: gRPC prices (deadline)
+    App-&gt;&gt;GW: POST /carts/{id}/items (If-Match)
+    GW-&gt;&gt;C: add item
+    App-&gt;&gt;GW: POST /orders (Idempotency-Key)
+    GW-&gt;&gt;O: place order
+    O-&gt;&gt;P: authoritative price (timeout, breaker)
+    O-&gt;&gt;O: TX: order PLACED + saga + outbox
+    O--&gt;&gt;App: 201 Created (PLACED)
+    O-&gt;&gt;K: OrderPlaced / ReserveStock
+    K-&gt;&gt;I: reserve (inbox, SKIP LOCKED)
+    I-&gt;&gt;K: StockReserved
+    K-&gt;&gt;O: saga → AuthorizePayment
+    O-&gt;&gt;PAY: authorize
+    PAY-&gt;&gt;RZ: create order (receipt = ORD ref)
+    RZ--&gt;&gt;PAY: webhook (HMAC verified)
+    PAY-&gt;&gt;K: PaymentAuthorized
+    K-&gt;&gt;O: saga → PAID, OrderConfirmed
+    K-&gt;&gt;D: packed → dispatch task (priority)
+    D-&gt;&gt;T: rider positions
+    T--&gt;&gt;App: SSE live tracking</code></pre>
+<h3 id="32-the-same-journey-chapter-by-chapter">3.2 The same journey, chapter by chapter<a class="headerlink" href="#32-the-same-journey-chapter-by-chapter" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>What happens</th>
+<th>Pattern</th>
+<th>Chapter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>OTP login, authorization code with PKCE, rotating refresh token</td>
+<td>Custom <code>AuthenticationProvider</code>, Spring Authorization Server</td>
+<td>17, 18</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Home screen in one GraphQL query</td>
+<td>BFF, <code>@BatchMapping</code>, partial failure</td>
+<td>32</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Prices over gRPC with a 600 ms deadline</td>
+<td>Deadlines, status mapping</td>
+<td>32</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Add to cart with <code>If-Match</code></td>
+<td>Strong ETags, optimistic concurrency</td>
+<td>08, 16</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Validation of pincode and quantity</td>
+<td><code>@Pincode</code>, bean validation, problem details</td>
+<td>09, 10</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Place order with an idempotency key</td>
+<td><code>@Idempotent</code> aspect</td>
+<td>04</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Authoritative pricing with timeout and breaker</td>
+<td><code>RestClient</code>, Resilience4j, cached-price degradation</td>
+<td>19, 21, 26</td>
+</tr>
+<tr>
+<td>8</td>
+<td>One transaction: order + saga + outbox</td>
+<td><code>@Transactional</code>, <code>MANDATORY</code> outbox</td>
+<td>16, 36</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Response 201 with <code>Location</code>, status PLACED</td>
+<td>Render from the write result</td>
+<td>08, 36</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Relay publishes, keyed by order ref</td>
+<td>Outbox relay, <code>acks=all</code>, ordering</td>
+<td>23</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Inventory reserves idempotently</td>
+<td>Inbox, <code>SKIP LOCKED</code>, conditional updates</td>
+<td>12, 23</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Saga advances with guarded transitions</td>
+<td>Orchestration, deadlines, STUCK alert</td>
+<td>36</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Razorpay order with <code>receipt</code> as a natural key</td>
+<td>Gateway adapter, no retry on capture</td>
+<td>19</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Webhook verified by HMAC over raw bytes, deduped</td>
+<td>Webhook security</td>
+<td>18</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Order confirmed; events fan out</td>
+<td>Consumer groups, DLT, retry topics</td>
+<td>23</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Dispatch task with priority and delayed retry</td>
+<td>RabbitMQ quorum queues, TTL + DLX</td>
+<td>24</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Rider app receives the assignment</td>
+<td>WebSocket + STOMP relay</td>
+<td>32</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Customer watches the rider</td>
+<td>WebFlux SSE, drop-based backpressure</td>
+<td>31</td>
+</tr>
+<tr>
+<td>19</td>
+<td>Search reflects the new stock</td>
+<td>Indexer from events, alias-based index</td>
+<td>22</td>
+</tr>
+<tr>
+<td>20</td>
+<td>Weekly settlement pays the seller</td>
+<td>Spring Batch, partitioned, reconciled</td>
+<td>33</td>
+</tr>
+<tr>
+<td>21</td>
+<td>Hourly drift check</td>
+<td>Reconciliation in both directions</td>
+<td>36</td>
+</tr>
+</tbody>
+</table>
+<p>Every row has a test in the chapter it references. That is the point of the architecture: <strong>each concern is solved once, in one place, with evidence</strong>.</p>
+<h3 id="33-the-same-journey-on-a-bad-evening">3.3 The same journey on a bad evening<a class="headerlink" href="#33-the-same-journey-on-a-bad-evening" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart TD
+    A[Pricing latency 4 s] --&gt; B[Client timeout 600 ms trips&lt;br/&gt;Chapter 19]
+    B --&gt; C[Breaker opens after 50% failures&lt;br/&gt;Chapter 26]
+    C --&gt; D[Cached price ≤ 15 min served,&lt;br/&gt;'price may vary' flag]
+    D --&gt; E[grocery.degraded counter rises&lt;br/&gt;Chapter 27]
+    E --&gt; F[Burn-rate alert: slow burn → ticket, not page]
+    G[Payment gateway down] --&gt; H[Breaker open → 503 + Retry-After&lt;br/&gt;no guessing]
+    H --&gt; I[Saga deadlines compensate held stock&lt;br/&gt;Chapter 36]
+    J[Kafka broker loss] --&gt; K[Outbox rows accumulate, nothing lost&lt;br/&gt;Chapter 36]
+    K --&gt; L[Relay catches up on recovery]
+    M[Traffic 5× forecast] --&gt; N[Pre-scaled pods + HPA&lt;br/&gt;Chapter 30]
+    N --&gt; O[Load shedding protects checkout over search&lt;br/&gt;Chapter 26]</code></pre>
+<p>The system bends in predictable, measured ways. Nothing is lost; nothing is guessed; every degradation is visible.</p>
+<h3 id="34-data-flow-and-ownership">3.4 Data flow and ownership<a class="headerlink" href="#34-data-flow-and-ownership" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>flowchart LR
+    subgraph Writers
+        CAT[(catalog DB)] --&gt; KC[product-changed]
+        PR[(pricing DB)] --&gt; KP[price-changed]
+        OR[(order DB)] --&gt; KO[order-placed / status-changed]
+        INV[(inventory DB)] --&gt; KS[stock-changed]
+    end
+    KC --&gt; SI[search index]
+    KC --&gt; CP[cart projection]
+    KP --&gt; CP
+    KP --&gt; RC[price cache eviction]
+    KO --&gt; INVc[inventory consumer]
+    KO --&gt; NOT[notification]
+    KO --&gt; OH[order-history read model]
+    KS --&gt; SI</code></pre>
+<p>One writer per dataset; everyone else holds projections rebuilt from events (Chapters 35, 36). Display from projections, decide from the owner.</p>
+<hr />
+<h2 id="4-level-1-project-milestones-m1m2-b1b2">4. Level 1 Project — Milestones M1–M2 (B1/B2)<a class="headerlink" href="#4-level-1-project-milestones-m1m2-b1b2" title="Permanent link">&para;</a></h2>
+<p>The capstone project builds a scaled-down platform. Each milestone is independently runnable and has acceptance criteria you can verify.</p>
+<h3 id="m1-catalog-service-one-service-done-properly">M1 · Catalog service (one service, done properly)<a class="headerlink" href="#m1-catalog-service-one-service-done-properly" title="Permanent link">&para;</a></h3>
+<p><strong>Scope</strong>: products and categories, REST API, PostgreSQL, Flyway, validation, problem details.</p>
+<div class="language-text highlight"><span class="filename">Example</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>catalog-service/
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── build.gradle.kts              ← BOM, toolchain 25, layered bootJar (Ch 01, 29)
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>├── src/main/java/in/grocery/catalog/
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│   ├── web/ProductController.java           ← Ch 08
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>│   ├── delegate/ProductDelegate.java
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│   ├── service/ProductService.java           ← Ch 16
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│   ├── repository/ProductRepository.java     ← Ch 12, 13
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│   └── config/…
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>├── src/main/resources/
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>│   ├── application.yml, application-prod.yml ← Ch 06
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>│   └── db/migration/V1__products.sql         ← Ch 14
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>└── src/test/java/…                            ← Ch 15
+</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Acceptance criterion</th>
+<th>Chapter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET /api/v1/products?category=dairy&amp;page=0&amp;size=20</code> paginates with a stable envelope</td>
+<td>08, 20</td>
+</tr>
+<tr>
+<td>Invalid pincode/SKU returns RFC 9457 problem details with a <code>code</code></td>
+<td>09, 10</td>
+</tr>
+<tr>
+<td>Money serialized as strings; golden-file test</td>
+<td>11</td>
+</tr>
+<tr>
+<td>Migrations via Flyway only; <code>ddl-auto=validate</code></td>
+<td>14</td>
+</tr>
+<tr>
+<td>Slice tests for web and data; one Testcontainers test</td>
+<td>15</td>
+</tr>
+<tr>
+<td>JSON logs with request id</td>
+<td>07</td>
+</tr>
+<tr>
+<td><code>/actuator/health/{liveness,readiness}</code> on port 9090</td>
+<td>27, 30</td>
+</tr>
+</tbody>
+</table>
+<h3 id="m2-cart-and-pricing-with-caching-and-concurrency">M2 · Cart and pricing, with caching and concurrency<a class="headerlink" href="#m2-cart-and-pricing-with-caching-and-concurrency" title="Permanent link">&para;</a></h3>
+<p><strong>Scope</strong>: cart-service and pricing-service, HTTP interface between them, Redis cache, ETags.</p>
+<table>
+<thead>
+<tr>
+<th>Acceptance criterion</th>
+<th>Chapter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cart mutations require <code>If-Match</code>; stale versions get 412</td>
+<td>08, 16</td>
+</tr>
+<tr>
+<td>Pricing called through an HTTP interface with 600 ms timeout</td>
+<td>19</td>
+</tr>
+<tr>
+<td>Prices cached in Redis with tenant-free keys (tenancy comes in M6) and jittered TTL</td>
+<td>21</td>
+</tr>
+<tr>
+<td>Cache failures fail open; test with Redis stopped</td>
+<td>21</td>
+</tr>
+<tr>
+<td><code>Cart</code> is an aggregate with invariants (max 50 lines, 1–20 per line), unit-tested without Spring</td>
+<td>37</td>
+</tr>
+<tr>
+<td>Query-count test on cart reads (no N+1)</td>
+<td>13</td>
+</tr>
+<tr>
+<td><code>@Idempotent</code> on the add-to-cart endpoint</td>
+<td>04</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Self-check (B2)</strong>: can you explain why the cart shows a cached price but checkout must call pricing?</p>
+<hr />
+<h2 id="5-level-23-project-milestones-m3m5-b3">5. Level 2–3 Project — Milestones M3–M5 (B3)<a class="headerlink" href="#5-level-23-project-milestones-m3m5-b3" title="Permanent link">&para;</a></h2>
+<h3 id="m3-orders-with-outbox-and-kafka">M3 · Orders with outbox and Kafka<a class="headerlink" href="#m3-orders-with-outbox-and-kafka" title="Permanent link">&para;</a></h3>
+<p><strong>Scope</strong>: order-service writing orders + outbox; inventory-service consuming with an inbox.</p>
+<div class="language-java highlight"><span class="filename">The heart of M3</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nd">@Transactional</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kd">public</span><span class="w"> </span><span class="n">Order</span><span class="w"> </span><span class="nf">place</span><span class="p">(</span><span class="n">PlaceOrderCommand</span><span class="w"> </span><span class="n">command</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="n">lines</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pricing</span><span class="p">.</span><span class="na">authoritativePrices</span><span class="p">(</span><span class="n">command</span><span class="p">.</span><span class="na">items</span><span class="p">(),</span><span class="w"> </span><span class="n">command</span><span class="p">.</span><span class="na">pincode</span><span class="p">());</span><span class="w">   </span><span class="c1">// outside? see criterion</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="n">Order</span><span class="w"> </span><span class="n">order</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Order</span><span class="p">.</span><span class="na">place</span><span class="p">(</span><span class="n">OrderRef</span><span class="p">.</span><span class="na">next</span><span class="p">(),</span><span class="w"> </span><span class="n">command</span><span class="p">.</span><span class="na">customerId</span><span class="p">(),</span><span class="w"> </span><span class="n">command</span><span class="p">.</span><span class="na">pincode</span><span class="p">(),</span><span class="w"> </span><span class="n">lines</span><span class="p">,</span><span class="w"> </span><span class="n">fee</span><span class="p">);</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="n">orders</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">order</span><span class="p">);</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="n">outbox</span><span class="p">.</span><span class="na">append</span><span class="p">(</span><span class="s">"order"</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">.</span><span class="na">ref</span><span class="p">().</span><span class="na">value</span><span class="p">(),</span><span class="w"> </span><span class="s">"OrderPlaced"</span><span class="p">,</span><span class="w"> </span><span class="n">OrderPlacedEvent</span><span class="p">.</span><span class="na">from</span><span class="p">(</span><span class="n">order</span><span class="p">));</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">order</span><span class="p">;</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="p">}</span>
+</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Acceptance criterion</th>
+<th>Chapter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pricing is fetched <strong>before</strong> the transaction opens</td>
+<td>16</td>
+</tr>
+<tr>
+<td>Order and outbox row commit atomically; failure test leaves neither</td>
+<td>36</td>
+</tr>
+<tr>
+<td>Relay publishes with <code>acks=all</code>, keyed by order ref</td>
+<td>23</td>
+</tr>
+<tr>
+<td>Inventory consumer is idempotent (duplicate-delivery test)</td>
+<td>23</td>
+</tr>
+<tr>
+<td>Poison pill goes to DLT; DLT monitor increments a metric</td>
+<td>23</td>
+</tr>
+<tr>
+<td>Event payload golden file</td>
+<td>23</td>
+</tr>
+<tr>
+<td>Consumer lag and outbox-pending metrics exposed</td>
+<td>27</td>
+</tr>
+</tbody>
+</table>
+<h3 id="m4-checkout-saga-and-payments">M4 · Checkout saga and payments<a class="headerlink" href="#m4-checkout-saga-and-payments" title="Permanent link">&para;</a></h3>
+<p><strong>Scope</strong>: orchestrated saga in order-service; payment-service with a stubbed gateway (WireMock) and HMAC webhooks.</p>
+<table>
+<thead>
+<tr>
+<th>Acceptance criterion</th>
+<th>Chapter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Saga state persisted with deadlines and guarded transitions</td>
+<td>36</td>
+</tr>
+<tr>
+<td>Payment failure compensates (releases stock, cancels order)</td>
+<td>36</td>
+</tr>
+<tr>
+<td>Duplicate and out-of-order events are ignored, with metrics</td>
+<td>36</td>
+</tr>
+<tr>
+<td>Timeout sweeper compensates; STUCK after repeated failures</td>
+<td>36</td>
+</tr>
+<tr>
+<td>Webhook verified over raw bytes, constant-time compare, deduped</td>
+<td>18</td>
+</tr>
+<tr>
+<td>No automatic retry on payment capture</td>
+<td>19, 26</td>
+</tr>
+<tr>
+<td>Chaos test: slow gateway → checkout returns 503 within 3 s</td>
+<td>26, 28</td>
+</tr>
+</tbody>
+</table>
+<h3 id="m5-security-and-observability-end-to-end">M5 · Security and observability, end to end<a class="headerlink" href="#m5-security-and-observability-end-to-end" title="Permanent link">&para;</a></h3>
+<p><strong>Scope</strong>: identity-service (OTP + JWT), resource servers everywhere, SLOs and tracing.</p>
+<table>
+<thead>
+<tr>
+<th>Acceptance criterion</th>
+<th>Chapter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OTP login with rate limiting on request and verification</td>
+<td>17, 22</td>
+</tr>
+<tr>
+<td>Services validate issuer, audience, expiry; ownership checks on orders</td>
+<td>17, 18</td>
+</tr>
+<tr>
+<td>Service-to-service calls use client credentials</td>
+<td>18</td>
+</tr>
+<tr>
+<td>Access-matrix test covering anonymous, customer, other customer, ops</td>
+<td>17, 39</td>
+</tr>
+<tr>
+<td>One trace spans app → gateway → order → pricing → Kafka → inventory</td>
+<td>27</td>
+</tr>
+<tr>
+<td>Checkout SLO with multi-window burn-rate alert rules</td>
+<td>27</td>
+</tr>
+<tr>
+<td>PII redacted from logs; test asserts no mobile numbers in log output</td>
+<td>07, 39</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Self-check (B3)</strong>: draw the saga state machine from memory and explain what happens if <code>PaymentAuthorized</code> arrives after the deadline compensated the saga.</p>
+<hr />
+<h2 id="6-level-4-project-milestones-m6m8-b4b5-and-the-readiness-review">6. Level 4 Project — Milestones M6–M8 (B4/B5) and the Readiness Review<a class="headerlink" href="#6-level-4-project-milestones-m6m8-b4b5-and-the-readiness-review" title="Permanent link">&para;</a></h2>
+<h3 id="m6-multi-tenancy">M6 · Multi-tenancy<a class="headerlink" href="#m6-multi-tenancy" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Acceptance criterion</th>
+<th>Chapter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tenant from the token; client headers stripped at the gateway</td>
+<td>35, 38</td>
+</tr>
+<tr>
+<td><code>@TenantId</code> on entities <strong>and</strong> forced RLS on tables</td>
+<td>38</td>
+</tr>
+<tr>
+<td>Tenant propagated through async, Kafka and outbound HTTP</td>
+<td>38</td>
+</tr>
+<tr>
+<td>Tenant-aware cache key generator by default</td>
+<td>38</td>
+</tr>
+<tr>
+<td>Reflective leak suite over every repository, in CI</td>
+<td>38</td>
+</tr>
+<tr>
+<td>Per-tenant rate limits at the gateway</td>
+<td>35, 38</td>
+</tr>
+</tbody>
+</table>
+<h3 id="m7-production-delivery">M7 · Production delivery<a class="headerlink" href="#m7-production-delivery" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Acceptance criterion</th>
+<th>Chapter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Layered, non-root, signed images with SBOM; deploy by digest</td>
+<td>29</td>
+</tr>
+<tr>
+<td>Helm library chart with probes, preStop, PDB, spread</td>
+<td>30</td>
+</tr>
+<tr>
+<td>Pod-deletion test under load produces zero errors</td>
+<td>30</td>
+</tr>
+<tr>
+<td>Canary with automated SLO analysis</td>
+<td>30</td>
+</tr>
+<tr>
+<td>Load test at 1.5× forecast (open model) meets thresholds</td>
+<td>34</td>
+</tr>
+<tr>
+<td>Startup, image-size and p95 budgets tracked nightly</td>
+<td>29, 34</td>
+</tr>
+</tbody>
+</table>
+<h3 id="m8-platform-extraction-and-leadership-artifacts">M8 · Platform extraction and leadership artifacts<a class="headerlink" href="#m8-platform-extraction-and-leadership-artifacts" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Acceptance criterion</th>
+<th>Chapter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Web, security, observability and messaging concerns moved into starters with back-off tests</td>
+<td>41</td>
+</tr>
+<tr>
+<td>One BOM for all services; N-1 compatibility documented</td>
+<td>41, 42</td>
+</tr>
+<tr>
+<td>ADRs for the ten decisions in §2.2</td>
+<td>43</td>
+</tr>
+<tr>
+<td>Service catalog entries with owners, SLOs and runbooks</td>
+<td>35, 43</td>
+</tr>
+<tr>
+<td>A post-incident review for a game-day failure you injected</td>
+<td>43</td>
+</tr>
+<tr>
+<td>An upgrade plan to the next Boot version with a readiness scorecard</td>
+<td>42</td>
+</tr>
+</tbody>
+</table>
+<h3 id="61-the-platform-starter-set-youll-end-with">6.1 The platform starter set you'll end with<a class="headerlink" href="#61-the-platform-starter-set-youll-end-with" title="Permanent link">&para;</a></h3>
+<div class="language-kotlin highlight"><span class="filename">Every capstone service&#x27;s build file after M8</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">dependencies</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="n">platform</span><span class="p">(</span><span class="s">"in.grocery:grocery-platform-bom:1.0.0"</span><span class="p">))</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">"in.grocery:grocery-platform-web-spring-boot-starter"</span><span class="p">)</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">"in.grocery:grocery-platform-security-spring-boot-starter"</span><span class="p">)</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">"in.grocery:grocery-platform-observability-spring-boot-starter"</span><span class="p">)</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">"in.grocery:grocery-platform-messaging-spring-boot-starter"</span><span class="p">)</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">"in.grocery:grocery-platform-tenancy-spring-boot-starter"</span><span class="p">)</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="n">testImplementation</span><span class="p">(</span><span class="s">"in.grocery:grocery-platform-test-starter"</span><span class="p">)</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>When a new service needs only this, plus its own domain code, the platform is doing its job.</p>
+<h3 id="62-local-environment">6.2 Local environment<a class="headerlink" href="#62-local-environment" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><span class="filename">compose.yaml (development — Chapter 05/28)</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">services</span><span class="p">:</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">postgres</span><span class="p">:</span><span class="w">   </span><span class="p p-Indicator">{</span><span class="nt"> image</span><span class="p">:</span><span class="w"> </span><span class="nv">postgres</span><span class="p p-Indicator">:</span><span class="nv">17-alpine</span><span class="p p-Indicator">,</span><span class="nt"> environment</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> POSTGRES_PASSWORD</span><span class="p">:</span><span class="w"> </span><span class="nv">dev</span><span class="w"> </span><span class="p p-Indicator">},</span><span class="nt"> ports</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"5432:5432"</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="p p-Indicator">}</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">redis</span><span class="p">:</span><span class="w">      </span><span class="p p-Indicator">{</span><span class="nt"> image</span><span class="p">:</span><span class="w"> </span><span class="nv">redis</span><span class="p p-Indicator">:</span><span class="nv">7-alpine</span><span class="p p-Indicator">,</span><span class="nt"> ports</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"6379:6379"</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="p p-Indicator">}</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="nt">kafka</span><span class="p">:</span><span class="w">      </span><span class="p p-Indicator">{</span><span class="nt"> image</span><span class="p">:</span><span class="w"> </span><span class="nv">apache/kafka</span><span class="p p-Indicator">:</span><span class="nv">3.9.0</span><span class="p p-Indicator">,</span><span class="nt"> ports</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"9092:9092"</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="p p-Indicator">}</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="nt">rabbitmq</span><span class="p">:</span><span class="w">   </span><span class="p p-Indicator">{</span><span class="nt"> image</span><span class="p">:</span><span class="w"> </span><span class="nv">rabbitmq</span><span class="p p-Indicator">:</span><span class="nv">4-management</span><span class="p p-Indicator">,</span><span class="nt"> ports</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"5672:5672"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"15672:15672"</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="p p-Indicator">}</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span><span class="nt">opensearch</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> image</span><span class="p">:</span><span class="w"> </span><span class="nv">opensearchproject/opensearch</span><span class="p p-Indicator">:</span><span class="nv">2</span><span class="p p-Indicator">,</span><span class="nt"> environment</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> discovery.type</span><span class="p">:</span><span class="w"> </span><span class="nv">single-node</span><span class="p p-Indicator">,</span><span class="nt"> DISABLE_SECURITY_PLUGIN</span><span class="p">:</span><span class="w"> </span><span class="s">"true"</span><span class="w"> </span><span class="p p-Indicator">}</span><span class="w"> </span><span class="p p-Indicator">}</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">  </span><span class="nt">otel</span><span class="p">:</span><span class="w">       </span><span class="p p-Indicator">{</span><span class="nt"> image</span><span class="p">:</span><span class="w"> </span><span class="nv">otel/opentelemetry-collector-contrib</span><span class="p p-Indicator">,</span><span class="nt"> ports</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"4318:4318"</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="p p-Indicator">}</span>
+</span></code></pre></div>
+<p>Each service runs alone against this plus WireMock stubs for its peers (Chapter 28). Needing to run all eight to work on one is a signal about coupling, not a workflow.</p>
+<h3 id="63-game-day-script-for-the-capstone">6.3 Game-day script for the capstone<a class="headerlink" href="#63-game-day-script-for-the-capstone" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Injected failure</th>
+<th>Expected behaviour</th>
+<th>Verified by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pricing latency 5 s</td>
+<td>Cached prices, degraded counter, no checkout failures</td>
+<td>Toxiproxy + k6</td>
+</tr>
+<tr>
+<td>Payment gateway 503</td>
+<td>503 + Retry-After; sagas compensate after deadline</td>
+<td>WireMock + saga dashboard</td>
+</tr>
+<tr>
+<td>Kafka broker stopped 5 min</td>
+<td>Outbox pending rises then drains; no lost events</td>
+<td>Reconciliation job</td>
+</tr>
+<tr>
+<td>Redis stopped</td>
+<td>Requests succeed from the database; cache errors metered</td>
+<td>Chaos test</td>
+</tr>
+<tr>
+<td>Delete pods under load</td>
+<td>Zero 5xx</td>
+<td>k6 + pod deletion loop</td>
+</tr>
+<tr>
+<td>Poison message</td>
+<td>DLT, alert, replay after fix</td>
+<td>DLT tooling</td>
+</tr>
+<tr>
+<td>Tenant context missing in a job</td>
+<td>Job fails closed; no cross-tenant writes</td>
+<td>Leak suite</td>
+</tr>
+</tbody>
+</table>
+<p>Write a blameless post-incident review for at least one of these (M8) — it's the exercise that turns a working system into an operable one.</p>
+<h3 id="64-production-readiness-review">6.4 Production readiness review<a class="headerlink" href="#64-production-readiness-review" title="Permanent link">&para;</a></h3>
+<p>The checklist a principal engineer walks through before a sale. Each line links to the chapter that explains it.</p>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Question</th>
+<th>✓</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ownership</strong></td>
+<td>Every service has an owner, on-call, SLOs and a runbook? (35, 43)</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Capacity</strong></td>
+<td>Capacity model current for forecast × 1.5; DB connections and partitions within budget? (12, 23, 30, 34)</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Load</strong></td>
+<td>Full-journey open-model load test passed; soak and spike run? (34)</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Resilience</strong></td>
+<td>Every dependency has timeout, breaker, bulkhead and a documented degradation? (19, 26)</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Data</strong></td>
+<td>Outbox everywhere; consumers idempotent; reconciliation running? (23, 36)</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Consistency</strong></td>
+<td>Sagas have deadlines and STUCK alerts? (36)</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Security</strong></td>
+<td>Access matrix and leak suite green; no PAN; PII encrypted; secrets rotated? (17, 38, 39)</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Observability</strong></td>
+<td>Burn-rate alerts with runbooks; business metrics alerted; dashboards annotated? (27)</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Delivery</strong></td>
+<td>Images signed and scanned; canary with SLO analysis; rollback digest recorded? (29, 30)</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Operations</strong></td>
+<td>Pod-deletion and zone-drain game days passed; freeze window declared? (30)</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Scaling</strong></td>
+<td>Pre-scaling scheduled; HPA limits within budgets? (30)</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Batch</strong></td>
+<td>Settlement and reconciliation jobs have missed-run alerts? (33)</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>AI features</strong></td>
+<td>Flags tested off; token budgets and fallbacks verified? (40)</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Upgrades</strong></td>
+<td>No service on an unsupported version; no pending critical CVEs? (39, 42)</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>People</strong></td>
+<td>Incident roles assigned for the sale window; comms plan ready? (43)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>A "no" is not a failure — it's a decision to make explicitly: fix it, accept the risk in writing, or reduce scope (disable a feature for the sale).</p>
+<hr />
+<h2 id="7-spring-boot-3-vs-4-the-capstone-upgrade">7. Spring Boot 3 vs 4 — The Capstone Upgrade<a class="headerlink" href="#7-spring-boot-3-vs-4-the-capstone-upgrade" title="Permanent link">&para;</a></h2>
+<p>Build the capstone on Boot 3.5 first, then upgrade it to Boot 4 as a final exercise using Chapter 42's programme:</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Capstone task</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Fix all deprecations on 3.5</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Upgrade the platform starters and BOM (M8) first</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Pilot on catalog-service with OpenRewrite + properties migrator</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Verify golden files, access matrix, contract tests and performance</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Upgrade cart and pricing; then order and payment with cross-version payload tests</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Version cache namespaces for the rollout</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Remove shims; record an ADR and a short retrospective</td>
+</tr>
+</tbody>
+</table>
+<p>Appendix E consolidates the version differences across every chapter.</p>
+<hr />
+<h2 id="8-production-playbook-what-the-capstone-teaches">8. Production Playbook — What the Capstone Teaches<a class="headerlink" href="#8-production-playbook-what-the-capstone-teaches" title="Permanent link">&para;</a></h2>
+<h3 id="the-ten-ideas-that-recur-in-every-chapter">The ten ideas that recur in every chapter<a class="headerlink" href="#the-ten-ideas-that-recur-in-every-chapter" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Boundaries decide everything</strong> — services, modules, aggregates, tenants (35, 37, 38).</li>
+<li><strong>Every wait has a timeout</strong>, and every timeout fits a budget (19, 26, 34).</li>
+<li><strong>At-least-once plus idempotency</strong> is the only exactly-once (04, 23, 36).</li>
+<li><strong>Never dual-write</strong> — the outbox (36).</li>
+<li><strong>Display from projections, decide from the owner</strong> (35, 36).</li>
+<li><strong>Degrade deliberately</strong>, never guess money or permissions (26, 40).</li>
+<li><strong>Enforce with tools</strong>, not goodwill — ArchUnit, leak suites, contract gates, starters (28, 38, 41).</li>
+<li><strong>Measure what users feel</strong> — SLOs, burn rates, business metrics (27).</li>
+<li><strong>Ship small, reversibly</strong> — digests, canaries, expand/contract, cadence (14, 29, 30, 42).</li>
+<li><strong>Write it down</strong> — ADRs, runbooks, post-incident reviews (43).</li>
+</ol>
+<h3 id="anti-patterns-the-capstone-deliberately-avoids">Anti-patterns the capstone deliberately avoids<a class="headerlink" href="#anti-patterns-the-capstone-deliberately-avoids" title="Permanent link">&para;</a></h3>
+<p>❌ A shared database between services.
+❌ Publishing events without an outbox.
+❌ Consumers that assume exactly-once delivery.
+❌ Remote calls inside transactions.
+❌ LLMs or clients deciding prices.
+❌ Liveness probes checking dependencies.
+❌ Unbounded queues, caches or result sets.
+❌ Tenant filtering in application code only.
+❌ Big-bang upgrades.
+❌ Standards without enforcement.</p>
+<h3 id="capstone-completion-checklist">Capstone completion checklist<a class="headerlink" href="#capstone-completion-checklist" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> M1–M2 complete with all acceptance criteria (B2 level)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> M3–M5 complete; saga explained from memory (B3 level)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> M6–M7 complete; game days run; load test passed (B4 level)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> M8 complete; starters extracted; ADRs and a post-incident review written (B5 level)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Readiness review answered for your implementation</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Boot 4 upgrade executed with the Chapter 42 process</li>
+</ul>
+<hr />
+<h2 id="9-interview-questions-answers-system-design-from-the-capstone">9. Interview Questions &amp; Answers — System Design from the Capstone<a class="headerlink" href="#9-interview-questions-answers-system-design-from-the-capstone" title="Permanent link">&para;</a></h2>
+<p>These questions are best answered by pointing at what you built.</p>
+<details class="question">
+<summary>B3 · Design checkout for an online grocery platform.</summary>
+<p><strong>Short answer:</strong> Customer-facing request writes the order, saga state and outbox in one transaction and returns 201 PLACED; an orchestrated saga reserves stock and authorizes payment via events with deadlines, guarded transitions and compensations; consumers are idempotent; payment webhooks are HMAC-verified; the UI shows progress via polling or SSE; reconciliation catches drift. Pricing is authoritative and fetched before the transaction, with a cached-price degradation. (Chapters 16, 19, 23, 26, 36.)</p>
+</details>
+<details class="question">
+<summary>B3 · How do you keep search in sync with the catalog?</summary>
+<p><strong>Short answer:</strong> Catalog writes go through the outbox; an indexer consumes product and stock events, loads projections from the source of truth, bulk-indexes into an alias-backed index, tracks index lag, and supports zero-downtime reindex with guard rails; search degrades to category browse if the cluster fails. (Chapters 22, 23, 36.)</p>
+</details>
+<details class="question">
+<summary>B4 · The platform must handle 5× traffic for Diwali. What's your plan?</summary>
+<p><strong>Short answer:</strong> Forecast per service from production ratios; breakpoint tests per pod; a written capacity model for pods, connections, partitions and cache; full-journey open-model load tests at 1.5× forecast with profiling between runs; soak and spike tests; game days for dependency failures; pre-scaling; load shedding priorities; a deploy freeze; incident roles staffed. (Chapters 26, 30, 34, 43.)</p>
+</details>
+<details class="question">
+<summary>B4 · How do you offer the platform to other grocery chains?</summary>
+<p><strong>Short answer:</strong> Shared-schema multi-tenancy with the tenant from the token, <code>@TenantId</code> plus forced RLS, propagation through async and messaging, tenant-aware cache keys, a reflective leak suite in CI, per-tenant quotas, dedicated databases or cells for large tenants, and catalog-driven export and deletion. (Chapters 35, 38, 39.)</p>
+</details>
+<details class="question">
+<summary>B4 · A seller's payout went to the wrong account. Walk through response and prevention.</summary>
+<p><strong>Short answer:</strong> Freeze payouts, contain via re-authentication and revoked sessions, investigate with the audit log, notify per contract and regulation; prevent with re-authentication and OTP to the registered contact for bank changes, a 24-hour payout hold, notifications to old and new contacts, field-level encryption, and anomaly detection. (Chapters 33, 39, 43.)</p>
+</details>
+<details class="question">
+<summary>B5 · You inherit a platform where every release needs four services deployed in order. What do you do?</summary>
+<p><strong>Short answer:</strong> Diagnose the coupling (shared database, shared domain library, unversioned APIs, synchronous chains); write a short strategy; split schemas with grants; replace the shared model with platform starters plus per-client DTOs; version APIs additively with consumer-driven contracts and a deploy gate; move non-critical work to events; measure progress with DORA and a scorecard; lead it through RFCs, pilots and paved roads rather than mandates. (Chapters 20, 28, 35, 41, 43.)</p>
+</details>
+<details class="question">
+<summary>B5 · Where would you — and wouldn't you — use AI in this platform?</summary>
+<p><strong>Short answer:</strong> Use it to explain, summarize, draft and route: a support assistant with read-only, session-scoped tools and human handoff; catalog enrichment with validation and human review; review summaries cached by content version. Don't use it to decide prices, refunds, permissions, stock or fraud outcomes, or anywhere in the checkout critical path. (Chapter 40.)</p>
+</details>
+<h3 id="the-final-exercise">The final exercise<a class="headerlink" href="#the-final-exercise" title="Permanent link">&para;</a></h3>
+<div class="admonition example">
+<p class="admonition-title">Exercise · Present your capstone</p>
+<p>Prepare a 20-minute architecture presentation of your capstone for a panel: the business problem, the service map and ownership, three key decisions with their ADRs, the checkout flow including its failure modes, one game-day result and what you changed afterwards, your SLOs and how you'd know they were at risk, and what you'd do next with another quarter.</p>
+</div>
+<details class="success">
+<summary>What a strong presentation includes</summary>
+<ul>
+<li><strong>Starts with the business</strong>, not the technology: customers, sellers, the sale-day peak, the cost of a failed checkout.</li>
+<li><strong>One diagram per idea</strong>: service map, checkout sequence, saga states, degradation paths.</li>
+<li><strong>Decisions with trade-offs</strong>: "we chose polling over CDC because…, and we'll revisit when…".</li>
+<li><strong>Evidence</strong>: load-test numbers, a trace screenshot, the leak suite, the game-day timeline.</li>
+<li><strong>Honesty about gaps</strong>: "reconciliation is hourly; for payouts I'd make it continuous next".</li>
+<li><strong>A clear next step</strong> tied to risk or value, not to novelty.</li>
+</ul>
+<p>The panel is evaluating judgement more than implementation. A candidate who can say <em>why</em> each piece exists, <em>what fails</em> when it's missing and <em>how they'd know</em> is demonstrating exactly what the B4/B5 bands describe.</p>
+</details>
+<hr />
+<h2 id="key-takeaways">Key Takeaways<a class="headerlink" href="#key-takeaways" title="Permanent link">&para;</a></h2>
+<ul>
+<li>A single "Place order" tap exercises nearly every chapter of this handbook — and each concern is solved <strong>once</strong>, in one place, with a test.</li>
+<li>The platform <strong>bends predictably</strong> under failure: timeouts, breakers, degradation, outbox, sagas and reconciliation mean nothing is lost and nothing is guessed.</li>
+<li>The capstone milestones map directly to the bands: <strong>M1–M2 (B2), M3–M5 (B3), M6–M7 (B4), M8 (B5)</strong>.</li>
+<li>The <strong>readiness review</strong> is the principal engineer's pre-sale checklist; a "no" is a decision to make explicitly.</li>
+<li>The ten recurring ideas — boundaries, timeouts, idempotency, outbox, projections, deliberate degradation, enforcement, user-facing measurement, reversible delivery and written decisions — are the handbook in one list.</li>
+</ul>
+<h2 id="further-reading">Further Reading<a class="headerlink" href="#further-reading" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Every chapter of this handbook, in the order the checkout journey touches them (§3.2)</li>
+<li>Appendix A — the full interview bank by band, plus system design and rapid fire</li>
+<li>Appendix B — coding exercises that complement the milestones</li>
+<li>Appendix E — Boot 3.5 vs 4.x matrix for the final upgrade exercise</li>
+<li>Appendix F — troubleshooting playbook for the game days</li>
+</ul>
+<hr />
+<p><a href="../43-engineering-leadership/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg></span> 43 Engineering Leadership</a> · <a href="../../appendices/">Appendices <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg></span></a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../43-engineering-leadership/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 43 Engineering Leadership">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                43 Engineering Leadership
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../annotations/" class="md-footer__link md-footer__link--next" aria-label="Next: Annotations Reference">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Annotations Reference
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Personal knowledge base — Spring Boot 3 & 4 Enterprise Handbook
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "navigation.footer", "navigation.tracking", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.tooltips"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

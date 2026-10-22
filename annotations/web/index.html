@@ -1,0 +1,4365 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Beginner to 15+ years — Spring Boot 3.5 and 4.x, grounded in a multi-vendor grocery marketplace">
+      
+      
+        <meta name="author" content="Ashish">
+      
+      
+        <link rel="canonical" href="https://khiruashish.github.io/spring-boot-playbook/annotations/web/">
+      
+      
+        <link rel="prev" href="../boot/">
+      
+      
+        <link rel="next" href="../validation-json/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Web Layer - Spring Boot 3 & 4 Enterprise Handbook</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#web-layer-annotations" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Spring Boot 3 &amp; 4 Enterprise Handbook" class="md-header__button md-logo" aria-label="Spring Boot 3 & 4 Enterprise Handbook" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Spring Boot 3 & 4 Enterprise Handbook
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Web Layer
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="deep-orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="deep-orange"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/khiruashish/spring-boot-playbook" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    spring-boot-playbook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+    
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../part-1-foundations/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Part 1 · Foundations
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../part-2-production/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Part 2 · Production
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../part-3-enterprise/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Part 3 · Enterprise
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Annotations
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../appendices/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Appendices
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Spring Boot 3 &amp; 4 Enterprise Handbook" class="md-nav__button md-logo" aria-label="Spring Boot 3 & 4 Enterprise Handbook" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Spring Boot 3 & 4 Enterprise Handbook
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/khiruashish/spring-boot-playbook" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    spring-boot-playbook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../.." class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Home
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reading-paths/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reading Paths
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-0-orientation/00-handbook-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Handbook Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../part-1-foundations/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 1 · Foundations
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Part 1 · Foundations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/01-java-and-build-prerequisites/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 Java & Build Prerequisites
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/02-ioc-and-dependency-injection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 IoC & Dependency Injection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/03-bean-lifecycle-events-extension-points/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 Bean Lifecycle, Events & Extension Points
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/04-aop/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04 AOP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/05-spring-boot-fundamentals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05 Spring Boot Fundamentals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/06-externalized-configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06 Externalized Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/07-logging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07 Logging
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/08-rest-apis-spring-mvc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08 REST APIs with Spring MVC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/09-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09 Validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/10-error-handling-problem-details/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10 Error Handling & Problem Details
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/11-json-serialization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11 JSON & Serialization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/12-data-access-jdbc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12 Data Access — JDBC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/13-spring-data-jpa-hibernate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13 Spring Data JPA & Hibernate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/14-database-migrations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14 Database Migrations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/15-testing-fundamentals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15 Testing Fundamentals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../part-2-production/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 2 · Production
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Part 2 · Production
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/16-transactions-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    16 Transactions Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/17-spring-security-fundamentals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    17 Spring Security Fundamentals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/18-security-tokens-oauth2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    18 Tokens, OAuth2 & Modern Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/19-http-clients/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    19 HTTP Clients
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/20-api-design-versioning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    20 API Design & Versioning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/21-caching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    21 Caching
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/22-nosql-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    22 NoSQL & Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/23-messaging-kafka/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    23 Messaging with Kafka
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/24-other-messaging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    24 RabbitMQ, Pulsar, JMS, Cloud Stream
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/25-async-scheduling-virtual-threads/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    25 Async, Scheduling & Virtual Threads
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/26-resilience/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    26 Resilience
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/27-observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    27 Observability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/28-integration-contract-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    28 Integration & Contract Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/29-packaging-deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    29 Packaging & Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/30-kubernetes-cloud-native/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    30 Kubernetes & Cloud-Native
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/31-reactive-spring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    31 Reactive Spring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/32-graphql-grpc-websocket-sse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    32 GraphQL, gRPC, WebSocket, SSE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/33-batch-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    33 Batch & Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/34-performance-engineering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    34 Performance Engineering
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../part-3-enterprise/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 3 · Enterprise
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Part 3 · Enterprise
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-3-enterprise/35-microservices-spring-cloud/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    35 Microservices with Spring Cloud
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-3-enterprise/36-distributed-data-consistency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    36 Distributed Data & Consistency
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-3-enterprise/37-architecture-styles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    37 DDD, Hexagonal, Modular Monolith
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-3-enterprise/38-multi-tenancy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    38 Multi-Tenancy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-3-enterprise/39-enterprise-security-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    39 Enterprise Security Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-3-enterprise/40-spring-ai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    40 Spring AI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-3-enterprise/41-internals-custom-starters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    41 Internals & Custom Starters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-3-enterprise/42-migration-upgrade/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    42 Migration & Upgrade Engineering
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-3-enterprise/43-engineering-leadership/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    43 Engineering Leadership
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-3-enterprise/44-capstone-grocery-marketplace/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    44 Capstone — Grocery Marketplace
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Annotations
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Annotations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core-container/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Container
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../boot/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Spring Boot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web Layer
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web Layer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pathvariable-vs-requestparam-the-one-everyone-asks-about" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @PathVariable vs @RequestParam — the one everyone asks about
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="@PathVariable vs @RequestParam — the one everyone asks about">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-both-together" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: both together
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#other-forms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Other forms
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pitfalls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pitfalls
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#controllers-and-routing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Controllers and routing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Controllers and routing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#restcontroller" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @RestController ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#controller" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @Controller ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requestmapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @RequestMapping ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getmapping-postmapping-putmapping-patchmapping-deletemapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @GetMapping · @PostMapping · @PutMapping · @PatchMapping · @DeleteMapping ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version-attribute-on-mappings-framework-7-boot-4-new" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        version attribute on mappings (Framework 7 / Boot 4) ✅ new
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#binding-request-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Binding request data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Binding request data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#requestbody" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @RequestBody ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requestheader" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @RequestHeader ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cookievalue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @CookieValue ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modelattribute" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @ModelAttribute ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requestpart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @RequestPart ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#matrixvariable-rare" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @MatrixVariable ✅ (rare)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sessionattribute-requestattribute" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @SessionAttribute / @RequestAttribute ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authenticationprincipal-spring-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @AuthenticationPrincipal ✅ (Spring Security)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shaping-responses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Shaping responses
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Shaping responses">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#responsebody" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @ResponseBody ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#responsestatus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @ResponseStatus ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#crossorigin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @CrossOrigin ⚠️
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error handling
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Error handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#restcontrolleradvice-controlleradvice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @RestControllerAdvice / @ControllerAdvice ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exceptionhandler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @ExceptionHandler ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initbinder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @InitBinder ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#declarative-http-clients" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Declarative HTTP clients
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Declarative HTTP clients">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#httpexchange-and-getexchange-postexchange-putexchange-patchexchange-deleteexchange" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @HttpExchange and @GetExchange · @PostExchange · @PutExchange · @PatchExchange · @DeleteExchange ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#importhttpservices-boot-4-new" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @ImportHttpServices (Boot 4) ✅ new
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#webflux-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WebFlux notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../validation-json/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation & JSON
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data & Transactions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../async-messaging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Async, Messaging & Resilience
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing-observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing & Observability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deprecated/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Outdated → Replacement
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../appendices/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Appendices
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Appendices
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../appendices/a-interview-bank/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A Interview Bank
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    A Interview Bank
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/a-interview-bank/b1-0-2-years/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B1 · 0–2 years
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/a-interview-bank/b2-2-5-years/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B2 · 2–5 years
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/a-interview-bank/b3-5-8-years/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B3 · 5–8 years
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/a-interview-bank/b4-8-12-years/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B4 · 8–12 years
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/a-interview-bank/b5-12-15-years/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B5 · 12–15+ years
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/a-interview-bank/system-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/a-interview-bank/rapid-fire/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rapid Fire
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/b-coding-exercises/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B Coding Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/c-annotation-cheat-sheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C Annotation Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/d-properties-cheat-sheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D Properties Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/e-boot-3-vs-4-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    E Boot 3.5 vs 4.x Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/f-troubleshooting-playbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    F Troubleshooting Playbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/g-glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    G Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendices/h-resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    H Resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pathvariable-vs-requestparam-the-one-everyone-asks-about" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @PathVariable vs @RequestParam — the one everyone asks about
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="@PathVariable vs @RequestParam — the one everyone asks about">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-both-together" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: both together
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#other-forms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Other forms
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pitfalls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pitfalls
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#controllers-and-routing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Controllers and routing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Controllers and routing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#restcontroller" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @RestController ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#controller" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @Controller ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requestmapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @RequestMapping ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getmapping-postmapping-putmapping-patchmapping-deletemapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @GetMapping · @PostMapping · @PutMapping · @PatchMapping · @DeleteMapping ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version-attribute-on-mappings-framework-7-boot-4-new" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        version attribute on mappings (Framework 7 / Boot 4) ✅ new
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#binding-request-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Binding request data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Binding request data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#requestbody" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @RequestBody ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requestheader" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @RequestHeader ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cookievalue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @CookieValue ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modelattribute" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @ModelAttribute ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requestpart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @RequestPart ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#matrixvariable-rare" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @MatrixVariable ✅ (rare)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sessionattribute-requestattribute" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @SessionAttribute / @RequestAttribute ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authenticationprincipal-spring-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @AuthenticationPrincipal ✅ (Spring Security)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shaping-responses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Shaping responses
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Shaping responses">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#responsebody" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @ResponseBody ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#responsestatus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @ResponseStatus ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#crossorigin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @CrossOrigin ⚠️
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error handling
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Error handling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#restcontrolleradvice-controlleradvice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @RestControllerAdvice / @ControllerAdvice ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exceptionhandler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @ExceptionHandler ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#initbinder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @InitBinder ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#declarative-http-clients" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Declarative HTTP clients
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Declarative HTTP clients">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#httpexchange-and-getexchange-postexchange-putexchange-patchexchange-deleteexchange" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @HttpExchange and @GetExchange · @PostExchange · @PutExchange · @PatchExchange · @DeleteExchange ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#importhttpservices-boot-4-new" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        @ImportHttpServices (Boot 4) ✅ new
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#webflux-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        WebFlux notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="web-layer-annotations">Web Layer Annotations<a class="headerlink" href="#web-layer-annotations" title="Permanent link">&para;</a></h1>
+<p>Spring MVC and WebFlux annotations for mapping requests, binding input, shaping responses and handling errors — plus declarative HTTP clients. Examples use the grocery <strong>cart</strong>, <strong>catalog</strong> and <strong>order</strong> services. Deep dive: Chapters 08, 10, 19, 20.</p>
+<p><strong>Legend:</strong> ✅ current · ⚠️ still works but prefer an alternative · ❌ removed/deprecated — see <a href="../deprecated/">Outdated → Replacement</a>.</p>
+<hr />
+<h2 id="pathvariable-vs-requestparam-the-one-everyone-asks-about"><code>@PathVariable</code> vs <code>@RequestParam</code> — the one everyone asks about<a class="headerlink" href="#pathvariable-vs-requestparam-the-one-everyone-asks-about" title="Permanent link">&para;</a></h2>
+<p>Both bind <strong>parts of the URL</strong> to method parameters. The difference is <em>which part</em> and <em>what it means</em>.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>GET /api/v1/stores/560102/products/ATTA-5KG?includeOutOfStock=true&amp;page=0&amp;size=20
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>                   └─ path variable ─┘      └────────────── request parameters ──────────────┘
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>                   (identifies the resource)  (filters, options, paging — after the "?")
+</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><code>@PathVariable</code></th>
+<th><code>@RequestParam</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reads from</td>
+<td>A <code>{placeholder}</code> segment in the <strong>path</strong></td>
+<td>The <strong>query string</strong> (<code>?a=1&amp;b=2</code>) — and form fields in <code>application/x-www-form-urlencoded</code> bodies</td>
+</tr>
+<tr>
+<td>Meaning</td>
+<td><strong>Which</strong> resource: <code>/orders/{ref}</code></td>
+<td><strong>How</strong> to fetch or filter it: <code>?status=PAID&amp;page=2</code></td>
+</tr>
+<tr>
+<td>Required by default</td>
+<td>Yes — the URL doesn't match without it</td>
+<td>Yes — <code>400</code> if missing, unless <code>required = false</code> or <code>defaultValue</code></td>
+</tr>
+<tr>
+<td>Optional values</td>
+<td>Rare; use separate mappings instead</td>
+<td>Common: <code>required = false</code>, <code>defaultValue</code>, <code>Optional&lt;T&gt;</code></td>
+</tr>
+<tr>
+<td>Multiple values</td>
+<td>One per placeholder</td>
+<td>Repeats allowed: <code>?tag=organic&amp;tag=vegan</code> → <code>List&lt;String&gt;</code></td>
+</tr>
+<tr>
+<td>Typical REST use</td>
+<td>IDs, slugs, hierarchy: <code>/sellers/{sellerId}/products/{sku}</code></td>
+<td>Search, sort, pagination, flags</td>
+</tr>
+<tr>
+<td>Caching and bookmarking</td>
+<td>Part of the resource identity</td>
+<td>Part of the request variant</td>
+</tr>
+<tr>
+<td>Encoding</td>
+<td>Path-segment rules (<code>/</code> not allowed unencoded)</td>
+<td>Query rules (<code>+</code>, <code>&amp;</code>, <code>=</code> must be encoded)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rule of thumb:</strong> if removing the value gives you a <em>different resource</em> (or none), it's a path variable. If it gives you the <em>same resource filtered or paged differently</em>, it's a request parameter.</p>
+<h3 id="example-both-together">Example: both together<a class="headerlink" href="#example-both-together" title="Permanent link">&para;</a></h3>
+<div class="language-java highlight"><span class="filename">ProductController.java</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">package</span><span class="w"> </span><span class="nn">in.grocery.catalog.web</span><span class="p">;</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.validation.constraints.Max</span><span class="p">;</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.validation.constraints.Min</span><span class="p">;</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.List</span><span class="p">;</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="kn">import</span><span class="w"> </span><span class="nn">java.util.Optional</span><span class="p">;</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.validation.annotation.Validated</span><span class="p">;</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.bind.annotation.*</span><span class="p">;</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="nd">@RestController</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="nd">@RequestMapping</span><span class="p">(</span><span class="s">"/api/v1/stores/{pincode}/products"</span><span class="p">)</span><span class="w">               </span><span class="c1">// (1)!</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="nd">@Validated</span><span class="w">                                                          </span><span class="c1">// (2)!</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="kd">class</span> <span class="nc">ProductController</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">ProductDelegate</span><span class="w"> </span><span class="n">delegate</span><span class="p">;</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">    </span><span class="n">ProductController</span><span class="p">(</span><span class="n">ProductDelegate</span><span class="w"> </span><span class="n">delegate</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">delegate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">delegate</span><span class="p">;</span>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">    </span><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">"/{sku}"</span><span class="p">)</span>
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">    </span><span class="n">ProductView</span><span class="w"> </span><span class="nf">bySku</span><span class="p">(</span><span class="nd">@PathVariable</span><span class="w"> </span><span class="nd">@Pincode</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">pincode</span><span class="p">,</span><span class="w">         </span><span class="c1">// (3)!</span>
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">                      </span><span class="nd">@PathVariable</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">sku</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">delegate</span><span class="p">.</span><span class="na">find</span><span class="p">(</span><span class="n">pincode</span><span class="p">,</span><span class="w"> </span><span class="n">sku</span><span class="p">);</span>
+</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>
+</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="w">    </span><span class="nd">@GetMapping</span>
+</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="w">    </span><span class="n">PageView</span><span class="o">&lt;</span><span class="n">ProductView</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">search</span><span class="p">(</span>
+</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="w">            </span><span class="nd">@PathVariable</span><span class="w"> </span><span class="nd">@Pincode</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">pincode</span><span class="p">,</span>
+</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a><span class="w">            </span><span class="nd">@RequestParam</span><span class="p">(</span><span class="n">required</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w">                                   </span><span class="c1">// (4)!</span>
+</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="w">            </span><span class="nd">@RequestParam</span><span class="p">(</span><span class="n">defaultValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"false"</span><span class="p">)</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">includeOutOfStock</span><span class="p">,</span><span class="w">            </span><span class="c1">// (5)!</span>
+</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a><span class="w">            </span><span class="nd">@RequestParam</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"tag"</span><span class="p">,</span><span class="w"> </span><span class="n">required</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">tags</span><span class="p">,</span><span class="w">            </span><span class="c1">// (6)!</span>
+</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a><span class="w">            </span><span class="nd">@RequestParam</span><span class="w"> </span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">brand</span><span class="p">,</span><span class="w">                                       </span><span class="c1">// (7)!</span>
+</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a><span class="w">            </span><span class="nd">@RequestParam</span><span class="p">(</span><span class="n">defaultValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"0"</span><span class="p">)</span><span class="w"> </span><span class="nd">@Min</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">page</span><span class="p">,</span>
+</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a><span class="w">            </span><span class="nd">@RequestParam</span><span class="p">(</span><span class="n">defaultValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"20"</span><span class="p">)</span><span class="w"> </span><span class="nd">@Min</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="nd">@Max</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">            </span><span class="c1">// (8)!</span>
+</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">delegate</span><span class="p">.</span><span class="na">search</span><span class="p">(</span><span class="n">pincode</span><span class="p">,</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="n">includeOutOfStock</span><span class="p">,</span><span class="w"> </span><span class="n">tags</span><span class="p">,</span><span class="w"> </span><span class="n">brand</span><span class="p">,</span><span class="w"> </span><span class="n">page</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
+</span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-1-38"><a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a><span class="p">}</span>
+</span></code></pre></div>
+<ol>
+<li>A placeholder at class level applies to every method in the controller.</li>
+<li>Needed for constraint annotations on individual parameters (Chapter 09).</li>
+<li>Names match the placeholders, so no <code>name</code> attribute is needed — as long as the code is compiled with <code>-parameters</code> (Boot's build plugins do this by default). If not, write <code>@PathVariable("sku")</code>.</li>
+<li><code>null</code> when absent.</li>
+<li><code>defaultValue</code> implies <code>required = false</code> and handles type conversion from the string <code>"false"</code>.</li>
+<li><code>?tag=organic&amp;tag=vegan</code> → <code>["organic", "vegan"]</code>. <code>name</code> maps a singular query name to a plural Java name.</li>
+<li><code>Optional&lt;T&gt;</code> is another way to say "not required".</li>
+<li>Always bound page sizes — an unbounded <code>size</code> is a denial-of-service vector (Chapter 20).</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Request</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET /api/v1/stores/560102/products/ATTA-5KG</code></td>
+<td><code>bySku("560102", "ATTA-5KG")</code></td>
+</tr>
+<tr>
+<td><code>GET /api/v1/stores/560102/products?q=atta&amp;tag=organic&amp;tag=local</code></td>
+<td><code>search(..., q="atta", tags=[organic, local], page=0, size=20)</code></td>
+</tr>
+<tr>
+<td><code>GET /api/v1/stores/560102/products?size=500</code></td>
+<td><code>400</code> — <code>size</code> violates <code>@Max(100)</code></td>
+</tr>
+<tr>
+<td><code>GET /api/v1/stores/060102/products</code></td>
+<td><code>400</code> — invalid pincode</td>
+</tr>
+<tr>
+<td><code>GET /api/v1/stores/560102/products?page=abc</code></td>
+<td><code>400</code> — <code>MethodArgumentTypeMismatchException</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="other-forms">Other forms<a class="headerlink" href="#other-forms" title="Permanent link">&para;</a></h3>
+<div class="language-java highlight"><span class="filename">Variations (snippet)</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">"/orders/{ref:ORD-[A-Z0-9]+}"</span><span class="p">)</span><span class="w">                    </span><span class="c1">// regex-constrained placeholder</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">OrderView</span><span class="w"> </span><span class="nf">byRef</span><span class="p">(</span><span class="nd">@PathVariable</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">ref</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">"/orders/{ref}/lines/{lineNo}"</span><span class="p">)</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">LineView</span><span class="w"> </span><span class="nf">line</span><span class="p">(</span><span class="nd">@PathVariable</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">vars</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="c1">// all path variables as a map</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">"/products"</span><span class="p">)</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="n">List</span><span class="o">&lt;</span><span class="n">ProductView</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="nd">@RequestParam</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">params</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span><span class="w">   </span><span class="c1">// all query params — avoid for public APIs</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">"/files/**"</span><span class="p">)</span><span class="w">                                       </span><span class="c1">// multi-segment remainder</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="n">Resource</span><span class="w"> </span><span class="nf">file</span><span class="p">(</span><span class="n">HttpServletRequest</span><span class="w"> </span><span class="n">request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="pitfalls">Pitfalls<a class="headerlink" href="#pitfalls" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Pitfall</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>IllegalArgumentException: Name for argument ... not specified</code></td>
+<td>Compile with <code>-parameters</code>, or add the name explicitly</td>
+</tr>
+<tr>
+<td>Using <code>@RequestParam</code> for identifiers (<code>/orders?ref=ORD-1</code>)</td>
+<td>Use a path variable — identity belongs in the path</td>
+</tr>
+<tr>
+<td>Using <code>@PathVariable</code> for filters (<code>/products/dairy/cheap/page/2</code>)</td>
+<td>Use query parameters</td>
+</tr>
+<tr>
+<td>Missing parameter gives a raw 400</td>
+<td>Map <code>MissingServletRequestParameterException</code> in the advice to a problem body (Chapter 10)</td>
+</tr>
+<tr>
+<td>Trailing slash <code>/orders/ORD-1/</code> → 404 on Boot 3+</td>
+<td>Trailing-slash matching is off by default since Framework 6 (Chapter 42)</td>
+</tr>
+<tr>
+<td>Sensitive data in query strings</td>
+<td>Query strings end up in logs and browser history — never tokens or personal data</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="controllers-and-routing">Controllers and routing<a class="headerlink" href="#controllers-and-routing" title="Permanent link">&para;</a></h2>
+<h3 id="restcontroller"><code>@RestController</code> ✅<a class="headerlink" href="#restcontroller" title="Permanent link">&para;</a></h3>
+<p><code>org.springframework.web.bind.annotation</code> — <code>@Controller</code> + <code>@ResponseBody</code>: return values are serialized, typically to JSON.</p>
+<p><div class="language-java highlight"><span class="filename">CartController.java</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nd">@RestController</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nd">@RequestMapping</span><span class="p">(</span><span class="s">"/api/v1/carts"</span><span class="p">)</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kd">class</span> <span class="nc">CartController</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">"/{cartId}"</span><span class="p">)</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="n">CartView</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="nd">@PathVariable</span><span class="w"> </span><span class="n">UUID</span><span class="w"> </span><span class="n">cartId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">delegate</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">cartId</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="p">}</span>
+</span></code></pre></div>
+Pitfall: return DTOs, never JPA entities (Chapter 11).</p>
+<h3 id="controller"><code>@Controller</code> ✅<a class="headerlink" href="#controller" title="Permanent link">&para;</a></h3>
+<p>A web controller whose return values are view names unless the method has <code>@ResponseBody</code>. Use for server-rendered pages (the admin portal); use <code>@RestController</code> for APIs.</p>
+<div class="language-java highlight"><span class="filename">AdminDashboardController.java</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nd">@Controller</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kd">class</span> <span class="nc">AdminDashboardController</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">"/admin"</span><span class="p">)</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="nf">dashboard</span><span class="p">(</span><span class="n">Model</span><span class="w"> </span><span class="n">model</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">model</span><span class="p">.</span><span class="na">addAttribute</span><span class="p">(</span><span class="s">"pending"</span><span class="p">,</span><span class="w"> </span><span class="n">orders</span><span class="p">.</span><span class="na">pendingCount</span><span class="p">());</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">"admin/dashboard"</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="requestmapping"><code>@RequestMapping</code> ✅<a class="headerlink" href="#requestmapping" title="Permanent link">&para;</a></h3>
+<p>Maps a path (and optionally method, headers, params, consumes, produces) to a class or method. At class level it sets a common prefix.</p>
+<p><div class="language-java highlight"><span class="filename">OrderController.java</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nd">@RestController</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nd">@RequestMapping</span><span class="p">(</span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"/api/v1/orders"</span><span class="p">,</span><span class="w"> </span><span class="n">produces</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MediaType</span><span class="p">.</span><span class="na">APPLICATION_JSON_VALUE</span><span class="p">)</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="kd">class</span> <span class="nc">OrderController</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+Pitfall: <code>@RequestMapping</code> on a method without <code>method =</code> matches <strong>every</strong> HTTP verb — use the specific shortcuts below.</p>
+<h3 id="getmapping-postmapping-putmapping-patchmapping-deletemapping"><code>@GetMapping</code> · <code>@PostMapping</code> · <code>@PutMapping</code> · <code>@PatchMapping</code> · <code>@DeleteMapping</code> ✅<a class="headerlink" href="#getmapping-postmapping-putmapping-patchmapping-deletemapping" title="Permanent link">&para;</a></h3>
+<p>Composed shortcuts for <code>@RequestMapping(method = …)</code>.</p>
+<div class="language-java highlight"><span class="filename">CartItemsController.java</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nd">@PostMapping</span><span class="p">(</span><span class="s">"/{cartId}/items"</span><span class="p">)</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">CartView</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="nd">@PathVariable</span><span class="w"> </span><span class="n">UUID</span><span class="w"> </span><span class="n">cartId</span><span class="p">,</span><span class="w"> </span><span class="nd">@Valid</span><span class="w"> </span><span class="nd">@RequestBody</span><span class="w"> </span><span class="n">AddItemRequest</span><span class="w"> </span><span class="n">req</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="nd">@PatchMapping</span><span class="p">(</span><span class="s">"/{cartId}/items/{sku}"</span><span class="p">)</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="n">CartView</span><span class="w"> </span><span class="nf">changeQuantity</span><span class="p">(</span><span class="nd">@PathVariable</span><span class="w"> </span><span class="n">UUID</span><span class="w"> </span><span class="n">cartId</span><span class="p">,</span><span class="w"> </span><span class="nd">@PathVariable</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">sku</span><span class="p">,</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">                        </span><span class="nd">@Valid</span><span class="w"> </span><span class="nd">@RequestBody</span><span class="w"> </span><span class="n">ChangeQuantityRequest</span><span class="w"> </span><span class="n">req</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="nd">@DeleteMapping</span><span class="p">(</span><span class="s">"/{cartId}/items/{sku}"</span><span class="p">)</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="nd">@ResponseStatus</span><span class="p">(</span><span class="n">HttpStatus</span><span class="p">.</span><span class="na">NO_CONTENT</span><span class="p">)</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="kt">void</span><span class="w"> </span><span class="nf">remove</span><span class="p">(</span><span class="nd">@PathVariable</span><span class="w"> </span><span class="n">UUID</span><span class="w"> </span><span class="n">cartId</span><span class="p">,</span><span class="w"> </span><span class="nd">@PathVariable</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">sku</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="version-attribute-on-mappings-framework-7-boot-4-new"><code>version</code> attribute on mappings (Framework 7 / Boot 4) ✅ new<a class="headerlink" href="#version-attribute-on-mappings-framework-7-boot-4-new" title="Permanent link">&para;</a></h3>
+<p>Built-in API versioning; the version comes from a header, path segment, query parameter or media type configured with <code>ApiVersionConfigurer</code>.</p>
+<p><div class="language-java highlight"><span class="filename">CartController.java (Boot 4)</span><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nd">@GetMapping</span><span class="p">(</span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"/{cartId}"</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"1"</span><span class="p">)</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">CartViewV1</span><span class="w"> </span><span class="nf">getV1</span><span class="p">(</span><span class="nd">@PathVariable</span><span class="w"> </span><span class="n">UUID</span><span class="w"> </span><span class="n">cartId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="nd">@GetMapping</span><span class="p">(</span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"/{cartId}"</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"2+"</span><span class="p">)</span><span class="w">      </span><span class="c1">// 2 and later</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="n">CartViewV2</span><span class="w"> </span><span class="nf">getV2</span><span class="p">(</span><span class="nd">@PathVariable</span><span class="w"> </span><span class="n">UUID</span><span class="w"> </span><span class="n">cartId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+<strong>Verify</strong> syntax against your Framework version (Chapter 20).</p>
+<hr />
+<h2 id="binding-request-data">Binding request data<a class="headerlink" href="#binding-request-data" title="Permanent link">&para;</a></h2>
+<h3 id="requestbody"><code>@RequestBody</code> ✅<a class="headerlink" href="#requestbody" title="Permanent link">&para;</a></h3>
+<p>Deserializes the body (JSON) into an object using the configured message converters.</p>
+<p><div class="language-java highlight"><span class="filename">AddItemRequest.java</span><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">record</span> <span class="nc">AddItemRequest</span><span class="p">(</span><span class="nd">@NotBlank</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">sku</span><span class="p">,</span><span class="w"> </span><span class="nd">@Min</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="nd">@Max</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">quantity</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nd">@PostMapping</span><span class="p">(</span><span class="s">"/{cartId}/items"</span><span class="p">)</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="n">CartView</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="nd">@PathVariable</span><span class="w"> </span><span class="n">UUID</span><span class="w"> </span><span class="n">cartId</span><span class="p">,</span><span class="w"> </span><span class="nd">@Valid</span><span class="w"> </span><span class="nd">@RequestBody</span><span class="w"> </span><span class="n">AddItemRequest</span><span class="w"> </span><span class="n">request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+Pitfalls: add <code>@Valid</code> or nothing is validated; for webhook signature checks, bind <code>@RequestBody byte[]</code> to keep the raw bytes (Chapter 18).</p>
+<h3 id="requestheader"><code>@RequestHeader</code> ✅<a class="headerlink" href="#requestheader" title="Permanent link">&para;</a></h3>
+<p>Binds a request header.</p>
+<p><div class="language-java highlight"><span class="filename">OrderController.java</span><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nd">@PostMapping</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">OrderView</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">place</span><span class="p">(</span><span class="nd">@RequestHeader</span><span class="p">(</span><span class="s">"Idempotency-Key"</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">idempotencyKey</span><span class="p">,</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">                                </span><span class="nd">@RequestHeader</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HttpHeaders</span><span class="p">.</span><span class="na">IF_MATCH</span><span class="p">,</span><span class="w"> </span><span class="n">required</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">ifMatch</span><span class="p">,</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">                                </span><span class="nd">@Valid</span><span class="w"> </span><span class="nd">@RequestBody</span><span class="w"> </span><span class="n">PlaceOrderRequest</span><span class="w"> </span><span class="n">request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+Pitfall: never trust identity headers such as <code>X-Customer-Id</code> from clients — derive identity from the token (Chapter 18).</p>
+<h3 id="cookievalue"><code>@CookieValue</code> ✅<a class="headerlink" href="#cookievalue" title="Permanent link">&para;</a></h3>
+<p>Binds a cookie.</p>
+<div class="language-java highlight"><span class="filename">Admin portal (snippet)</span><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">"/admin/preferences"</span><span class="p">)</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">Preferences</span><span class="w"> </span><span class="nf">prefs</span><span class="p">(</span><span class="nd">@CookieValue</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"admin_theme"</span><span class="p">,</span><span class="w"> </span><span class="n">defaultValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"light"</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">theme</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="modelattribute"><code>@ModelAttribute</code> ✅<a class="headerlink" href="#modelattribute" title="Permanent link">&para;</a></h3>
+<p>Binds query or form parameters onto an object (and, in MVC views, adds it to the model). Handy for many filter parameters.</p>
+<div class="language-java highlight"><span class="filename">ProductSearchController.java</span><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kd">public</span><span class="w"> </span><span class="kd">record</span> <span class="nc">ProductFilter</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">brand</span><span class="p">,</span><span class="w"> </span><span class="n">BigDecimal</span><span class="w"> </span><span class="n">maxPrice</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="w"> </span><span class="n">page</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="w"> </span><span class="n">size</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">"/api/v1/products"</span><span class="p">)</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="n">PageView</span><span class="o">&lt;</span><span class="n">ProductView</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">search</span><span class="p">(</span><span class="nd">@Valid</span><span class="w"> </span><span class="nd">@ModelAttribute</span><span class="w"> </span><span class="n">ProductFilter</span><span class="w"> </span><span class="n">filter</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span><span class="w">   </span><span class="c1">// ?q=atta&amp;brand=Aashirvaad&amp;maxPrice=400</span>
+</span></code></pre></div>
+<h3 id="requestpart"><code>@RequestPart</code> ✅<a class="headerlink" href="#requestpart" title="Permanent link">&para;</a></h3>
+<p>Binds one part of a <code>multipart/form-data</code> request — a file, or a JSON part alongside it.</p>
+<p><div class="language-java highlight"><span class="filename">SellerFeedController.java</span><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nd">@PostMapping</span><span class="p">(</span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"/api/v1/sellers/{sellerId}/feeds"</span><span class="p">,</span><span class="w"> </span><span class="n">consumes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MediaType</span><span class="p">.</span><span class="na">MULTIPART_FORM_DATA_VALUE</span><span class="p">)</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="n">FeedReceipt</span><span class="w"> </span><span class="nf">upload</span><span class="p">(</span><span class="nd">@PathVariable</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">sellerId</span><span class="p">,</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">                   </span><span class="nd">@RequestPart</span><span class="p">(</span><span class="s">"file"</span><span class="p">)</span><span class="w"> </span><span class="n">MultipartFile</span><span class="w"> </span><span class="n">file</span><span class="p">,</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">                   </span><span class="nd">@RequestPart</span><span class="p">(</span><span class="s">"meta"</span><span class="p">)</span><span class="w"> </span><span class="nd">@Valid</span><span class="w"> </span><span class="n">FeedMetadata</span><span class="w"> </span><span class="n">meta</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+Pitfall: bound upload sizes with <code>spring.servlet.multipart.*</code>, and detect content types rather than trusting them (Chapter 39).</p>
+<h3 id="matrixvariable-rare"><code>@MatrixVariable</code> ✅ (rare)<a class="headerlink" href="#matrixvariable-rare" title="Permanent link">&para;</a></h3>
+<p>Binds <code>;name=value</code> pairs in path segments. Disabled by default; rarely worth enabling for public APIs.</p>
+<div class="language-java highlight"><span class="filename">Matrix variables (snippet)</span><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1">// GET /products/atta;brand=Aashirvaad;pack=5kg</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">"/products/{name}"</span><span class="p">)</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="n">ProductView</span><span class="w"> </span><span class="nf">find</span><span class="p">(</span><span class="nd">@PathVariable</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="nd">@MatrixVariable</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">brand</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="sessionattribute-requestattribute"><code>@SessionAttribute</code> / <code>@RequestAttribute</code> ✅<a class="headerlink" href="#sessionattribute-requestattribute" title="Permanent link">&para;</a></h3>
+<p>Bind an existing session attribute or request attribute (set by a filter or interceptor).</p>
+<div class="language-java highlight"><span class="filename">Request attribute from a filter (snippet)</span><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">"/api/v1/me/context"</span><span class="p">)</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="n">TenantView</span><span class="w"> </span><span class="nf">context</span><span class="p">(</span><span class="nd">@RequestAttribute</span><span class="p">(</span><span class="s">"tenantId"</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">tenantId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="authenticationprincipal-spring-security"><code>@AuthenticationPrincipal</code> ✅ (Spring Security)<a class="headerlink" href="#authenticationprincipal-spring-security" title="Permanent link">&para;</a></h3>
+<p>Injects the current principal — a <code>Jwt</code>, <code>UserDetails</code> or custom type.</p>
+<div class="language-java highlight"><span class="filename">MeController.java</span><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">"/api/v1/me"</span><span class="p">)</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="n">CustomerView</span><span class="w"> </span><span class="nf">me</span><span class="p">(</span><span class="nd">@AuthenticationPrincipal</span><span class="w"> </span><span class="n">Jwt</span><span class="w"> </span><span class="n">jwt</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">customers</span><span class="p">.</span><span class="na">find</span><span class="p">(</span><span class="n">jwt</span><span class="p">.</span><span class="na">getSubject</span><span class="p">());</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+<hr />
+<h2 id="shaping-responses">Shaping responses<a class="headerlink" href="#shaping-responses" title="Permanent link">&para;</a></h2>
+<h3 id="responsebody"><code>@ResponseBody</code> ✅<a class="headerlink" href="#responsebody" title="Permanent link">&para;</a></h3>
+<p>Serialize the return value instead of resolving a view. Implied by <code>@RestController</code>.</p>
+<h3 id="responsestatus"><code>@ResponseStatus</code> ✅<a class="headerlink" href="#responsestatus" title="Permanent link">&para;</a></h3>
+<p>Fixed status for a handler method, or the status to use when an exception type is thrown.</p>
+<p><div class="language-java highlight"><span class="filename">Status on a handler (snippet)</span><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nd">@DeleteMapping</span><span class="p">(</span><span class="s">"/{cartId}"</span><span class="p">)</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="nd">@ResponseStatus</span><span class="p">(</span><span class="n">HttpStatus</span><span class="p">.</span><span class="na">NO_CONTENT</span><span class="p">)</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="kt">void</span><span class="w"> </span><span class="nf">clear</span><span class="p">(</span><span class="nd">@PathVariable</span><span class="w"> </span><span class="n">UUID</span><span class="w"> </span><span class="n">cartId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">delegate</span><span class="p">.</span><span class="na">clear</span><span class="p">(</span><span class="n">cartId</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+⚠️ On exception classes it works, but it produces a minimal body — prefer <code>ProblemDetail</code> via <code>@RestControllerAdvice</code> (Chapter 10). Use <code>ResponseEntity</code> when you need <code>Location</code> or <code>ETag</code> headers.</p>
+<h3 id="crossorigin"><code>@CrossOrigin</code> ⚠️<a class="headerlink" href="#crossorigin" title="Permanent link">&para;</a></h3>
+<p>Per-controller CORS. Works, but with Spring Security present configure CORS centrally with <code>http.cors(...)</code> so preflight requests are handled before authentication (Chapter 17).</p>
+<div class="language-java highlight"><span class="filename">Per-controller CORS (snippet)</span><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nd">@CrossOrigin</span><span class="p">(</span><span class="n">origins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"https://admin.grocery.in"</span><span class="p">,</span><span class="w"> </span><span class="n">maxAge</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3600</span><span class="p">)</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="nd">@RestController</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="kd">class</span> <span class="nc">AdminReportController</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+<hr />
+<h2 id="error-handling">Error handling<a class="headerlink" href="#error-handling" title="Permanent link">&para;</a></h2>
+<h3 id="restcontrolleradvice-controlleradvice"><code>@RestControllerAdvice</code> / <code>@ControllerAdvice</code> ✅<a class="headerlink" href="#restcontrolleradvice-controlleradvice" title="Permanent link">&para;</a></h3>
+<p>Global exception handling, binding and model setup across controllers. <code>@RestControllerAdvice</code> adds <code>@ResponseBody</code>.</p>
+<p><div class="language-java highlight"><span class="filename">GlobalErrorHandler.java</span><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="nd">@RestControllerAdvice</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="kd">class</span> <span class="nc">GlobalErrorHandler</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">    </span><span class="nd">@ExceptionHandler</span><span class="p">(</span><span class="n">ProductNotFoundException</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="w">    </span><span class="n">ProblemDetail</span><span class="w"> </span><span class="nf">notFound</span><span class="p">(</span><span class="n">ProductNotFoundException</span><span class="w"> </span><span class="n">ex</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="w">        </span><span class="n">ProblemDetail</span><span class="w"> </span><span class="n">problem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ProblemDetail</span><span class="p">.</span><span class="na">forStatusAndDetail</span><span class="p">(</span><span class="n">HttpStatus</span><span class="p">.</span><span class="na">NOT_FOUND</span><span class="p">,</span>
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="w">                </span><span class="s">"Product %s not found"</span><span class="p">.</span><span class="na">formatted</span><span class="p">(</span><span class="n">ex</span><span class="p">.</span><span class="na">sku</span><span class="p">()));</span>
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="w">        </span><span class="n">problem</span><span class="p">.</span><span class="na">setType</span><span class="p">(</span><span class="n">URI</span><span class="p">.</span><span class="na">create</span><span class="p">(</span><span class="s">"https://errors.grocery.in/product-not-found"</span><span class="p">));</span>
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="w">        </span><span class="n">problem</span><span class="p">.</span><span class="na">setProperty</span><span class="p">(</span><span class="s">"code"</span><span class="p">,</span><span class="w"> </span><span class="s">"PRODUCT_NOT_FOUND"</span><span class="p">);</span>
+</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">problem</span><span class="p">;</span>
+</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a><span class="p">}</span>
+</span></code></pre></div>
+Pitfall: exceptions thrown in filters never reach it (Chapter 10).</p>
+<h3 id="exceptionhandler"><code>@ExceptionHandler</code> ✅<a class="headerlink" href="#exceptionhandler" title="Permanent link">&para;</a></h3>
+<p>Handles specific exception types — in a controller (local) or an advice (global).</p>
+<div class="language-java highlight"><span class="filename">Local handler (snippet)</span><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="nd">@ExceptionHandler</span><span class="p">(</span><span class="n">StaleCartVersionException</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">ProblemDetail</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">stale</span><span class="p">(</span><span class="n">StaleCartVersionException</span><span class="w"> </span><span class="n">ex</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">ResponseEntity</span><span class="p">.</span><span class="na">status</span><span class="p">(</span><span class="n">HttpStatus</span><span class="p">.</span><span class="na">PRECONDITION_FAILED</span><span class="p">).</span><span class="na">body</span><span class="p">(</span><span class="n">problem</span><span class="p">(</span><span class="s">"CART_VERSION_STALE"</span><span class="p">,</span><span class="w"> </span><span class="n">ex</span><span class="p">));</span>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="initbinder"><code>@InitBinder</code> ✅<a class="headerlink" href="#initbinder" title="Permanent link">&para;</a></h3>
+<p>Customizes data binding: allowed fields, custom editors, validators.</p>
+<div class="language-java highlight"><span class="filename">Restricting bindable fields (snippet)</span><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="nd">@InitBinder</span><span class="p">(</span><span class="s">"productFilter"</span><span class="p">)</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">initBinder</span><span class="p">(</span><span class="n">WebDataBinder</span><span class="w"> </span><span class="n">binder</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="w">    </span><span class="n">binder</span><span class="p">.</span><span class="na">setAllowedFields</span><span class="p">(</span><span class="s">"q"</span><span class="p">,</span><span class="w"> </span><span class="s">"brand"</span><span class="p">,</span><span class="w"> </span><span class="s">"maxPrice"</span><span class="p">,</span><span class="w"> </span><span class="s">"page"</span><span class="p">,</span><span class="w"> </span><span class="s">"size"</span><span class="p">);</span><span class="w">   </span><span class="c1">// blocks mass assignment</span>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="p">}</span>
+</span></code></pre></div>
+<hr />
+<h2 id="declarative-http-clients">Declarative HTTP clients<a class="headerlink" href="#declarative-http-clients" title="Permanent link">&para;</a></h2>
+<h3 id="httpexchange-and-getexchange-postexchange-putexchange-patchexchange-deleteexchange"><code>@HttpExchange</code> and <code>@GetExchange</code> · <code>@PostExchange</code> · <code>@PutExchange</code> · <code>@PatchExchange</code> · <code>@DeleteExchange</code> ✅<a class="headerlink" href="#httpexchange-and-getexchange-postexchange-putexchange-patchexchange-deleteexchange" title="Permanent link">&para;</a></h3>
+<p>Define an HTTP client as a Java interface; a proxy is backed by <code>RestClient</code> or <code>WebClient</code> (Chapter 19). Parameters use the same <code>@PathVariable</code>, <code>@RequestParam</code>, <code>@RequestHeader</code> and <code>@RequestBody</code> annotations as controllers.</p>
+<p><div class="language-java highlight"><span class="filename">PricingApi.java</span><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="nd">@HttpExchange</span><span class="p">(</span><span class="s">"/api/v1/prices"</span><span class="p">)</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">PricingApi</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="w">    </span><span class="nd">@GetExchange</span><span class="p">(</span><span class="s">"/{sku}"</span><span class="p">)</span>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="w">    </span><span class="n">PriceResponse</span><span class="w"> </span><span class="nf">price</span><span class="p">(</span><span class="nd">@PathVariable</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">sku</span><span class="p">,</span><span class="w"> </span><span class="nd">@RequestParam</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">pincode</span><span class="p">);</span>
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="w">    </span><span class="nd">@PostExchange</span><span class="p">(</span><span class="s">"/bulk"</span><span class="p">)</span>
+</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">PriceResponse</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">prices</span><span class="p">(</span><span class="nd">@RequestBody</span><span class="w"> </span><span class="n">BulkPriceRequest</span><span class="w"> </span><span class="n">request</span><span class="p">);</span>
+</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="p">}</span>
+</span></code></pre></div>
+Replaces <code>@FeignClient</code> for new code.</p>
+<h3 id="importhttpservices-boot-4-new"><code>@ImportHttpServices</code> (Boot 4) ✅ new<a class="headerlink" href="#importhttpservices-boot-4-new" title="Permanent link">&para;</a></h3>
+<p>Registers HTTP interface proxies as beans in named groups, configured with <code>spring.http.client.service.group.&lt;name&gt;.*</code>.</p>
+<p><div class="language-java highlight"><span class="filename">PricingClientConfig.java (Boot 4)</span><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="nd">@Configuration</span><span class="p">(</span><span class="n">proxyBeanMethods</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="nd">@ImportHttpServices</span><span class="p">(</span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"pricing"</span><span class="p">,</span><span class="w"> </span><span class="n">types</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PricingApi</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="kd">class</span> <span class="nc">PricingClientConfig</span><span class="w"> </span><span class="p">{}</span>
+</span></code></pre></div>
+<strong>Verify</strong> names for your version (Chapter 19).</p>
+<hr />
+<h2 id="webflux-notes">WebFlux notes<a class="headerlink" href="#webflux-notes" title="Permanent link">&para;</a></h2>
+<p>WebFlux uses the same mapping and binding annotations (<code>@RestController</code>, <code>@GetMapping</code>, <code>@PathVariable</code>, <code>@RequestParam</code>, <code>@RequestBody</code>…) with reactive return types (<code>Mono&lt;T&gt;</code>, <code>Flux&lt;T&gt;</code>). The functional alternative (<code>RouterFunction</code>) uses no annotations at all (Chapter 31).</p>
+<div class="language-java highlight"><span class="filename">TrackingController.java</span><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="nd">@GetMapping</span><span class="p">(</span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"/api/v1/deliveries/{orderRef}/stream"</span><span class="p">,</span><span class="w"> </span><span class="n">produces</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MediaType</span><span class="p">.</span><span class="na">TEXT_EVENT_STREAM_VALUE</span><span class="p">)</span>
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="n">Flux</span><span class="o">&lt;</span><span class="n">DeliveryView</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">stream</span><span class="p">(</span><span class="nd">@PathVariable</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">orderRef</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">tracking</span><span class="p">.</span><span class="na">positions</span><span class="p">(</span><span class="n">orderRef</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+<hr />
+<p><a href="../core-container/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg></span> Core Container</a> · <a href="../validation-json/">Validation &amp; JSON <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg></span></a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../boot/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Spring Boot">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Spring Boot
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../validation-json/" class="md-footer__link md-footer__link--next" aria-label="Next: Validation &amp; JSON">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Validation & JSON
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Personal knowledge base — Spring Boot 3 & 4 Enterprise Handbook
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "navigation.footer", "navigation.tracking", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.tooltips"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

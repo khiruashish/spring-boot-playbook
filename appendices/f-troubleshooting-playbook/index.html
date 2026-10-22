@@ -1,0 +1,4609 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Beginner to 15+ years — Spring Boot 3.5 and 4.x, grounded in a multi-vendor grocery marketplace">
+      
+      
+        <meta name="author" content="Ashish">
+      
+      
+        <link rel="canonical" href="https://khiruashish.github.io/spring-boot-playbook/appendices/f-troubleshooting-playbook/">
+      
+      
+        <link rel="prev" href="../e-boot-3-vs-4-matrix/">
+      
+      
+        <link rel="next" href="../g-glossary/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>F Troubleshooting Playbook - Spring Boot 3 & 4 Enterprise Handbook</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#appendix-f-troubleshooting-playbook" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Spring Boot 3 &amp; 4 Enterprise Handbook" class="md-header__button md-logo" aria-label="Spring Boot 3 & 4 Enterprise Handbook" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Spring Boot 3 & 4 Enterprise Handbook
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              F Troubleshooting Playbook
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="deep-orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="deep-orange"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/khiruashish/spring-boot-playbook" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    spring-boot-playbook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+    
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../part-1-foundations/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Part 1 · Foundations
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../part-2-production/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Part 2 · Production
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../part-3-enterprise/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Part 3 · Enterprise
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../annotations/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Annotations
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Appendices
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Spring Boot 3 &amp; 4 Enterprise Handbook" class="md-nav__button md-logo" aria-label="Spring Boot 3 & 4 Enterprise Handbook" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Spring Boot 3 & 4 Enterprise Handbook
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/khiruashish/spring-boot-playbook" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    spring-boot-playbook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../.." class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Home
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reading-paths/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reading Paths
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-0-orientation/00-handbook-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Handbook Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../part-1-foundations/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 1 · Foundations
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Part 1 · Foundations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/01-java-and-build-prerequisites/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 Java & Build Prerequisites
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/02-ioc-and-dependency-injection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 IoC & Dependency Injection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/03-bean-lifecycle-events-extension-points/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 Bean Lifecycle, Events & Extension Points
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/04-aop/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04 AOP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/05-spring-boot-fundamentals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05 Spring Boot Fundamentals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/06-externalized-configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06 Externalized Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/07-logging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07 Logging
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/08-rest-apis-spring-mvc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08 REST APIs with Spring MVC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/09-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09 Validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/10-error-handling-problem-details/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10 Error Handling & Problem Details
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/11-json-serialization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11 JSON & Serialization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/12-data-access-jdbc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12 Data Access — JDBC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/13-spring-data-jpa-hibernate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13 Spring Data JPA & Hibernate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/14-database-migrations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14 Database Migrations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-1-foundations/15-testing-fundamentals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15 Testing Fundamentals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../part-2-production/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 2 · Production
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Part 2 · Production
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/16-transactions-deep-dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    16 Transactions Deep Dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/17-spring-security-fundamentals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    17 Spring Security Fundamentals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/18-security-tokens-oauth2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    18 Tokens, OAuth2 & Modern Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/19-http-clients/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    19 HTTP Clients
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/20-api-design-versioning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    20 API Design & Versioning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/21-caching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    21 Caching
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/22-nosql-search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    22 NoSQL & Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/23-messaging-kafka/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    23 Messaging with Kafka
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/24-other-messaging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    24 RabbitMQ, Pulsar, JMS, Cloud Stream
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/25-async-scheduling-virtual-threads/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    25 Async, Scheduling & Virtual Threads
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/26-resilience/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    26 Resilience
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/27-observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    27 Observability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/28-integration-contract-testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    28 Integration & Contract Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/29-packaging-deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    29 Packaging & Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/30-kubernetes-cloud-native/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    30 Kubernetes & Cloud-Native
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/31-reactive-spring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    31 Reactive Spring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/32-graphql-grpc-websocket-sse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    32 GraphQL, gRPC, WebSocket, SSE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/33-batch-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    33 Batch & Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-2-production/34-performance-engineering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    34 Performance Engineering
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../part-3-enterprise/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part 3 · Enterprise
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Part 3 · Enterprise
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-3-enterprise/35-microservices-spring-cloud/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    35 Microservices with Spring Cloud
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-3-enterprise/36-distributed-data-consistency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    36 Distributed Data & Consistency
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-3-enterprise/37-architecture-styles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    37 DDD, Hexagonal, Modular Monolith
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-3-enterprise/38-multi-tenancy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    38 Multi-Tenancy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-3-enterprise/39-enterprise-security-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    39 Enterprise Security Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-3-enterprise/40-spring-ai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    40 Spring AI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-3-enterprise/41-internals-custom-starters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    41 Internals & Custom Starters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-3-enterprise/42-migration-upgrade/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    42 Migration & Upgrade Engineering
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-3-enterprise/43-engineering-leadership/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    43 Engineering Leadership
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../part-3-enterprise/44-capstone-grocery-marketplace/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    44 Capstone — Grocery Marketplace
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../annotations/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Annotations
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Annotations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/core-container/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Container
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/boot/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Spring Boot
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web Layer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/validation-json/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation & JSON
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data & Transactions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/async-messaging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Async, Messaging & Resilience
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/testing-observability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing & Observability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../annotations/deprecated/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Outdated → Replacement
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Appendices
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Appendices
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../a-interview-bank/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A Interview Bank
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_2" id="__nav_6_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    A Interview Bank
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../a-interview-bank/b1-0-2-years/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B1 · 0–2 years
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../a-interview-bank/b2-2-5-years/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B2 · 2–5 years
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../a-interview-bank/b3-5-8-years/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B3 · 5–8 years
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../a-interview-bank/b4-8-12-years/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B4 · 8–12 years
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../a-interview-bank/b5-12-15-years/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B5 · 12–15+ years
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../a-interview-bank/system-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../a-interview-bank/rapid-fire/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rapid Fire
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../b-coding-exercises/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B Coding Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../c-annotation-cheat-sheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C Annotation Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../d-properties-cheat-sheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D Properties Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../e-boot-3-vs-4-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    E Boot 3.5 vs 4.x Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    F Troubleshooting Playbook
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    F Troubleshooting Playbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#f0-first-two-minutes-of-any-incident" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.0 First two minutes of any incident
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f1-startup-failures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.1 Startup failures
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f2-http-and-api-behaviour" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.2 HTTP and API behaviour
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f3-database-and-transactions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.3 Database and transactions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f4-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.4 Security
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f5-http-clients-and-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.5 HTTP clients and dependencies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f6-caching-and-nosql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.6 Caching and NoSQL
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f7-messaging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.7 Messaging
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f8-async-scheduling-virtual-threads" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.8 Async, scheduling, virtual threads
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f9-kubernetes-and-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.9 Kubernetes and deployment
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f10-performance-and-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.10 Performance and memory
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f11-distributed-consistency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.11 Distributed consistency
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f12-batch-and-scheduled-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.12 Batch and scheduled processing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f13-ai-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.13 AI features
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f14-upgrades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.14 Upgrades
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../g-glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    G Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../h-resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    H Resources
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#f0-first-two-minutes-of-any-incident" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.0 First two minutes of any incident
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f1-startup-failures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.1 Startup failures
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f2-http-and-api-behaviour" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.2 HTTP and API behaviour
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f3-database-and-transactions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.3 Database and transactions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f4-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.4 Security
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f5-http-clients-and-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.5 HTTP clients and dependencies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f6-caching-and-nosql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.6 Caching and NoSQL
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f7-messaging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.7 Messaging
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f8-async-scheduling-virtual-threads" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.8 Async, scheduling, virtual threads
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f9-kubernetes-and-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.9 Kubernetes and deployment
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f10-performance-and-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.10 Performance and memory
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f11-distributed-consistency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.11 Distributed consistency
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f12-batch-and-scheduled-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.12 Batch and scheduled processing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f13-ai-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.13 AI features
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f14-upgrades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.14 Upgrades
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="appendix-f-troubleshooting-playbook">Appendix F · Troubleshooting Playbook<a class="headerlink" href="#appendix-f-troubleshooting-playbook" title="Permanent link">&para;</a></h1>
+<p>Symptom → likely cause → first check → fix, consolidated from every chapter's troubleshooting table. Organized by <strong>what you observe</strong>, because that's how incidents start.</p>
+<h2 id="f0-first-two-minutes-of-any-incident">F.0 First two minutes of any incident<a class="headerlink" href="#f0-first-two-minutes-of-any-incident" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>flowchart TD
+    A[Something is wrong] --&gt; B{Did anything change?&lt;br/&gt;deploy annotations, config, flags}
+    B -- yes --&gt; C[Roll back by digest / revert config&lt;br/&gt;Ch 29, 30]
+    B -- no --&gt; D[SLO dashboard: which journey, since when?]
+    D --&gt; E[Dependency panel: which client call is slow or failing?]
+    E -- a dependency --&gt; F[Breaker state, degradation counters,&lt;br/&gt;their dashboards — Ch 26]
+    E -- none --&gt; G[Saturation: pool pending, GC, CPU throttling,&lt;br/&gt;executor queues, consumer lag]
+    G --&gt; H[Trace a slow request → logs by traceId — Ch 27]
+    H --&gt; I[Profile one pod: wall-clock 60 s — Ch 34]</code></pre>
+<p><strong>Restore first, understand second.</strong> Most regressions are changes; rollback is faster than diagnosis (Chapter 43).</p>
+<h2 id="f1-startup-failures">F.1 Startup failures<a class="headerlink" href="#f1-startup-failures" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Likely cause</th>
+<th>First check</th>
+<th>Fix</th>
+<th>Ch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NoSuchBeanDefinitionException</code></td>
+<td>Missing dependency, condition not met, wrong package scan</td>
+<td><code>--debug</code> / <code>/actuator/conditions</code></td>
+<td>Add dependency, fix condition or package</td>
+<td>05, 41</td>
+</tr>
+<tr>
+<td><code>NoUniqueBeanDefinitionException</code></td>
+<td>Two candidates</td>
+<td>Stack trace names both</td>
+<td><code>@Primary</code> or <code>@Qualifier</code></td>
+<td>02</td>
+</tr>
+<tr>
+<td><code>BeanCurrentlyInCreationException</code></td>
+<td>Circular dependency</td>
+<td>Dependency cycle in message</td>
+<td>Break the cycle; don't use <code>@Lazy</code> as a fix</td>
+<td>02</td>
+</tr>
+<tr>
+<td>Property binding failure</td>
+<td>Wrong type, missing required value</td>
+<td>Failure analyzer output</td>
+<td>Fix config; add <code>@Validated</code> defaults</td>
+<td>06</td>
+</tr>
+<tr>
+<td><code>Flyway validation failed</code></td>
+<td>Edited applied migration, checksum mismatch</td>
+<td><code>flyway_schema_history</code></td>
+<td>Never edit applied migrations; add a new one</td>
+<td>14</td>
+</tr>
+<tr>
+<td><code>Schema-validation: missing column</code></td>
+<td>Entity ahead of migrations</td>
+<td>Migration order</td>
+<td>Expand/contract; migrate first</td>
+<td>14</td>
+</tr>
+<tr>
+<td>Starter "does nothing"</td>
+<td>Missing <code>AutoConfiguration.imports</code></td>
+<td>Jar contents</td>
+<td>Add the file; test it</td>
+<td>41</td>
+</tr>
+<tr>
+<td>CrashLoopBackOff</td>
+<td>Liveness fires during slow startup</td>
+<td>Pod events</td>
+<td><code>startupProbe</code></td>
+<td>30</td>
+</tr>
+<tr>
+<td>Startup slow</td>
+<td>Heavy beans, eager work, runners</td>
+<td><code>/actuator/startup</code></td>
+<td>Lazy/async warm-up; CDS/AOT</td>
+<td>03, 29</td>
+</tr>
+<tr>
+<td>Native binary fails at runtime</td>
+<td>Missing reflection/resource hints</td>
+<td>Error names the class/resource</td>
+<td><code>RuntimeHints</code>, <code>nativeTest</code></td>
+<td>29</td>
+</tr>
+</tbody>
+</table>
+<h2 id="f2-http-and-api-behaviour">F.2 HTTP and API behaviour<a class="headerlink" href="#f2-http-and-api-behaviour" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Likely cause</th>
+<th>First check</th>
+<th>Fix</th>
+<th>Ch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>404 for paths that worked before upgrade</td>
+<td>Trailing-slash matching disabled (Boot 3)</td>
+<td>Request path</td>
+<td>Fix clients; temporary gateway rewrite</td>
+<td>42</td>
+</tr>
+<tr>
+<td>415 / 406</td>
+<td>Content-Type / Accept mismatch</td>
+<td>Request headers</td>
+<td>Correct headers; <code>produces</code>/<code>consumes</code></td>
+<td>08</td>
+</tr>
+<tr>
+<td>400 without field details</td>
+<td>Missing <code>@Valid</code> or advice</td>
+<td>Handler code</td>
+<td><code>@Valid</code> + central advice</td>
+<td>09, 10</td>
+</tr>
+<tr>
+<td>Error bodies differ between endpoints</td>
+<td>No central handler; filter exceptions</td>
+<td>Compare responses</td>
+<td><code>@RestControllerAdvice</code>; filter delegation</td>
+<td>10</td>
+</tr>
+<tr>
+<td>Stack traces in responses</td>
+<td><code>server.error.include-stacktrace</code></td>
+<td>Config</td>
+<td><code>never</code></td>
+<td>10, 39</td>
+</tr>
+<tr>
+<td>Mobile app crashes after deploy</td>
+<td>Removed/renamed field; new enum value</td>
+<td>Golden-file diff</td>
+<td>Revert; additive changes only</td>
+<td>11, 20</td>
+</tr>
+<tr>
+<td>Dates/money format changed</td>
+<td>Jackson defaults (esp. Jackson 3)</td>
+<td>Golden files</td>
+<td>Explicit mapper config</td>
+<td>11, 42</td>
+</tr>
+<tr>
+<td>Duplicate orders on retry</td>
+<td>No idempotency key</td>
+<td>Order table</td>
+<td><code>@Idempotent</code></td>
+<td>04</td>
+</tr>
+<tr>
+<td>Lost updates</td>
+<td>No optimistic concurrency</td>
+<td>Concurrent test</td>
+<td>ETag + <code>If-Match</code> + <code>@Version</code></td>
+<td>08, 16</td>
+</tr>
+<tr>
+<td>428 / 412 spikes</td>
+<td>Clients not sending <code>If-Match</code> / stale</td>
+<td>Client versions</td>
+<td>Client fix; retry on 412 with re-read</td>
+<td>08</td>
+</tr>
+</tbody>
+</table>
+<h2 id="f3-database-and-transactions">F.3 Database and transactions<a class="headerlink" href="#f3-database-and-transactions" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Likely cause</th>
+<th>First check</th>
+<th>Fix</th>
+<th>Ch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>p99 high, p50 fine</td>
+<td>Pool waits, GC, a slow query</td>
+<td><code>hikaricp.connections.pending</code></td>
+<td>Fix query/transaction scope; size pool</td>
+<td>12, 34</td>
+</tr>
+<tr>
+<td><code>Connection is not available, request timed out</code></td>
+<td>Pool exhaustion</td>
+<td>Pending + active + long transactions</td>
+<td>Shorten transactions; remove remote calls; size</td>
+<td>12, 16</td>
+</tr>
+<tr>
+<td>Many queries per request</td>
+<td>N+1</td>
+<td>Query count / SQL log</td>
+<td><code>@EntityGraph</code>, projections, test</td>
+<td>13</td>
+</tr>
+<tr>
+<td><code>LazyInitializationException</code></td>
+<td>Accessing lazy data outside transaction</td>
+<td>Stack trace</td>
+<td>Fetch what you need; DTOs; no open-in-view</td>
+<td>13</td>
+</tr>
+<tr>
+<td><code>UnexpectedRollbackException</code></td>
+<td>Inner <code>REQUIRED</code> method failed, outer caught</td>
+<td>Call chain</td>
+<td><code>REQUIRES_NEW</code> or let it propagate</td>
+<td>16</td>
+</tr>
+<tr>
+<td>Changes not rolled back</td>
+<td>Checked exception, self-invocation, private method</td>
+<td>Annotation placement</td>
+<td><code>rollbackFor</code>; restructure</td>
+<td>04, 16</td>
+</tr>
+<tr>
+<td>Deadlocks</td>
+<td>Inconsistent lock order, god aggregate</td>
+<td>DB deadlock logs</td>
+<td>Consistent ordering; smaller aggregates</td>
+<td>16, 37</td>
+</tr>
+<tr>
+<td><code>OptimisticLockException</code> spikes</td>
+<td>Hot row contention</td>
+<td>Which entity</td>
+<td>Reduce contention; retry with re-read</td>
+<td>16</td>
+</tr>
+<tr>
+<td>Migration locks table for minutes</td>
+<td>Non-concurrent DDL on a large table</td>
+<td><code>pg_locks</code></td>
+<td><code>CONCURRENTLY</code>, expand/contract, rehearsal</td>
+<td>14, 28</td>
+</tr>
+<tr>
+<td>DB CPU pegged</td>
+<td>Missing index, seq scans</td>
+<td><code>pg_stat_statements</code></td>
+<td>Index; verify with <code>EXPLAIN (ANALYZE, BUFFERS)</code></td>
+<td>12, 34</td>
+</tr>
+<tr>
+<td>Connection errors after scale-out</td>
+<td><code>pods × pool &gt; max_connections</code></td>
+<td>Replica count</td>
+<td>Cap <code>maxReplicas</code>; PgBouncer</td>
+<td>12, 30</td>
+</tr>
+<tr>
+<td>DB disk filling</td>
+<td>Stalled CDC replication slot</td>
+<td><code>pg_replication_slots</code> lag</td>
+<td>Restart connector; <code>max_slot_wal_keep_size</code></td>
+<td>36</td>
+</tr>
+</tbody>
+</table>
+<h2 id="f4-security">F.4 Security<a class="headerlink" href="#f4-security" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Likely cause</th>
+<th>First check</th>
+<th>Fix</th>
+<th>Ch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Everything 401 after adding Security</td>
+<td>Default chain</td>
+<td>Filter chain beans</td>
+<td>Define <code>SecurityFilterChain</code></td>
+<td>17</td>
+</tr>
+<tr>
+<td>403 on every POST from SPA</td>
+<td>CSRF without token</td>
+<td>CSRF config</td>
+<td>Correct CSRF setup or stateless tokens</td>
+<td>17</td>
+</tr>
+<tr>
+<td>CORS preflight fails</td>
+<td>CORS not configured through Security</td>
+<td><code>OPTIONS</code> response</td>
+<td><code>http.cors(...)</code></td>
+<td>17</td>
+</tr>
+<tr>
+<td><code>invalid_token</code> in production only</td>
+<td>Issuer/audience/clock/JWKS mismatch</td>
+<td>Decoded token vs config</td>
+<td>Align <code>iss</code>/<code>aud</code>; NTP; JWKS URL</td>
+<td>18</td>
+</tr>
+<tr>
+<td>Random 401s after key rotation</td>
+<td>Old <code>kid</code> removed too early</td>
+<td>JWKS contents</td>
+<td>Keep old keys for max token lifetime</td>
+<td>18</td>
+</tr>
+<tr>
+<td>Webhooks always rejected</td>
+<td>Trailing newline in secret, re-serialized body</td>
+<td>Raw bytes vs signature</td>
+<td>Trim secret; verify raw bytes</td>
+<td>18</td>
+</tr>
+<tr>
+<td>User sees another user's data</td>
+<td>Missing ownership check or cache key dimension</td>
+<td>Access-matrix test</td>
+<td>Owner-scoped queries; key fix</td>
+<td>17, 21</td>
+</tr>
+<tr>
+<td>Tenant sees another tenant's data</td>
+<td>Native query, unforced RLS, context leak</td>
+<td>Leak suite</td>
+<td><code>FORCE ROW LEVEL SECURITY</code>; propagation</td>
+<td>38</td>
+</tr>
+<tr>
+<td>Access matrix changed after upgrade</td>
+<td>Security 7 matcher semantics</td>
+<td>Matrix test</td>
+<td>Review every rule</td>
+<td>17, 42</td>
+</tr>
+</tbody>
+</table>
+<h2 id="f5-http-clients-and-dependencies">F.5 HTTP clients and dependencies<a class="headerlink" href="#f5-http-clients-and-dependencies" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Likely cause</th>
+<th>First check</th>
+<th>Fix</th>
+<th>Ch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Service down when a dependency is slow</td>
+<td>No timeouts</td>
+<td>Client config</td>
+<td>Connect/read/lease timeouts</td>
+<td>19</td>
+</tr>
+<tr>
+<td><code>Read timed out</code></td>
+<td>Dependency slow</td>
+<td>Their p99</td>
+<td>Budget, breaker, degradation</td>
+<td>19, 26</td>
+</tr>
+<tr>
+<td><code>Connection reset</code> after idle</td>
+<td>Stale pooled connections</td>
+<td>Idle time vs LB timeout</td>
+<td>Validate-after-inactivity, TTL</td>
+<td>19</td>
+</tr>
+<tr>
+<td>Latency spike, no errors</td>
+<td>HTTP pool exhaustion</td>
+<td>Lease wait time</td>
+<td>Raise per-route limit deliberately; bulkhead</td>
+<td>19</td>
+</tr>
+<tr>
+<td>Retries multiply load</td>
+<td>Retries at several layers</td>
+<td>Gateway, mesh, client configs</td>
+<td>One retry layer; budget</td>
+<td>26</td>
+</tr>
+<tr>
+<td>Breaker never opens</td>
+<td>Wrong recorded exceptions, high minimum calls</td>
+<td>Breaker metrics</td>
+<td>Tune; time-based window</td>
+<td>26</td>
+</tr>
+<tr>
+<td>Breaker opens on legitimate traffic</td>
+<td>Business exceptions counted</td>
+<td><code>ignoreExceptions</code></td>
+<td>Ignore domain exceptions</td>
+<td>26</td>
+</tr>
+<tr>
+<td>Traces stop at a client</td>
+<td>Client not built from Boot's builder</td>
+<td>Client construction</td>
+<td>Inject the builder</td>
+<td>19, 27</td>
+</tr>
+</tbody>
+</table>
+<h2 id="f6-caching-and-nosql">F.6 Caching and NoSQL<a class="headerlink" href="#f6-caching-and-nosql" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Likely cause</th>
+<th>First check</th>
+<th>Fix</th>
+<th>Ch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cache has no effect</td>
+<td>No <code>@EnableCaching</code>; self-invocation</td>
+<td>Hit/miss metrics</td>
+<td>Enable; restructure</td>
+<td>21</td>
+</tr>
+<tr>
+<td>Hit rate near zero</td>
+<td>Key includes a unique value</td>
+<td>Key expression</td>
+<td>Fix key</td>
+<td>21</td>
+</tr>
+<tr>
+<td>Stale data after update</td>
+<td>Evict before commit; local caches; missed events</td>
+<td>Eviction timing</td>
+<td>After-commit eviction; Redis; shorter TTL</td>
+<td>21</td>
+</tr>
+<tr>
+<td>DB spike every N minutes</td>
+<td>Synchronized TTL expiry</td>
+<td>TTL config</td>
+<td>Jitter; refresh-ahead</td>
+<td>21</td>
+</tr>
+<tr>
+<td>DB spike after every deploy</td>
+<td>Cold cache</td>
+<td>Hit rate after rollout</td>
+<td>Warm-up; namespace strategy</td>
+<td>21, 29</td>
+</tr>
+<tr>
+<td>Requests fail when Redis is slow</td>
+<td>No <code>CacheErrorHandler</code></td>
+<td>Stack traces</td>
+<td>Fail open; meter</td>
+<td>21</td>
+</tr>
+<tr>
+<td><code>SerializationException</code> during rollout</td>
+<td>Cross-version cache values</td>
+<td>Key prefix</td>
+<td>Versioned prefix per major</td>
+<td>21, 42</td>
+</tr>
+<tr>
+<td>Redis memory full</td>
+<td>Missing TTLs, big keys</td>
+<td><code>--bigkeys</code></td>
+<td>TTLs; <code>maxmemory-policy</code></td>
+<td>22</td>
+</tr>
+<tr>
+<td>Search returns nothing for a valid term</td>
+<td>Analyzer mismatch, <code>keyword</code> vs <code>text</code></td>
+<td><code>_analyze</code> API</td>
+<td>Fix mapping; reindex; alias rollback</td>
+<td>22</td>
+</tr>
+<tr>
+<td>Search misses new products</td>
+<td>Indexer lag or stuck consumer</td>
+<td>Index lag metric</td>
+<td>Consumer health; DLT replay</td>
+<td>22</td>
+</tr>
+</tbody>
+</table>
+<h2 id="f7-messaging">F.7 Messaging<a class="headerlink" href="#f7-messaging" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Likely cause</th>
+<th>First check</th>
+<th>Fix</th>
+<th>Ch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Consumer lag grows</td>
+<td>Too few partitions/consumers; slow handler</td>
+<td>Lag per partition</td>
+<td>Scale partitions + consumers; batch; profile</td>
+<td>23</td>
+</tr>
+<tr>
+<td>Partition stuck</td>
+<td>Poison pill retried forever</td>
+<td>Error logs, offsets</td>
+<td><code>ErrorHandlingDeserializer</code>, DLT</td>
+<td>23</td>
+</tr>
+<tr>
+<td>Duplicate side effects</td>
+<td>Redelivery without idempotency</td>
+<td>Inbox table</td>
+<td>Inbox / conditional updates</td>
+<td>23</td>
+</tr>
+<tr>
+<td>Frequent rebalances</td>
+<td>Processing exceeds <code>max.poll.interval.ms</code></td>
+<td>Rebalance metrics</td>
+<td>Smaller batches; cooperative sticky; static membership</td>
+<td>23</td>
+</tr>
+<tr>
+<td>Events out of order</td>
+<td>Wrong key; retry topics</td>
+<td>Keys</td>
+<td>Key by aggregate id; blocking retries for ordered flows</td>
+<td>23</td>
+</tr>
+<tr>
+<td>Events never arrive</td>
+<td>Dual write lost them; relay stopped</td>
+<td>Outbox pending</td>
+<td>Outbox; relay alerting</td>
+<td>36</td>
+</tr>
+<tr>
+<td>RabbitMQ messages vanish</td>
+<td>Unroutable, no <code>mandatory</code></td>
+<td>Returns callback</td>
+<td><code>mandatory</code> + alert</td>
+<td>24</td>
+</tr>
+<tr>
+<td>RabbitMQ consumer at 100% CPU</td>
+<td>Poison requeue loop</td>
+<td>Redelivery rate</td>
+<td><code>default-requeue-rejected: false</code>, DLX</td>
+<td>24</td>
+</tr>
+<tr>
+<td>WebSocket messages lost across pods</td>
+<td>Simple broker</td>
+<td>Broker config</td>
+<td>STOMP broker relay</td>
+<td>32</td>
+</tr>
+</tbody>
+</table>
+<h2 id="f8-async-scheduling-virtual-threads">F.8 Async, scheduling, virtual threads<a class="headerlink" href="#f8-async-scheduling-virtual-threads" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Likely cause</th>
+<th>First check</th>
+<th>Fix</th>
+<th>Ch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Memory grows; tasks delayed</td>
+<td>Unbounded executor queue</td>
+<td><code>executor.queued</code></td>
+<td>Bound; <code>CallerRunsPolicy</code></td>
+<td>25</td>
+</tr>
+<tr>
+<td><code>@Async</code> runs synchronously</td>
+<td>Self-invocation; no <code>@EnableAsync</code></td>
+<td>Call site</td>
+<td>Restructure</td>
+<td>25</td>
+</tr>
+<tr>
+<td>Async exceptions vanish</td>
+<td><code>void</code> method without handler</td>
+<td>Logs</td>
+<td><code>AsyncUncaughtExceptionHandler</code></td>
+<td>25</td>
+</tr>
+<tr>
+<td>Job runs N times</td>
+<td>No cluster lock</td>
+<td>Logs from multiple pods</td>
+<td>ShedLock / CronJob</td>
+<td>25</td>
+</tr>
+<tr>
+<td>Job fires at the wrong hour</td>
+<td>No <code>zone</code></td>
+<td>Cron config</td>
+<td><code>zone = "Asia/Kolkata"</code></td>
+<td>25</td>
+</tr>
+<tr>
+<td>Scheduled jobs delayed</td>
+<td>Scheduler pool of 1</td>
+<td>Pool size</td>
+<td>Size the pool</td>
+<td>25</td>
+</tr>
+<tr>
+<td>High latency, low CPU with virtual threads</td>
+<td>Downstream saturation</td>
+<td>Pool pending, HTTP lease waits</td>
+<td>Bulkheads; sizing</td>
+<td>25, 26</td>
+</tr>
+<tr>
+<td>Carrier threads blocked</td>
+<td>Pinning (JDK &lt; 24 <code>synchronized</code>, native)</td>
+<td>JFR pinning events</td>
+<td><code>ReentrantLock</code>; upgrade JDK</td>
+<td>25</td>
+</tr>
+<tr>
+<td><code>anonymousUser</code> in audit from async code</td>
+<td>Security context not propagated</td>
+<td>Executor config</td>
+<td><code>DelegatingSecurityContextExecutor</code></td>
+<td>17, 25</td>
+</tr>
+<tr>
+<td>Missing <code>traceId</code> in async logs</td>
+<td>Context not propagated</td>
+<td>Task decorator</td>
+<td><code>ContextPropagatingTaskDecorator</code></td>
+<td>07, 25</td>
+</tr>
+</tbody>
+</table>
+<h2 id="f9-kubernetes-and-deployment">F.9 Kubernetes and deployment<a class="headerlink" href="#f9-kubernetes-and-deployment" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Likely cause</th>
+<th>First check</th>
+<th>Fix</th>
+<th>Ch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>502s during every deploy</td>
+<td>No preStop; short grace; <code>maxUnavailable &gt; 0</code></td>
+<td>Rollout strategy</td>
+<td>preStop sleep; grace &gt; drain; <code>maxUnavailable: 0</code></td>
+<td>30</td>
+</tr>
+<tr>
+<td>All pods restart during a DB blip</td>
+<td>Dependencies in liveness</td>
+<td>Health groups</td>
+<td>Liveness internal only</td>
+<td>30</td>
+</tr>
+<tr>
+<td>All pods unready during a DB blip</td>
+<td>Dependencies in readiness</td>
+<td>Readiness group</td>
+<td>Minimal readiness; degrade</td>
+<td>26, 30</td>
+</tr>
+<tr>
+<td>OOMKilled with small heap</td>
+<td>Non-heap growth</td>
+<td>RSS vs heap; NMT</td>
+<td>Lower <code>MaxRAMPercentage</code>; cap threads</td>
+<td>29</td>
+</tr>
+<tr>
+<td>p99 spikes, CPU looks fine</td>
+<td>CFS throttling</td>
+<td>Throttling metric</td>
+<td>Remove/raise CPU limits</td>
+<td>30</td>
+</tr>
+<tr>
+<td>Config change ignored</td>
+<td>No rollout on ConfigMap change</td>
+<td>Pod start time</td>
+<td>Config hash annotation</td>
+<td>06, 30</td>
+</tr>
+<tr>
+<td>Everything broke after NetworkPolicy</td>
+<td>DNS egress blocked</td>
+<td>Policy rules</td>
+<td>Allow <code>kube-dns</code></td>
+<td>30</td>
+</tr>
+<tr>
+<td>Consumer lag despite scale-out</td>
+<td>More pods than partitions</td>
+<td>Partition count</td>
+<td>Scale partitions</td>
+<td>23, 30</td>
+</tr>
+<tr>
+<td>Rollback deploys the wrong build</td>
+<td>Mutable tags</td>
+<td>Image reference</td>
+<td>Deploy by digest</td>
+<td>29</td>
+</tr>
+<tr>
+<td>Pushes and pulls are huge</td>
+<td>Unlayered image</td>
+<td>Image layers</td>
+<td>Extract layers</td>
+<td>29</td>
+</tr>
+</tbody>
+</table>
+<h2 id="f10-performance-and-memory">F.10 Performance and memory<a class="headerlink" href="#f10-performance-and-memory" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Likely cause</th>
+<th>First check</th>
+<th>Fix</th>
+<th>Ch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Throughput plateaus below target</td>
+<td>A bounded resource</td>
+<td>Little's law against pools</td>
+<td>Find and raise/relieve the bound</td>
+<td>34</td>
+</tr>
+<tr>
+<td>Latency grows over hours</td>
+<td>Leak or unbounded growth</td>
+<td>Heap after full GC</td>
+<td>Heap dump; cap caches</td>
+<td>34</td>
+</tr>
+<tr>
+<td>CPU low, latency high</td>
+<td>Waiting on I/O, locks, dependencies</td>
+<td>Wall-clock profile</td>
+<td>Fix the wide frame</td>
+<td>34</td>
+</tr>
+<tr>
+<td>Frequent young GCs</td>
+<td>High allocation rate</td>
+<td>Allocation profile</td>
+<td>Reduce garbage (logging, boxing)</td>
+<td>34</td>
+</tr>
+<tr>
+<td>Slow only after deploy</td>
+<td>Cold caches, JIT warm-up</td>
+<td>Hit rate; first minutes</td>
+<td>Warm-up; CDS/AOT</td>
+<td>21, 29</td>
+</tr>
+<tr>
+<td>Fast in staging, slow in production</td>
+<td>Data volume differences</td>
+<td>Row counts</td>
+<td>Production-sized test data</td>
+<td>28, 34</td>
+</tr>
+<tr>
+<td>Load test looks great, production doesn't</td>
+<td>Coordinated omission</td>
+<td>Test executor</td>
+<td>Open model</td>
+<td>34</td>
+</tr>
+</tbody>
+</table>
+<h2 id="f11-distributed-consistency">F.11 Distributed consistency<a class="headerlink" href="#f11-distributed-consistency" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Likely cause</th>
+<th>First check</th>
+<th>Fix</th>
+<th>Ch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stock reserved for cancelled orders</td>
+<td>Missing/failed compensation</td>
+<td>Saga state</td>
+<td>Compensation retries; reconciliation</td>
+<td>36</td>
+</tr>
+<tr>
+<td>Sagas accumulate in one state</td>
+<td>Missing event; no timeout</td>
+<td>Per-state age</td>
+<td>Timeout sweeper; consumer health</td>
+<td>36</td>
+</tr>
+<tr>
+<td>Double compensation / double refund</td>
+<td>Non-idempotent compensation</td>
+<td>Commands emitted</td>
+<td>Guarded transitions; idempotent commands</td>
+<td>36</td>
+</tr>
+<tr>
+<td>Customers charged for cancelled orders</td>
+<td>Late event applied after compensation</td>
+<td>Event timing</td>
+<td>Guard terminal states; auto-void</td>
+<td>36</td>
+</tr>
+<tr>
+<td>"I don't see my order"</td>
+<td>Reading a projection after a write</td>
+<td>Read path</td>
+<td>Return write result; version tokens</td>
+<td>36</td>
+</tr>
+<tr>
+<td>Finance finds drift</td>
+<td>No reconciliation</td>
+<td>—</td>
+<td>Two-directional hourly jobs</td>
+<td>36</td>
+</tr>
+<tr>
+<td>Module events lost on crash</td>
+<td>No publication registry</td>
+<td><code>event_publication</code> table</td>
+<td>Enable registry; monitor</td>
+<td>37</td>
+</tr>
+</tbody>
+</table>
+<h2 id="f12-batch-and-scheduled-processing">F.12 Batch and scheduled processing<a class="headerlink" href="#f12-batch-and-scheduled-processing" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Likely cause</th>
+<th>First check</th>
+<th>Fix</th>
+<th>Ch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Restart reprocesses everything</td>
+<td>Identifying parameters changed</td>
+<td>Job parameters</td>
+<td>Keep them stable</td>
+<td>33</td>
+</tr>
+<tr>
+<td>Duplicates after restart</td>
+<td>Non-idempotent writes</td>
+<td>Row counts</td>
+<td>Natural keys, upserts</td>
+<td>33</td>
+</tr>
+<tr>
+<td>Rows missing with paging reader</td>
+<td>No unique sort key</td>
+<td>Reader config</td>
+<td>Unique sort key</td>
+<td>33</td>
+</tr>
+<tr>
+<td>Job didn't run</td>
+<td>CronJob misconfiguration, timezone</td>
+<td>Job history</td>
+<td>Missed-run alert; <code>timeZone</code></td>
+<td>33</td>
+</tr>
+<tr>
+<td>Silent skips</td>
+<td>No skip listener</td>
+<td>Skip count</td>
+<td>Rejects file + alert</td>
+<td>33</td>
+</tr>
+<tr>
+<td>Wrong payout amounts</td>
+<td>No reconciliation step</td>
+<td>Totals vs last week</td>
+<td>Reconcile before producing artifacts</td>
+<td>33</td>
+</tr>
+</tbody>
+</table>
+<h2 id="f13-ai-features">F.13 AI features<a class="headerlink" href="#f13-ai-features" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Likely cause</th>
+<th>First check</th>
+<th>Fix</th>
+<th>Ch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Confident wrong answers</td>
+<td>Irrelevant retrieval; no threshold</td>
+<td>Retrieved chunks</td>
+<td>Threshold; empty-context handoff</td>
+<td>40</td>
+</tr>
+<tr>
+<td>Cites outdated policies</td>
+<td>Re-ingestion appended</td>
+<td>Chunks by source</td>
+<td>Delete-by-source before ingest</td>
+<td>40</td>
+</tr>
+<tr>
+<td>Another customer's data in an answer</td>
+<td>Tool not session-scoped</td>
+<td>Tool audit log</td>
+<td>Identity from session; ownership check</td>
+<td>40</td>
+</tr>
+<tr>
+<td>Cost spike</td>
+<td>Long context, memory growth, no cache</td>
+<td>Token metrics</td>
+<td>Caps, memory window, caching, routing</td>
+<td>40</td>
+</tr>
+<tr>
+<td>Quality dropped without a deploy</td>
+<td>Unpinned model version</td>
+<td>Model identifier</td>
+<td>Pin; evaluation gate</td>
+<td>40</td>
+</tr>
+</tbody>
+</table>
+<h2 id="f14-upgrades">F.14 Upgrades<a class="headerlink" href="#f14-upgrades" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Likely cause</th>
+<th>First check</th>
+<th>Fix</th>
+<th>Ch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Errors only during rollout</td>
+<td>Cross-version payloads, caches, sessions</td>
+<td>Timing vs rollout</td>
+<td>Tolerant readers; versioned namespaces</td>
+<td>42</td>
+</tr>
+<tr>
+<td>Bean missing after upgrade</td>
+<td>Moved auto-configuration; changed condition</td>
+<td>Conditions report</td>
+<td>Fix imports; explicit config</td>
+<td>41, 42</td>
+</tr>
+<tr>
+<td>Tests green, production different</td>
+<td>ConfigMaps not migrated</td>
+<td>Migrator against prod config</td>
+<td>Update ConfigMaps</td>
+<td>42</td>
+</tr>
+<tr>
+<td>Metrics missing after upgrade</td>
+<td>Renamed meters</td>
+<td>Observability contract test</td>
+<td>Update dashboards/alerts</td>
+<td>27, 42</td>
+</tr>
+<tr>
+<td>Upgrade blocked for months</td>
+<td>Third-party library</td>
+<td>Readiness scorecard</td>
+<td>Replace, isolate or fork early</td>
+<td>42</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><a href="../e-boot-3-vs-4-matrix/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg></span> E Boot 3 vs 4 Matrix</a> · <a href="../g-glossary/">G Glossary <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg></span></a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../e-boot-3-vs-4-matrix/" class="md-footer__link md-footer__link--prev" aria-label="Previous: E Boot 3.5 vs 4.x Matrix">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                E Boot 3.5 vs 4.x Matrix
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../g-glossary/" class="md-footer__link md-footer__link--next" aria-label="Next: G Glossary">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                G Glossary
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Personal knowledge base — Spring Boot 3 & 4 Enterprise Handbook
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "navigation.footer", "navigation.tracking", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.tooltips"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
