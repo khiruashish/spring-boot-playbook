@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
     
     
       
@@ -33,10 +33,10 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -57,6 +57,8 @@
     
       <link rel="stylesheet" href="../../stylesheets/extra.css">
     
+      <link rel="stylesheet" href="../../stylesheets/playbook-theme.css">
+    
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -73,7 +75,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="deep-orange">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -131,7 +133,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="deep-orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
     
       <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
@@ -141,7 +143,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="deep-orange"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
     
       <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
@@ -4663,15 +4665,15 @@
 <h3 id="29-cors">2.9 CORS<a class="headerlink" href="#29-cors" title="Permanent link">&para;</a></h3>
 <p>Browsers block cross-origin calls (Angular on <code>https://www.grocery.in</code> → API on <code>https://api.grocery.in</code>) unless the server returns CORS headers. Configure globally via <code>WebMvcConfigurer.addCorsMappings</code> (or with Spring Security's <code>CorsConfigurationSource</code> when Security is present — Chapter 17), or per controller with <code>@CrossOrigin</code>. Mobile apps aren't subject to CORS.</p>
 <h3 id="210-the-four-layer-pattern-in-web-code">2.10 The four-layer pattern in web code<a class="headerlink" href="#210-the-four-layer-pattern-in-web-code" title="Permanent link">&para;</a></h3>
-<pre class="mermaid"><code>flowchart LR
+<div class="diagram">flowchart LR
     C["Controller&lt;br/&gt;HTTP: mapping, params, status,&lt;br/&gt;headers, request/response DTOs"] --&gt; D["Delegate&lt;br/&gt;orchestration: map DTO↔domain,&lt;br/&gt;call services, assemble views,&lt;br/&gt;idempotency boundary"]
     D --&gt; S["Service&lt;br/&gt;business rules, transactions,&lt;br/&gt;domain events"]
-    S --&gt; R["Repository&lt;br/&gt;persistence"]</code></pre>
+    S --&gt; R["Repository&lt;br/&gt;persistence"]</div>
 <p>Rules: controllers never touch repositories or entities; services never see HTTP types; delegates never contain business rules.</p>
 <hr />
 <h2 id="3-how-it-works-internally">3. How It Works Internally<a class="headerlink" href="#3-how-it-works-internally" title="Permanent link">&para;</a></h2>
 <h3 id="31-dispatcherservlet-request-flow">3.1 <code>DispatcherServlet</code> request flow<a class="headerlink" href="#31-dispatcherservlet-request-flow" title="Permanent link">&para;</a></h3>
-<pre class="mermaid"><code>sequenceDiagram
+<div class="diagram">sequenceDiagram
     participant Client
     participant F as Filter chain (Security, correlation...)
     participant DS as DispatcherServlet
@@ -4699,7 +4701,7 @@
         DS-&gt;&gt;ER: resolveException&lt;br/&gt;(@ExceptionHandler, ResponseStatus, defaults)
     end
     DS-&gt;&gt;I: afterCompletion
-    DS--&gt;&gt;Client: response</code></pre>
+    DS--&gt;&gt;Client: response</div>
 <p>Key classes:</p>
 <ul>
 <li><strong><code>DispatcherServlet</code></strong> — front controller registered by Boot at <code>/</code>.</li>
@@ -4709,7 +4711,7 @@
 <li><strong><code>HandlerExceptionResolverComposite</code></strong> — <code>ExceptionHandlerExceptionResolver</code> (<code>@ExceptionHandler</code>), <code>ResponseStatusExceptionResolver</code>, <code>DefaultHandlerExceptionResolver</code>.</li>
 </ul>
 <h3 id="32-choosing-the-handler-method">3.2 Choosing the handler method<a class="headerlink" href="#32-choosing-the-handler-method" title="Permanent link">&para;</a></h3>
-<pre class="mermaid"><code>flowchart TD
+<div class="diagram">flowchart TD
     A[GET /api/products/ATTA-5KG&lt;br/&gt;Accept: application/json] --&gt; B[PathPattern matching&lt;br/&gt;all RequestMappingInfos]
     B --&gt; C{method matches?}
     C -- none --&gt; X405[405 Method Not Allowed]
@@ -4720,7 +4722,7 @@
     E --&gt; F[sort candidates by specificity&lt;br/&gt;fewer wildcards, more conditions]
     F --&gt; G{tie between top two?}
     G -- yes --&gt; XA[IllegalStateException:&lt;br/&gt;Ambiguous handler methods]
-    G -- no --&gt; H[handler found]</code></pre>
+    G -- no --&gt; H[handler found]</div>
 <h3 id="33-where-virtual-threads-fit">3.3 Where virtual threads fit<a class="headerlink" href="#33-where-virtual-threads-fit" title="Permanent link">&para;</a></h3>
 <p>With <code>spring.threads.virtual.enabled=true</code>, Tomcat dispatches each request on a new virtual thread. Blocking calls (JDBC, <code>RestClient</code>) unmount the virtual thread instead of blocking a platform thread. The MVC programming model is unchanged — that's the point. Watch for <strong>pinning</strong> (long <code>synchronized</code> blocks around I/O in older libraries) and bound concurrency at downstream pools (Chapter 25).</p>
 <hr />
@@ -5523,7 +5525,7 @@
 <h2 id="6-hands-on-code-level-4-expert-production">6. Hands-On Code — Level 4 (Expert / Production)<a class="headerlink" href="#6-hands-on-code-level-4-expert-production" title="Permanent link">&para;</a></h2>
 <h3 id="optimistic-concurrency-with-etag-if-match">Optimistic concurrency with ETag / If-Match<a class="headerlink" href="#optimistic-concurrency-with-etag-if-match" title="Permanent link">&para;</a></h3>
 <p>A customer edits their cart on the phone and the laptop simultaneously. Without protection, the last write silently wins and items disappear. HTTP has a standard answer: <strong>conditional requests</strong>.</p>
-<pre class="mermaid"><code>sequenceDiagram
+<div class="diagram">sequenceDiagram
     participant Phone
     participant Laptop
     participant API as cart-service
@@ -5537,7 +5539,7 @@
     Laptop-&gt;&gt;API: PATCH /items/ATTA-5KG  If-Match: "7"
     API--&gt;&gt;Laptop: 412 Precondition Failed (current version 8)
     Laptop-&gt;&gt;API: GET /api/carts/c1
-    API--&gt;&gt;Laptop: 200 ETag: "8"  — UI refreshes, user retries</code></pre>
+    API--&gt;&gt;Laptop: 200 ETag: "8"  — UI refreshes, user retries</div>
 <div class="language-java highlight"><span class="filename">in/grocery/cart/web/CartCommandController.java</span><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="kn">package</span><span class="w"> </span><span class="nn">in.grocery.cart.web</span><span class="p">;</span>
 </span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>
 </span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">in.grocery.cart.delegate.CartDelegate</span><span class="p">;</span>
@@ -6350,10 +6352,14 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "navigation.footer", "navigation.tracking", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.tooltips"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "navigation.footer", "navigation.tracking", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.tooltips"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+      
+        <script src="../../javascripts/playbook-diagrams.js"></script>
       
     
   </body>

@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
     
     
       
@@ -33,10 +33,10 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -57,6 +57,8 @@
     
       <link rel="stylesheet" href="../../stylesheets/extra.css">
     
+      <link rel="stylesheet" href="../../stylesheets/playbook-theme.css">
+    
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -73,7 +75,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="deep-orange">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -131,7 +133,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="deep-orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
     
       <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
@@ -141,7 +143,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="deep-orange"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
     
       <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
@@ -4658,7 +4660,7 @@
 <hr />
 <h2 id="3-how-it-works-internally">3. How It Works Internally<a class="headerlink" href="#3-how-it-works-internally" title="Permanent link">&para;</a></h2>
 <h3 id="31-springapplicationrun">3.1 <code>SpringApplication.run(...)</code><a class="headerlink" href="#31-springapplicationrun" title="Permanent link">&para;</a></h3>
-<pre class="mermaid"><code>sequenceDiagram
+<div class="diagram">sequenceDiagram
     participant M as main()
     participant SA as SpringApplication
     participant L as SpringApplicationRunListeners
@@ -4680,10 +4682,10 @@
     SA-&gt;&gt;Ctx: refresh() (Chapter 03) — auto-config, beans, web server
     SA-&gt;&gt;L: started → ApplicationStartedEvent
     SA-&gt;&gt;SA: callRunners()
-    SA-&gt;&gt;L: ready → ApplicationReadyEvent</code></pre>
+    SA-&gt;&gt;L: ready → ApplicationReadyEvent</div>
 <p><code>SpringApplication</code> itself uses Spring's <code>SpringFactoriesLoader</code> to find <code>ApplicationContextInitializer</code>, <code>ApplicationListener</code>, <code>EnvironmentPostProcessor</code>, <code>FailureAnalyzer</code> and <code>SpringApplicationRunListener</code> implementations in <code>META-INF/spring.factories</code> — which is how libraries hook in before any bean exists.</p>
 <h3 id="32-how-auto-configurations-are-selected">3.2 How auto-configurations are selected<a class="headerlink" href="#32-how-auto-configurations-are-selected" title="Permanent link">&para;</a></h3>
-<pre class="mermaid"><code>flowchart TD
+<div class="diagram">flowchart TD
     A["@EnableAutoConfiguration"] --&gt; B[AutoConfigurationImportSelector&lt;br/&gt;a DeferredImportSelector]
     B --&gt; C[read all AutoConfiguration.imports files&lt;br/&gt;from every JAR via ImportCandidates]
     C --&gt; D[remove exclusions&lt;br/&gt;exclude, excludeName, spring.autoconfigure.exclude]
@@ -4691,7 +4693,7 @@
     E --&gt; F["sort by @AutoConfiguration before/after,&lt;br/&gt;@AutoConfigureOrder"]
     F --&gt; G[process as configuration classes&lt;br/&gt;AFTER all user configuration]
     G --&gt; H["full condition evaluation&lt;br/&gt;per class and per @Bean"]
-    H --&gt; I[ConditionEvaluationReport&lt;br/&gt;--debug, /actuator/conditions]</code></pre>
+    H --&gt; I[ConditionEvaluationReport&lt;br/&gt;--debug, /actuator/conditions]</div>
 <p>Details that matter:</p>
 <ul>
 <li><strong>Deferred:</strong> <code>DeferredImportSelector</code> guarantees auto-configurations are processed after your <code>@Configuration</code> classes, which is why <code>@ConditionalOnMissingBean</code> sees your beans.</li>
@@ -4700,23 +4702,23 @@
 <li><strong>Don't component-scan auto-configurations.</strong> <code>AutoConfigurationExcludeFilter</code> in <code>@SpringBootApplication</code> prevents it, but a custom <code>@ComponentScan</code> elsewhere can accidentally pick them up and bypass ordering.</li>
 </ul>
 <h3 id="33-embedded-server-startup">3.3 Embedded server startup<a class="headerlink" href="#33-embedded-server-startup" title="Permanent link">&para;</a></h3>
-<pre class="mermaid"><code>flowchart LR
+<div class="diagram">flowchart LR
     A[refresh → onRefresh] --&gt; B[ServletWebServerApplicationContext.createWebServer]
     B --&gt; C[ServletWebServerFactory bean&lt;br/&gt;TomcatServletWebServerFactory]
     C --&gt; D[WebServerFactoryCustomizers applied&lt;br/&gt;ports, threads, compression, SSL]
     D --&gt; E[Tomcat created, NOT yet accepting]
     E --&gt; F[beans instantiated&lt;br/&gt;DispatcherServlet registered]
     F --&gt; G[finishRefresh → WebServerStartStopLifecycle.start]
-    G --&gt; H[connector started, port bound&lt;br/&gt;WebServerInitializedEvent]</code></pre>
+    G --&gt; H[connector started, port bound&lt;br/&gt;WebServerInitializedEvent]</div>
 <p>The server is created early (so servlet-context-aware beans can use it) but <strong>starts accepting connections only after all singletons exist</strong>, via a <code>SmartLifecycle</code>. That's why the app never receives a request while half-initialized.</p>
 <h3 id="34-failure-analysis">3.4 Failure analysis<a class="headerlink" href="#34-failure-analysis" title="Permanent link">&para;</a></h3>
-<pre class="mermaid"><code>flowchart LR
+<div class="diagram">flowchart LR
     A[Exception during run] --&gt; B[SpringApplication.handleRunFailure]
     B --&gt; C[ApplicationFailedEvent]
     B --&gt; D[FailureAnalyzers from spring.factories]
     D --&gt; E{analyzer returns&lt;br/&gt;FailureAnalysis?}
     E -- yes --&gt; F[LoggingFailureAnalysisReporter&lt;br/&gt;APPLICATION FAILED TO START&lt;br/&gt;Description / Action]
-    E -- no --&gt; G[stack trace]</code></pre>
+    E -- no --&gt; G[stack trace]</div>
 <p><code>AbstractFailureAnalyzer&lt;T&gt;</code> walks the cause chain and matches the first exception of type <code>T</code>.</p>
 <hr />
 <h2 id="4-hands-on-code-level-1-beginner">4. Hands-On Code — Level 1 (Beginner)<a class="headerlink" href="#4-hands-on-code-level-1-beginner" title="Permanent link">&para;</a></h2>
@@ -5820,10 +5822,14 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "navigation.footer", "navigation.tracking", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.tooltips"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "navigation.footer", "navigation.tracking", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.tooltips"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+      
+        <script src="../../javascripts/playbook-diagrams.js"></script>
       
     
   </body>

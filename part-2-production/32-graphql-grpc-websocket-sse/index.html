@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
     
     
       
@@ -33,10 +33,10 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -57,6 +57,8 @@
     
       <link rel="stylesheet" href="../../stylesheets/extra.css">
     
+      <link rel="stylesheet" href="../../stylesheets/playbook-theme.css">
+    
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -73,7 +75,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="deep-orange">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -131,7 +133,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="deep-orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
     
       <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
@@ -141,7 +143,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="deep-orange"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
     
       <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
@@ -4569,7 +4571,7 @@
 <hr />
 <h2 id="3-how-it-works-internally">3. How It Works Internally<a class="headerlink" href="#3-how-it-works-internally" title="Permanent link">&para;</a></h2>
 <h3 id="31-a-graphql-request">3.1 A GraphQL request<a class="headerlink" href="#31-a-graphql-request" title="Permanent link">&para;</a></h3>
-<pre class="mermaid"><code>sequenceDiagram
+<div class="diagram">sequenceDiagram
     participant C as Mobile app
     participant H as GraphQL HTTP handler
     participant E as graphql-java engine
@@ -4585,18 +4587,18 @@
     D-&gt;&gt;D: dispatch one batched call per field
     D--&gt;&gt;R: results mapped back to parents
     E--&gt;&gt;H: data + errors (partial results possible)
-    H--&gt;&gt;C: 200 with {"data": ..., "errors": [...]}</code></pre>
+    H--&gt;&gt;C: 200 with {"data": ..., "errors": [...]}</div>
 <p>Two things surprise REST developers: a GraphQL response is <strong>200 even on errors</strong> (errors live in the body), and a single response can be <strong>partially successful</strong>.</p>
 <h3 id="32-n1-and-batch-loading">3.2 N+1 and batch loading<a class="headerlink" href="#32-n1-and-batch-loading" title="Permanent link">&para;</a></h3>
-<pre class="mermaid"><code>flowchart TB
+<div class="diagram">flowchart TB
     A["query { orders(last:20) { lines { product { name } } } }"] --&gt; B[20 orders]
     B --&gt; C{naive resolvers}
     C --&gt; D[20 line queries + 200 product queries = 221]
     B --&gt; E{"@BatchMapping"}
-    E --&gt; F[1 query for lines by order ids&lt;br/&gt;1 query for products by sku set = 3 total]</code></pre>
+    E --&gt; F[1 query for lines by order ids&lt;br/&gt;1 query for products by sku set = 3 total]</div>
 <p>Same root cause as Chapter 13's JPA N+1, same fix shape: collect keys, one query per level.</p>
 <h3 id="33-grpc-call-with-a-deadline">3.3 gRPC call with a deadline<a class="headerlink" href="#33-grpc-call-with-a-deadline" title="Permanent link">&para;</a></h3>
-<pre class="mermaid"><code>sequenceDiagram
+<div class="diagram">sequenceDiagram
     participant O as order-service
     participant P as pricing-service
     participant I as inventory-service
@@ -4609,15 +4611,15 @@
         P--&gt;&gt;O: DEADLINE_EXCEEDED
     end
     I--&gt;&gt;P: StockResponse
-    P--&gt;&gt;O: PriceResponse</code></pre>
+    P--&gt;&gt;O: PriceResponse</div>
 <p>The deadline is <strong>absolute and propagated</strong> — unlike HTTP timeouts, which each hop configures independently and which Chapter 19 had to reconcile manually with a budget.</p>
 <h3 id="34-websocket-across-instances">3.4 WebSocket across instances<a class="headerlink" href="#34-websocket-across-instances" title="Permanent link">&para;</a></h3>
-<pre class="mermaid"><code>flowchart LR
+<div class="diagram">flowchart LR
     R1[Rider app A] --&gt;|WS| P1[pod 1]
     R2[Rider app B] --&gt;|WS| P2[pod 2]
     P1 &amp; P2 &lt;--&gt;|STOMP relay| B[(RabbitMQ STOMP broker)]
     S[dispatch-service] --&gt;|send to /user/R-9/queue/assignments| B
-    B --&gt; P2 --&gt; R2</code></pre>
+    B --&gt; P2 --&gt; R2</div>
 <p>Without the relay, a message published on pod 1 never reaches a rider connected to pod 2 — the single most common WebSocket scaling bug.</p>
 <hr />
 <h2 id="4-hands-on-code-level-1-beginner">4. Hands-On Code — Level 1 (Beginner)<a class="headerlink" href="#4-hands-on-code-level-1-beginner" title="Permanent link">&para;</a></h2>
@@ -5141,13 +5143,13 @@
 <hr />
 <h2 id="6-hands-on-code-level-4-expert-production">6. Hands-On Code — Level 4 (Expert / Production)<a class="headerlink" href="#6-hands-on-code-level-4-expert-production" title="Permanent link">&para;</a></h2>
 <h3 id="61-the-mobile-bff">6.1 The mobile BFF<a class="headerlink" href="#61-the-mobile-bff" title="Permanent link">&para;</a></h3>
-<pre class="mermaid"><code>flowchart LR
+<div class="diagram">flowchart LR
     M[Mobile app] --&gt;|one GraphQL query| B[mobile-bff&lt;br/&gt;Spring for GraphQL]
     B --&gt;|gRPC| P[pricing-service]
     B --&gt;|REST| C[catalog-service]
     B --&gt;|REST| O[order-service]
     B --&gt;|REST| D[delivery-service]
-    B --&gt; R[(Redis: per-request + short TTL caches)]</code></pre>
+    B --&gt; R[(Redis: per-request + short TTL caches)]</div>
 <div class="language-graphql highlight"><span class="filename">The home-screen query (one round trip)</span><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="k">query</span><span class="w"> </span><span class="nf">HomeScreen</span><span class="p">(</span><span class="nv">$pincode</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">!)</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="w">  </span><span class="n">banners</span><span class="p">(</span><span class="n">pincode</span><span class="p">:</span><span class="w"> </span><span class="nv">$pincode</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="n">imageUrl</span><span class="w"> </span><span class="n">deepLink</span><span class="w"> </span><span class="p">}</span>
 </span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="w">  </span><span class="n">categories</span><span class="p">(</span><span class="n">limit</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="n">iconUrl</span><span class="w"> </span><span class="p">}</span>
@@ -5310,7 +5312,7 @@
 <li>A rider on a train in a tunnel stops reading; without these limits the server buffers until memory runs out — the WebSocket version of Chapter 31's backpressure lesson.</li>
 </ol>
 <h3 id="64-protocol-governance">6.4 Protocol governance<a class="headerlink" href="#64-protocol-governance" title="Permanent link">&para;</a></h3>
-<pre class="mermaid"><code>flowchart TD
+<div class="diagram">flowchart TD
     A[New interface] --&gt; B{Who consumes it?}
     B -- Public/partners --&gt; R[REST + OpenAPI]
     B -- Our mobile/web apps --&gt; C{Aggregation across many services&lt;br/&gt;with varying field needs?}
@@ -5321,7 +5323,7 @@
     D -- no --&gt; R2[REST — fewer moving parts]
     B -- Long-lived client session --&gt; E{Bidirectional?}
     E -- yes --&gt; W[WebSocket + STOMP]
-    E -- no --&gt; S[SSE]</code></pre>
+    E -- no --&gt; S[SSE]</div>
 <p>Platform decisions recorded in ADRs: REST for public APIs and most internal calls; one GraphQL BFF for mobile; gRPC for pricing/inventory hot paths; WebSocket for the rider app; SSE for customer tracking.</p>
 <h3 id="65-testing-across-protocols">6.5 Testing across protocols<a class="headerlink" href="#65-testing-across-protocols" title="Permanent link">&para;</a></h3>
 <div class="language-java highlight"><span class="filename">gRPC service test</span><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="nd">@SpringBootTest</span>
@@ -5818,10 +5820,14 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "navigation.footer", "navigation.tracking", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.tooltips"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "navigation.footer", "navigation.tracking", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.tooltips"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+      
+        <script src="../../javascripts/playbook-diagrams.js"></script>
       
     
   </body>

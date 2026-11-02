@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
     
     
       
@@ -33,10 +33,10 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -57,6 +57,8 @@
     
       <link rel="stylesheet" href="../../stylesheets/extra.css">
     
+      <link rel="stylesheet" href="../../stylesheets/playbook-theme.css">
+    
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -73,7 +75,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="deep-orange">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -131,7 +133,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="green" data-md-color-accent="deep-orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
     
       <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
@@ -141,7 +143,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="deep-orange"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
     
       <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
@@ -4495,12 +4497,12 @@
 </table>
 <h3 id="24-zero-downtime-schema-changes-expand-and-contract">2.4 Zero-downtime schema changes: expand and contract<a class="headerlink" href="#24-zero-downtime-schema-changes-expand-and-contract" title="Permanent link">&para;</a></h3>
 <p>During a rolling deploy, <strong>old and new application versions run simultaneously</strong> against the same schema. Every schema change must be compatible with both.</p>
-<pre class="mermaid"><code>flowchart LR
+<div class="diagram">flowchart LR
     A["Release N&lt;br/&gt;app v1 + schema S1"] --&gt; B["EXPAND&lt;br/&gt;add new structures&lt;br/&gt;(nullable column, new table, index)&lt;br/&gt;app v1 still works"]
     B --&gt; C["Release N+1&lt;br/&gt;app v2 writes new + old (dual write)&lt;br/&gt;reads new with fallback"]
     C --&gt; D["MIGRATE DATA&lt;br/&gt;backfill in batches"]
     D --&gt; E["Release N+2&lt;br/&gt;app v3 reads/writes new only"]
-    E --&gt; F["CONTRACT&lt;br/&gt;drop old structures&lt;br/&gt;after v2 is fully gone"]</code></pre>
+    E --&gt; F["CONTRACT&lt;br/&gt;drop old structures&lt;br/&gt;after v2 is fully gone"]</div>
 <p>Classification of changes:</p>
 <table>
 <thead>
@@ -4642,7 +4644,7 @@
 <hr />
 <h2 id="3-how-it-works-internally">3. How It Works Internally<a class="headerlink" href="#3-how-it-works-internally" title="Permanent link">&para;</a></h2>
 <h3 id="31-flyway-migrate">3.1 Flyway migrate<a class="headerlink" href="#31-flyway-migrate" title="Permanent link">&para;</a></h3>
-<pre class="mermaid"><code>sequenceDiagram
+<div class="diagram">sequenceDiagram
     participant Boot as FlywayAutoConfiguration
     participant FW as Flyway
     participant DB as PostgreSQL
@@ -4660,7 +4662,7 @@
         FW-&gt;&gt;DB: COMMIT
     end
     FW-&gt;&gt;DB: release lock
-    Boot-&gt;&gt;Boot: continue: EntityManagerFactory (ddl-auto=validate)</code></pre>
+    Boot-&gt;&gt;Boot: continue: EntityManagerFactory (ddl-auto=validate)</div>
 <ul>
 <li><strong>Concurrency:</strong> multiple pods starting together block on the lock; the first applies migrations, the rest find nothing pending.</li>
 <li><strong>PostgreSQL DDL is transactional</strong> — a failed migration rolls back completely (except non-transactional statements like <code>CREATE INDEX CONCURRENTLY</code>).</li>
@@ -4970,7 +4972,7 @@
 <h2 id="6-hands-on-code-level-4-expert-production">6. Hands-On Code — Level 4 (Expert / Production)<a class="headerlink" href="#6-hands-on-code-level-4-expert-production" title="Permanent link">&para;</a></h2>
 <h3 id="61-zero-downtime-rename-total-subtotal-delivery_fee">6.1 Zero-downtime rename: <code>total</code> → <code>subtotal</code> + <code>delivery_fee</code><a class="headerlink" href="#61-zero-downtime-rename-total-subtotal-delivery_fee" title="Permanent link">&para;</a></h3>
 <p>Business change: the order table has a single <code>total</code> column; finance wants <code>subtotal</code> and <code>delivery_fee</code> separately (GST applies differently). The old app reads <code>total</code>. Here's the full sequence across <strong>three releases</strong>, never breaking a running version.</p>
-<pre class="mermaid"><code>gantt
+<div class="diagram">gantt
     title Expand / contract across releases
     dateFormat  YYYY-MM-DD
     axisFormat  %d %b
@@ -4982,7 +4984,7 @@
     v1.40 dual-write total + new columns, read total           :a1, 2026-10-01, 7d
     Backfill job                                               :b1, 2026-10-02, 5d
     v1.41 read new columns, still write total                  :a2, 2026-10-08, 14d
-    v1.42 stop writing total                                   :a3, 2026-10-15, 7d</code></pre>
+    v1.42 stop writing total                                   :a3, 2026-10-15, 7d</div>
 <p><strong>Release 1 — expand + dual write</strong></p>
 <div class="language-sql highlight"><span class="filename">V40__order_split_total_expand.sql</span><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="k">set</span><span class="w"> </span><span class="n">lock_timeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'5s'</span><span class="p">;</span>
 </span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="k">alter</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="n">customer_order</span><span class="w"> </span><span class="k">add</span><span class="w"> </span><span class="k">column</span><span class="w"> </span><span class="n">subtotal</span><span class="w"> </span><span class="nb">numeric</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
@@ -5099,13 +5101,13 @@
 </span></code></pre></div>
 <p>The Helm upgrade only proceeds to roll out new pods if the migration Job succeeds.</p>
 <h3 id="63-ci-pipeline-checks">6.3 CI pipeline checks<a class="headerlink" href="#63-ci-pipeline-checks" title="Permanent link">&para;</a></h3>
-<pre class="mermaid"><code>flowchart LR
+<div class="diagram">flowchart LR
     A[PR opened] --&gt; B[Lint migrations&lt;br/&gt;naming, forbidden patterns,&lt;br/&gt;e.g. Squawk for PostgreSQL]
     B --&gt; C[Apply all migrations&lt;br/&gt;to empty PostgreSQL&lt;br/&gt;Testcontainers]
     C --&gt; D["@DataJpaTest with ddl-auto=validate&lt;br/&gt;entities ↔ schema"]
     D --&gt; E[Apply to anonymized&lt;br/&gt;prod-size snapshot&lt;br/&gt;measure duration and locks]
     E --&gt; F[Previous app version's&lt;br/&gt;integration tests against&lt;br/&gt;NEW schema]
-    F --&gt; G[Merge]</code></pre>
+    F --&gt; G[Merge]</div>
 <p>The last step is the key one for zero downtime: <strong>N-1 app on N schema must pass</strong>.</p>
 <p>A simple forbidden-pattern check that runs in the build:</p>
 <div class="language-java highlight"><span class="filename">MigrationLintTest.java</span><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="kn">package</span><span class="w"> </span><span class="nn">in.grocery.order</span><span class="p">;</span>
@@ -5584,10 +5586,14 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "navigation.footer", "navigation.tracking", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.tooltips"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "navigation.footer", "navigation.tracking", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.tooltips"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+      
+        <script src="../../javascripts/playbook-diagrams.js"></script>
       
     
   </body>
