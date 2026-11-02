@@ -1,6 +1,83 @@
-# Spring Boot 3 & 4 Enterprise Handbook
+---
+title: Home
+---
 
-> From your first `@RestController` to defending a 26-service architecture in a principal-engineer interview.
+<div class="pb-hero" markdown>
+<div markdown>
+
+<span class="pb-kicker">Spring Boot 3.5 &amp; 4.x · 0 to 15+ years</span>
+
+<h1>Spring Boot 3 &amp; 4 Enterprise Handbook</h1>
+
+<p class="pb-lead">From your first <code>@RestController</code> to defending a 26-service architecture in a principal-engineer interview, taught through one realistic system: a multi-vendor grocery marketplace for India.</p>
+
+[Start with Part 1](part-1-foundations/index.md){ .md-button .md-button--primary }
+[Production](part-2-production/index.md){ .md-button }
+[Annotations](annotations/index.md){ .md-button }
+
+</div>
+<div class="pb-stack" aria-hidden="true">
+<div class="pb-stack-plane">
+<div class="pb-layer l-cpu">JVM<small>Java 21 / 25 · virtual threads</small></div>
+<div class="pb-layer l-car">Spring Framework 7<small>IoC · AOP · transactions</small></div>
+<div class="pb-layer l-fjp">Spring Boot auto-configuration<small>starters · actuator · config</small></div>
+<div class="pb-layer l-vt">Your services<small>controllers · domain · data</small></div>
+</div>
+<div class="pb-stack-legend">The layers every Spring Boot request<br>travels through</div>
+</div>
+</div>
+
+<div class="pb-stats">
+<div class="pb-stat"><b>77</b><span>pages</span></div>
+<div class="pb-stat"><b>5</b><span>sections</span></div>
+<div class="pb-stat"><b>209</b><span>diagrams</span></div>
+</div>
+
+## Explore the handbook
+
+<div class="pb-cards" markdown>
+
+<div class="pb-card" markdown>
+<span class="pb-icon">:material-sprout:</span>
+
+[Part 1 · Foundations](part-1-foundations/index.md){ .pb-title }
+
+Java & Build Prerequisites, IoC & Dependency Injection, Bean Lifecycle, Events & Extension Points, AOP…
+</div>
+
+<div class="pb-card" markdown>
+<span class="pb-icon">:material-factory:</span>
+
+[Part 2 · Production](part-2-production/index.md){ .pb-title }
+
+Transactions Deep Dive, Spring Security Fundamentals, Tokens, OAuth2 & Modern Auth, HTTP Clients…
+</div>
+
+<div class="pb-card" markdown>
+<span class="pb-icon">:material-domain:</span>
+
+[Part 3 · Enterprise](part-3-enterprise/index.md){ .pb-title }
+
+Microservices with Spring Cloud, Distributed Data & Consistency, DDD, Hexagonal, Modular Monolith, Multi-Tenancy…
+</div>
+
+<div class="pb-card" markdown>
+<span class="pb-icon">:material-at:</span>
+
+[Annotations](annotations/index.md){ .pb-title }
+
+Core Container, Spring Boot, Web Layer, Validation & JSON…
+</div>
+
+<div class="pb-card" markdown>
+<span class="pb-icon">:material-bookshelf:</span>
+
+[Appendices](appendices/index.md){ .pb-title }
+
+B1 · 0–2 years, B2 · 2–5 years, B3 · 5–8 years, B4 · 8–12 years…
+</div>
+
+</div>
 
 :material-file-pdf-box: **[Download the whole handbook as a PDF](downloads/spring-boot-enterprise-handbook.pdf)** (~20 MB)
 
