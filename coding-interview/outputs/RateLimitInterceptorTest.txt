@@ -1,0 +1,5 @@
+RateLimitInterceptorTest: 4 tests, 0 failures
+  ✔ clients are limited independently
+  ✔ fourth request in aminute · gets429 · with retry after
+  ✔ other endpoints · are not limited
+  ✔ tokens refill over time

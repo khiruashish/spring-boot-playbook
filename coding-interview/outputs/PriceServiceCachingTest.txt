@@ -1,0 +1,5 @@
+PriceServiceCachingTest: 4 tests, 0 failures
+  ✔ cache put · updates without another lookup
+  ✔ evict · forces fresh lookup
+  ✔ null results · are not cached · because of unless
+  ✔ second call · is served from cache

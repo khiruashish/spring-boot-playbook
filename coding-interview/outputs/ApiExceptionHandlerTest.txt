@@ -1,0 +1,5 @@
+ApiExceptionHandlerTest: 4 tests, 0 failures
+  ✔ domain not found · maps to404 · with type title and custom property
+  ✔ invalid state transition · maps to409
+  ✔ springs own errors · use the same format · 405
+  ✔ unexpected error · returns500 · without leaking the message
