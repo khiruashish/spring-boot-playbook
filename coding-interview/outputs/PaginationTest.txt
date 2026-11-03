@@ -1,0 +1,6 @@
+PaginationTest: 5 tests, 0 failures
+  ✔ default page · returns first20 · with metadata
+  ✔ last page · is partial · and flagged last
+  ✔ size above100 · is rejected
+  ✔ sort by name desc
+  ✔ unknown sort field · is rejected · no injection

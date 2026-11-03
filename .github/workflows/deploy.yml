@@ -21,12 +21,21 @@ jobs:
         with:
           fetch-depth: 0
 
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
           cache: pip
 
       - run: pip install -r requirements.txt
+
+      - name: Run coding-interview tests (54 tests; reports must match the docs)
+        run: coding-interview/run-tests.sh --check
 
       - name: Build site (fails on broken links or missing pages)
         run: mkdocs build --strict

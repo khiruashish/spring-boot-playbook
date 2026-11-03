@@ -1,0 +1,7 @@
+MethodSecurityTest: 6 tests, 0 failures
+  ✔ admin · can do everything
+  ✔ anonymous · gets401 · from the filter chain
+  ✔ non admin · cannot purge
+  ✔ other user · gets403 · from post authorize
+  ✔ owner · can read own document
+  ✔ pre authorize · checks the argument

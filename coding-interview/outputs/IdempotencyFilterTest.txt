@@ -1,0 +1,5 @@
+IdempotencyFilterTest: 4 tests, 0 failures
+  ✔ different keys · are independent payments
+  ✔ missing key · returns400
+  ✔ retry with same key · replays response · and charges once
+  ✔ same key different body · returns422

@@ -1,0 +1,5 @@
+PaymentGatewayPropertiesTest: 4 tests, 0 failures
+  ✔ cross field rule · fails startup
+  ✔ missing api key · fails startup
+  ✔ relaxed binding · and duration parsing
+  ✔ valid config · binds with defaults

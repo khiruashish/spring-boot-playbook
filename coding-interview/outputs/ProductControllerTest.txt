@@ -1,0 +1,6 @@
+ProductControllerTest: 5 tests, 0 failures
+  ✔ create · invalid body · returns400 · problem detail · listing every field
+  ✔ create · returns201 · with location header
+  ✔ get · unknown id · returns404
+  ✔ malformed json · returns400 · not a500
+  ✔ put · replaces · and · delete · is idempotent

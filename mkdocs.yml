@@ -158,6 +158,21 @@ nav:
       - Async, Messaging & Resilience: annotations/async-messaging.md
       - Testing & Observability: annotations/testing-observability.md
       - Outdated → Replacement: annotations/deprecated.md
+  - Coding Interview:
+      - coding-interview/index.md
+      - "1. REST CRUD with Validation": coding-interview/01-rest-crud-validation.md
+      - "2. Global Error Handling with ProblemDetail": coding-interview/02-global-error-handling.md
+      - "3. Custom Cross-Field Validator": coding-interview/03-custom-validator.md
+      - "4. Pagination & Safe Sorting": coding-interview/04-pagination-sorting.md
+      - "5. Idempotency-Key Servlet Filter": coding-interview/05-idempotency-filter.md
+      - "6. Rate Limiting with a HandlerInterceptor": coding-interview/06-rate-limit-interceptor.md
+      - "7. @Transactional: The Three Traps": coding-interview/07-transactional-pitfalls.md
+      - "8. Write a Custom Auto-Configuration (Starter)": coding-interview/08-custom-auto-configuration.md
+      - "9. Validated @ConfigurationProperties": coding-interview/09-validated-configuration-properties.md
+      - "10. Caching: @Cacheable, @CachePut, @CacheEvict": coding-interview/10-caching.md
+      - "11. RestClient with Error Mapping, Tested": coding-interview/11-restclient-testing.md
+      - "12. Method Security: Roles & Ownership": coding-interview/12-method-security.md
+
   - Appendices:
       - appendices/index.md
       - "A Interview Bank":

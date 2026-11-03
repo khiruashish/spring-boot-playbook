@@ -1,0 +1,5 @@
+WeatherClientTest: 4 tests, 0 failures
+  ✔ not found · becomes empty optional
+  ✔ ok · maps json to record
+  ✔ path variables are encoded
+  ✔ server error · becomes domain exception

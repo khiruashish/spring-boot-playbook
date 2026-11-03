@@ -1,0 +1,5 @@
+GreetingAutoConfigurationTest: 4 tests, 0 failures
+  ✔ backs off when user defines their own bean
+  ✔ binds properties
+  ✔ can be switched off
+  ✔ creates default bean
