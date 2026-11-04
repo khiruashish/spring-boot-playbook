@@ -1,5 +1,10 @@
 # 40 · Spring AI
 
+!!! tip "Hands-on manual"
+    This chapter is the architectural view. For a step-by-step, API-level guide to every Spring AI 2.0 feature
+    (ChatClient, advisors, memory, tools, RAG, MCP, agents, evaluation, observability, deployment), see the
+    **[Spring AI tab](../spring-ai/index.md)**.
+
 ## 1. Introduction & Why It Matters
 
 Every platform has an "AI initiative" now. Most of them fail the same way: a demo that impresses in a meeting, then a production incident where the assistant told a customer their refund was approved when it wasn't, or a support bot leaked another customer's order because a tool call wasn't authorization-checked, or the monthly token bill exceeded the team's cloud spend.

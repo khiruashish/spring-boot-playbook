@@ -62,6 +62,14 @@ Microservices with Spring Cloud, Distributed Data & Consistency, DDD, Hexagonal,
 </div>
 
 <div class="pb-card" markdown>
+<span class="pb-icon">:material-robot-outline:</span>
+
+[Spring AI](spring-ai/index.md){ .pb-title }
+
+ChatClient, RAG, Tool Calling, MCP, Agents, Evaluation, Production…
+</div>
+
+<div class="pb-card" markdown>
 <span class="pb-icon">:material-at:</span>
 
 [Annotations](annotations/index.md){ .pb-title }
@@ -153,5 +161,6 @@ flowchart LR
 3. Inside each chapter, the "Who should read which section" table tells you where to focus.
 4. Before interviews, use **Part 9 of each chapter** and **Appendix A**.
 5. Put it together with the **[capstone](part-3-enterprise/44-capstone-grocery-marketplace.md)** milestones and the **[coding exercises](appendices/b-coding-exercises.md)**.
-6. Use the **[Annotations](annotations/index.md)** tab to look up any annotation with an example, and its [Outdated → Replacement](annotations/deprecated.md) list when reading older code.
-7. Keep the **[troubleshooting playbook](appendices/f-troubleshooting-playbook.md)** and **[properties cheat sheet](appendices/d-properties-cheat-sheet.md)** close when operating services.
+6. Building AI features? Follow the step-by-step **[Spring AI](spring-ai/index.md)** tab, from first call to production.
+7. Use the **[Annotations](annotations/index.md)** tab to look up any annotation with an example, and its [Outdated → Replacement](annotations/deprecated.md) list when reading older code.
+8. Keep the **[troubleshooting playbook](appendices/f-troubleshooting-playbook.md)** and **[properties cheat sheet](appendices/d-properties-cheat-sheet.md)** close when operating services.
