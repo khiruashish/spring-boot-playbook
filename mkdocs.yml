@@ -147,6 +147,32 @@ nav:
       - "42 Migration & Upgrade Engineering": part-3-enterprise/42-migration-upgrade.md
       - "43 Engineering Leadership": part-3-enterprise/43-engineering-leadership.md
       - "44 Capstone — Grocery Marketplace": part-3-enterprise/44-capstone-grocery-marketplace.md
+  - "Spring AI":
+      - spring-ai/index.md
+      - "1 AI & LLM Concepts": spring-ai/01-concepts.md
+      - "2 Project Setup & Providers": spring-ai/02-setup.md
+      - "3 ChatClient Deep Dive": spring-ai/03-chat-client.md
+      - "4 Prompts, Messages & Templates": spring-ai/04-prompts.md
+      - "5 Structured Output": spring-ai/05-structured-output.md
+      - "6 Streaming Responses": spring-ai/06-streaming.md
+      - "7 Advisors": spring-ai/07-advisors.md
+      - "8 Chat Memory": spring-ai/08-chat-memory.md
+      - "9 Tool Calling": spring-ai/09-tool-calling.md
+      - "10 Embeddings": spring-ai/10-embeddings.md
+      - "11 Vector Stores": spring-ai/11-vector-stores.md
+      - "12 ETL: Ingesting Documents": spring-ai/12-etl-pipeline.md
+      - "13 Retrieval-Augmented Generation": spring-ai/13-rag.md
+      - "14 Multimodality": spring-ai/14-multimodal.md
+      - "15 Model Context Protocol (MCP)": spring-ai/15-mcp.md
+      - "16 Agents & Agentic Workflows": spring-ai/16-agents.md
+      - "17 Observability": spring-ai/17-observability.md
+      - "18 Testing & Evaluation": spring-ai/18-testing-evaluation.md
+      - "19 Security & Guardrails": spring-ai/19-security.md
+      - "20 Resilience, Performance & Cost": spring-ai/20-resilience-performance-cost.md
+      - "21 Production Deployment": spring-ai/21-production-deployment.md
+      - "22 Capstone: ShopAssist": spring-ai/22-capstone.md
+      - "23 Migration 1.x → 2.0": spring-ai/23-migration-1x-to-2.md
+      - "24 Cheat Sheet & Interview": spring-ai/24-cheat-sheet-interview.md
   - Annotations:
       - annotations/index.md
       - Core Container: annotations/core-container.md
