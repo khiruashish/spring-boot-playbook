@@ -1,0 +1,91 @@
+<div class="pb-anim" data-pb-anim>
+<div class="pb-anim-head"><span class="pb-anim-kicker">Animated walkthrough</span><span class="pb-anim-title">Keeping data and events consistent — dual write, outbox + CDC, saga compensation</span></div>
+<div class="pb-anim-stage">
+<svg viewBox="0 0 800 330" role="img" aria-labelledby="pb-obx-title pb-obx-desc" xmlns="http://www.w3.org/2000/svg">
+<title id="pb-obx-title">Outbox, CDC and saga</title>
+<desc id="pb-obx-desc">Scene 1: order-service commits an order and separately sends to Kafka, so the event can be lost or become a phantom. Scene 2: the order and an outbox row commit in one transaction; PostgreSQL&#x27;s write-ahead log feeds Debezium through a replication slot, which publishes to Kafka for idempotent consumers. Scene 3: an orchestrated checkout saga reserves stock, the payment is declined, and a compensating ReleaseStock command cancels the order.</desc>
+<defs><marker id="pb-obx-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#818cf8"/></marker></defs>
+<g data-node="svc"><rect class="pb-box" x="16" y="66" width="150" height="124" rx="10" fill="#ffffff" stroke="#cbd5e1"/></g>
+<text class="t-b" x="91" y="106" text-anchor="middle">order-service</text>
+<g data-scenes="dual outbox">
+<text class="t-xs t-sub t-mono" x="91" y="128" text-anchor="middle">place(order)</text>
+<text class="t-xs t-accent t-mono" x="91" y="144" text-anchor="middle">@Transactional</text>
+</g>
+<g data-scenes="saga">
+<text class="t-xs t-sub" x="91" y="128" text-anchor="middle">checkout saga</text>
+<text class="t-xs t-sub" x="91" y="144" text-anchor="middle">orchestrator</text>
+</g>
+<g data-scenes="dual outbox">
+<g data-node="db"><rect class="pb-box pb-target" x="200" y="40" width="210" height="196" rx="10" fill="#f8fafc" stroke="#cbd5e1"/></g>
+<text class="t-b" x="214" y="62">PostgreSQL · orders DB</text>
+<g data-node="orders"><rect class="pb-box" x="216" y="76" width="178" height="40" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-mono t-c" x="305" y="93">orders</text><text class="t-xs t-sub t-c" x="305" y="108">ORD-1042</text></g>
+<g data-node="kafka"><rect class="pb-box" x="620" y="66" width="164" height="70" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="702" y="98">Kafka</text><text class="t-xs t-sub t-mono t-c" x="702" y="113">grocery.order.placed.v1</text></g>
+<g data-node="cons"><rect class="pb-box" x="620" y="176" width="164" height="60" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="702" y="203">Consumers</text><text class="t-xs t-sub t-c" x="702" y="218">inventory · notifications</text></g>
+<path class="pb-route" data-path="write" d="M166 96 L216 96" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-obx-arrow)"/>
+<path class="pb-route" data-path="consume" d="M702 136 L702 176" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-obx-arrow)"/>
+</g>
+<g data-scenes="dual">
+<path class="pb-route" data-path="send" d="M91 66 L91 24 L702 24 L702 66" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-obx-arrow)"/>
+</g>
+<g data-scenes="outbox">
+<g data-node="outbox"><rect class="pb-box" x="216" y="128" width="178" height="40" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-mono t-c" x="305" y="145">outbox</text><text class="t-xs t-sub t-c" x="305" y="160">OrderPlaced event</text></g>
+<g data-node="wal"><rect class="pb-box pb-band" x="216" y="182" width="178" height="42" rx="10" fill="#eef2ff" stroke="#6366f1"/><text class="t-b t-c" x="305" y="200">WAL</text><text class="t-xs t-sub t-c" x="305" y="215">logical replication slot</text></g>
+<g data-node="deb"><rect class="pb-box" x="446" y="180" width="140" height="56" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="516" y="205">Debezium</text><text class="t-xs t-sub t-c" x="516" y="220">outbox event router</text></g>
+<path class="pb-route" data-path="wout" d="M166 148 L216 148" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-obx-arrow)"/>
+<path class="pb-route" data-path="wal" d="M305 168 L305 182" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-obx-arrow)"/>
+<path class="pb-route" data-path="slot" d="M394 206 L446 206" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-obx-arrow)"/>
+<path class="pb-route" data-path="pub" d="M516 180 L516 101 L620 101" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-obx-arrow)"/>
+</g>
+<g data-scenes="saga">
+<g data-node="inv"><rect class="pb-box" x="290" y="50" width="200" height="60" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="390" y="77">inventory-service</text><text class="t-xs t-sub t-c" x="390" y="92">ReserveStock · ReleaseStock</text></g>
+<g data-node="pay"><rect class="pb-box" x="290" y="150" width="200" height="60" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="390" y="177">payment-service</text><text class="t-xs t-sub t-c" x="390" y="192">AuthorizePayment</text></g>
+<path class="pb-route" data-path="cmd1" d="M166 92 L228 92 L228 80 L290 80" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-obx-arrow)"/>
+<path class="pb-route" data-path="cmd2" d="M166 164 L228 164 L228 180 L290 180" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-obx-arrow)"/>
+<text class="t-sm t-b" x="528" y="60">Persisted saga state</text>
+<g data-tx="saga" data-state="none" data-label-started="STARTED" data-tone-started="active" data-label-reserved="STOCK_RESERVED" data-tone-reserved="active" data-label-comp="COMPENSATING" data-tone-comp="suspended" data-label-compd="COMPENSATED" data-tone-compd="committed"><rect class="pb-chip" x="528" y="72" width="256" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="542" y="92.5">Saga</text><text class="t-b pb-tx-status" data-tx-status x="770" y="92.5" text-anchor="end">—</text></g>
+<g data-tx="stock" data-state="none" data-label-reserved="RESERVED" data-tone-reserved="active" data-label-released="RELEASED" data-tone-released="committed"><rect class="pb-chip" x="528" y="112" width="256" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="542" y="132.5">Stock</text><text class="t-b pb-tx-status" data-tx-status x="770" y="132.5" text-anchor="end">—</text></g>
+<g data-tx="payment" data-state="none" data-label-declined="DECLINED" data-tone-declined="rolledback"><rect class="pb-chip" x="528" y="152" width="256" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="542" y="172.5">Payment</text><text class="t-b pb-tx-status" data-tx-status x="770" y="172.5" text-anchor="end">—</text></g>
+<g data-tx="order" data-state="none" data-label-pending="PENDING" data-tone-pending="suspended" data-label-cancelled="CANCELLED" data-tone-cancelled="rolledback"><rect class="pb-chip" x="528" y="192" width="256" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="542" y="212.5">Order</text><text class="t-b pb-tx-status" data-tx-status x="770" y="212.5" text-anchor="end">—</text></g>
+</g>
+<g data-scenes="dual outbox">
+<rect class="pb-box" x="16" y="252" width="768" height="50" rx="14" fill="#f8fafc" stroke="#cbd5e1"/>
+<g data-tx="row" data-state="none" data-label-open="IN TX" data-tone-open="suspended" data-label-ok="COMMITTED" data-tone-ok="committed" data-label-rb="ROLLED BACK" data-tone-rb="rolledback"><rect class="pb-chip" x="24" y="261" width="186" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="38" y="281.5">Order row</text><text class="t-b pb-tx-status" data-tx-status x="196" y="281.5" text-anchor="end">—</text></g>
+<g data-tx="event" data-state="none" data-label-pub="PUBLISHED" data-tone-pub="committed" data-label-lost="LOST" data-tone-lost="rolledback" data-label-phantom="PHANTOM" data-tone-phantom="rolledback"><rect class="pb-chip" x="216" y="261" width="186" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="230" y="281.5">Event</text><text class="t-b pb-tx-status" data-tx-status x="388" y="281.5" text-anchor="end">—</text></g>
+</g>
+<g data-scenes="outbox">
+<g data-tx="orow" data-state="none" data-label-pending="PENDING" data-tone-pending="suspended" data-label-done="CAPTURED" data-tone-done="committed"><rect class="pb-chip" x="408" y="261" width="186" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="422" y="281.5">Outbox row</text><text class="t-b pb-tx-status" data-tx-status x="580" y="281.5" text-anchor="end">—</text></g>
+<g data-tx="walc" data-state="none" data-label-ok="released" data-tone-ok="none" data-label-grow="GROWING" data-tone-grow="rolledback"><rect class="pb-chip" x="600" y="261" width="178" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="614" y="281.5">WAL kept</text><text class="t-b pb-tx-status" data-tx-status x="764" y="281.5" text-anchor="end">—</text></g>
+</g>
+<circle class="pb-anim-token" r="9" cx="-40" cy="-40" fill="#4f46e5" stroke="#ffffff" stroke-width="2.5"/>
+</svg>
+</div>
+<div class="pb-anim-script" data-scene="dual">
+<p class="pb-anim-scene-title"><strong>1 · The dual-write problem</strong></p>
+<ol>
+<li data-path="write" data-hl="svc orders" data-tx="saga:none stock:none payment:none order:none row:ok event:none orow:none walc:none"><code>place()</code> saves the order and the transaction <strong>commits</strong>…</li>
+<li data-path="send" data-hl="kafka" data-warn="kafka" data-token="error" data-tx="saga:none stock:none payment:none order:none row:ok event:lost orow:none walc:none">…then the asynchronous <code>kafka.send()</code> fails (broker down, timeout). The order exists, but nobody will ever hear about it: the event is <strong>lost</strong>.</li>
+<li data-path="send" data-hl="kafka" data-tx="saga:none stock:none payment:none order:none row:open event:pub orow:none walc:none">Flip the timing: the event is sent while the transaction is still open…</li>
+<li data-hl="orders" data-warn="orders" data-tx="saga:none stock:none payment:none order:none row:rb event:phantom orow:none walc:none">…and then the commit fails. Consumers act on an order that doesn't exist: a <strong>phantom event</strong>. No ordering of the two calls fixes this; two systems can't share one atomic commit.</li>
+</ol></div>
+<div class="pb-anim-script" data-scene="outbox">
+<p class="pb-anim-scene-title"><strong>2 · Outbox + CDC</strong></p>
+<ol>
+<li data-path="write,wout" data-hl="svc orders outbox" data-tx="saga:none stock:none payment:none order:none row:open event:none orow:pending walc:ok">Instead, write the order <em>and</em> an <code>OrderPlaced</code> row into the <code>outbox</code> table: same database, same transaction.</li>
+<li data-hl="orders outbox" data-tx="saga:none stock:none payment:none order:none row:ok event:none orow:pending walc:ok">One <code>COMMIT</code> makes both durable, or neither. Nothing talks to Kafka inside the transaction.</li>
+<li data-path="wal" data-hl="wal" data-tx="saga:none stock:none payment:none order:none row:ok event:none orow:pending walc:ok">PostgreSQL records the commit in its <strong>write-ahead log</strong>. Debezium reads it through a logical replication slot.</li>
+<li data-path="slot" data-hl="deb" data-tx="saga:none stock:none payment:none order:none row:ok event:none orow:pending walc:ok">Debezium's outbox event router takes the topic from <code>aggregate_type</code> and the key from <code>aggregate_id</code>, so events for one order stay in order.</li>
+<li data-path="pub" data-hl="kafka" data-tx="saga:none stock:none payment:none order:none row:ok event:pub orow:done walc:ok">It publishes to <code>grocery.order.placed.v1</code> and confirms its position, which lets PostgreSQL free that WAL.</li>
+<li data-path="consume" data-hl="cons" data-tx="saga:none stock:none payment:none order:none row:ok event:pub orow:done walc:ok">Consumers get the event <strong>at least once</strong>, so they must be idempotent (§2.5): an inbox table, a conditional update or an upsert.</li>
+<li data-hl="deb wal" data-warn="deb wal" data-dim="kafka cons" data-tx="saga:none stock:none payment:none order:none row:ok event:pub orow:done walc:grow">The operational catch: if the connector stops, the slot keeps every WAL segment since its last confirmation and the disk fills up. Alert on replication slot lag.</li>
+</ol></div>
+<div class="pb-anim-script" data-scene="saga">
+<p class="pb-anim-scene-title"><strong>3 · Saga with compensation</strong></p>
+<ol>
+<li data-path="cmd1" data-hl="svc inv" data-tx="saga:started stock:none payment:none order:pending row:none event:none orow:none walc:none">Checkout runs as an orchestrated saga. The coordinator persists <code>STARTED</code> and sends <code>ReserveStock</code> (through its outbox and Kafka, as in scene 2).</li>
+<li data-path="cmd1:rev" data-hl="svc" data-tx="saga:reserved stock:reserved payment:none order:pending row:none event:none orow:none walc:none"><code>inventory-service</code> reserves the stock in its <em>own</em> local transaction and replies <code>StockReserved</code>. The coordinator persists <code>STOCK_RESERVED</code>.</li>
+<li data-path="cmd2" data-hl="pay" data-tx="saga:reserved stock:reserved payment:none order:pending row:none event:none orow:none walc:none">Next command: <code>AuthorizePayment</code>.</li>
+<li data-path="cmd2:rev" data-hl="svc" data-warn="pay" data-token="error" data-tx="saga:comp stock:reserved payment:declined order:pending row:none event:none orow:none walc:none">The card is declined. There's no distributed rollback, because the reservation already committed in another database. The saga moves to <code>COMPENSATING</code>.</li>
+<li data-path="cmd1" data-hl="inv" data-tx="saga:comp stock:reserved payment:declined order:pending row:none event:none orow:none walc:none">The coordinator sends <code>ReleaseStock</code>, a <strong>compensating action</strong>: a semantic undo, not a rollback.</li>
+<li data-path="cmd1:rev" data-hl="svc" data-tx="saga:compd stock:released payment:declined order:cancelled row:none event:none orow:none walc:none">Stock released, saga <code>COMPENSATED</code>, order <code>CANCELLED</code>. Every transition is persisted and idempotent; if compensation kept failing, the saga would go to <code>STUCK</code> for a human.</li>
+</ol></div>
+</div>
