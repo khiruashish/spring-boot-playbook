@@ -210,6 +210,10 @@ flowchart TD
     H --> I[ConditionEvaluationReport<br/>--debug, /actuator/conditions]
 ```
 
+Watch one auto-configuration go through that pipeline three ways: Boot's default, your bean winning, and the library missing:
+
+--8<-- "docs/snippets/animations/auto-configuration.html"
+
 Details that matter:
 
 - **Deferred:** `DeferredImportSelector` guarantees auto-configurations are processed after your `@Configuration` classes, which is why `@ConditionalOnMissingBean` sees your beans.
