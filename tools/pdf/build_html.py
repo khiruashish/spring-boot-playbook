@@ -59,7 +59,7 @@ def make_md():
             "abbr", "admonition", "attr_list", "def_list", "footnotes", "md_in_html", "tables", "toc",
             "pymdownx.details", "pymdownx.inlinehilite", "pymdownx.keys", "pymdownx.mark",
             "pymdownx.caret", "pymdownx.tilde", "pymdownx.highlight", "pymdownx.superfences",
-            "pymdownx.tabbed", "pymdownx.tasklist", "pymdownx.emoji",
+            "pymdownx.tabbed", "pymdownx.tasklist", "pymdownx.emoji", "pymdownx.snippets",
         ],
         extension_configs={
             "pymdownx.highlight": {"use_pygments": True, "noclasses": False, "css_class": "highlight"},
@@ -68,6 +68,8 @@ def make_md():
                  "format": lambda src, lang, css, opts, md, **kw: f'<pre class="mermaid">{html.escape(src)}</pre>'}
             ]},
             "pymdownx.tabbed": {"alternate_style": True},
+            # Same root-relative --8<-- paths as `mkdocs build` (which runs from the repo root).
+            "pymdownx.snippets": {"base_path": [ROOT], "check_paths": True},
         },
     )
 

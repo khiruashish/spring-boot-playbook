@@ -31,6 +31,10 @@ sequenceDiagram
     S->>S: this.insideTransactional(): proxy bypassed → false
 ```
 
+The same three ideas, animated. Scene 2 is trap 2 (self-invocation), and scene 3 is trap 3 (`REQUIRES_NEW` audit):
+
+--8<-- "docs/snippets/animations/transactional-proxy.html"
+
 ## Solution
 
 ```java title="TransferService.java"
