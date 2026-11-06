@@ -40,6 +40,10 @@ In the grocery marketplace, events are also how services stay decoupled *inside*
 7. **Ready** — bean is in the singleton cache and used.
 8. **Destroy** — on context close: `@PreDestroy`, `DisposableBean.destroy()`, custom destroy method.
 
+Step through the same phases below. Watch the side panel: the proxy only appears at step 7, which is why scene 3's `@PostConstruct` trap happens.
+
+--8<-- "docs/snippets/animations/bean-lifecycle.html"
+
 ### 2.2 Initialization callbacks
 
 | Mechanism | Coupling to Spring | Recommendation |

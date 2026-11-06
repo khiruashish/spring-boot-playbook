@@ -9,8 +9,10 @@
  * Step attributes (all optional, on each <li>):
  *   data-path   comma list of route names to move the token along; "name:rev" runs a route backwards
  *   data-token  "error" paints the token red (an exception travelling back up the stack)
- *   data-hl / data-warn / data-dim   space list of data-node names to highlight / flag / fade
- *   data-tx     space list of "chipName:state" (none, active, suspended, committed, rolledback, ignored)
+ *   data-hl / data-warn / data-dim / data-hide   space list of data-node names to highlight / flag / fade / hide
+ *   data-tx     space list of "chipName:state". Built-in states: none, active, suspended, committed, rolledback,
+ *               ignored. A chip may define its own: data-label-<state>="TEXT" sets the status text and
+ *               data-tone-<state>="<built-in state>" picks the colour.
  * SVG elements with data-scenes="a b" are only shown in those scenes.
  */
 (function () {
@@ -154,14 +156,15 @@
       setNodes("data-hl", "is-active", li);
       setNodes("data-warn", "is-warn", li);
       setNodes("data-dim", "is-dim", li);
+      setNodes("data-hide", "is-hidden", li);
 
       words(li.getAttribute("data-tx")).forEach(function (pair) {
         var kv = pair.split(":");
         var chip = svg.querySelector('[data-tx="' + kv[0] + '"]');
         if (!chip) return;
-        chip.setAttribute("data-state", kv[1]);
+        chip.setAttribute("data-state", chip.getAttribute("data-tone-" + kv[1]) || kv[1]);
         var status = chip.querySelector("[data-tx-status]");
-        if (status) status.textContent = TX_LABEL[kv[1]] || kv[1];
+        if (status) status.textContent = chip.getAttribute("data-label-" + kv[1]) || TX_LABEL[kv[1]] || kv[1];
       });
 
       svg.querySelectorAll("[data-path].is-live").forEach(function (p) { p.classList.remove("is-live"); });
