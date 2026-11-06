@@ -1,0 +1,67 @@
+<div class="pb-anim" data-pb-anim>
+<div class="pb-anim-head"><span class="pb-anim-kicker">Animated walkthrough</span><span class="pb-anim-title">One request through Spring MVC — filters, <code>DispatcherServlet</code>, and where errors go</span></div>
+<div class="pb-anim-stage">
+<svg viewBox="0 0 800 404" role="img" aria-labelledby="pb-mvc-title pb-mvc-desc" xmlns="http://www.w3.org/2000/svg">
+<title id="pb-mvc-title">Spring MVC request flow</title>
+<desc id="pb-mvc-desc">A request passes servlet filters, then DispatcherServlet: HandlerMapping picks the controller method, interceptors run preHandle, the HandlerAdapter resolves and validates arguments, invokes the controller and writes the return value as JSON. A validation failure goes to the exception resolvers and @ControllerAdvice. A filter can reject a request before Spring MVC runs.</desc>
+<defs><marker id="pb-mvc-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#818cf8"/></marker></defs>
+<g data-node="client"><rect class="pb-box" x="16" y="146" width="96" height="72" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="64" y="171.5">Client</text><text class="t-xs t-sub t-mono t-c" x="64" y="186.5">POST</text><text class="t-xs t-sub t-mono t-c" x="64" y="201.5">/api/orders</text></g>
+<g data-node="filters"><rect class="pb-box pb-band" x="128" y="56" width="96" height="262" rx="10" fill="#eef2ff" stroke="#6366f1"/><text class="t-b t-c" x="176" y="169">Filters</text><text class="t-xs t-sub t-c" x="176" y="184">Security</text><text class="t-xs t-sub t-c" x="176" y="199">correlation id</text><text class="t-xs t-sub t-c" x="176" y="214">logging</text></g>
+<g data-node="ds"><rect class="pb-shell" x="240" y="22" width="544" height="304" rx="16" fill="none" stroke="#818cf8" stroke-dasharray="7 5"/><text class="t-sm t-b t-accent" x="254" y="40">DispatcherServlet</text></g>
+<g data-node="hm"><rect class="pb-box" x="256" y="50" width="150" height="58" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="331" y="76">HandlerMapping</text><text class="t-xs t-sub t-c" x="331" y="91">picks the method</text></g>
+<g data-node="ic"><rect class="pb-box pb-band" x="256" y="128" width="150" height="96" rx="10" fill="#eef2ff" stroke="#6366f1"/><text class="t-b t-c" x="331" y="158">Interceptors</text><text class="t-xs t-sub t-mono t-c" x="331" y="173">preHandle</text><text class="t-xs t-sub t-mono t-c" x="331" y="188">postHandle</text><text class="t-xs t-sub t-mono t-c" x="331" y="203">afterCompletion</text></g>
+<g data-node="er"><rect class="pb-box" x="256" y="246" width="150" height="62" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="331" y="266.5">Exception</text><text class="t-xs t-sub t-c" x="331" y="281.5">resolvers →</text><text class="t-xs t-sub t-c" x="331" y="296.5">@ControllerAdvice</text></g>
+<g data-node="ha"><rect class="pb-box pb-target" x="424" y="50" width="344" height="258" rx="10" fill="#f8fafc" stroke="#cbd5e1"/></g>
+<text class="t-b" x="440" y="72">HandlerAdapter</text>
+<g data-node="ar"><rect class="pb-box" x="440" y="88" width="150" height="64" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="515" y="109.5">Arguments</text><text class="t-xs t-sub t-mono t-c" x="515" y="124.5">@RequestBody → JSON</text><text class="t-xs t-sub t-mono t-c" x="515" y="139.5">@Valid</text></g>
+<g data-node="ctl"><rect class="pb-box" x="604" y="88" width="150" height="64" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="679" y="117">OrderController</text><text class="t-xs t-sub t-mono t-c" x="679" y="132">create(request)</text></g>
+<g data-node="rv"><rect class="pb-box" x="604" y="176" width="150" height="64" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="679" y="197.5">Return value</text><text class="t-xs t-sub t-mono t-c" x="679" y="212.5">@ResponseBody</text><text class="t-xs t-sub t-mono t-c" x="679" y="227.5">→ JSON write</text></g>
+<path class="pb-route" data-path="c2f" d="M112 176 L128 176" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-mvc-arrow)"/>
+<path class="pb-route" data-path="f2ds" d="M224 79 L256 79" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-mvc-arrow)"/>
+<path class="pb-route" data-path="hm2ic" d="M331 108 L331 128" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-mvc-arrow)"/>
+<path class="pb-route" data-path="ic2ar" d="M406 150 C 426 150 420 120 440 120" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-mvc-arrow)"/>
+<path class="pb-route" data-path="ar2ctl" d="M590 120 L604 120" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-mvc-arrow)"/>
+<path class="pb-route" data-path="ctl2rv" d="M679 152 L679 176" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-mvc-arrow)"/>
+<path class="pb-route" data-path="rv2ic" d="M604 208 L406 208" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-mvc-arrow)"/>
+<g data-scenes="invalid">
+<path class="pb-route" data-path="err" d="M515 152 L515 277 L406 277" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-mvc-arrow)"/>
+<path class="pb-route" data-path="er2ic" d="M331 246 L331 224" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-mvc-arrow)"/>
+</g>
+<path class="pb-route" data-path="out1" d="M256 200 L224 200" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-mvc-arrow)"/>
+<path class="pb-route" data-path="out2" d="M128 196 L112 196" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-mvc-arrow)"/>
+<rect class="pb-box" x="16" y="338" width="768" height="56" rx="14" fill="#f8fafc" stroke="#cbd5e1"/>
+<text class="t-b" x="32" y="371">Response</text>
+<g data-tx="handler" data-state="none" data-label-create="create()" data-tone-create="committed"><rect class="pb-chip" x="140" y="350" width="200" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="154" y="370.5">Handler</text><text class="t-b pb-tx-status" data-tx-status x="326" y="370.5" text-anchor="end">—</text></g>
+<g data-tx="status" data-state="none" data-label-c201="201 CREATED" data-tone-c201="committed" data-label-c400="400 BAD REQUEST" data-tone-c400="rolledback" data-label-c401="401 UNAUTHORIZED" data-tone-c401="rolledback"><rect class="pb-chip" x="356" y="350" width="206" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="370" y="370.5">Status</text><text class="t-b pb-tx-status" data-tx-status x="548" y="370.5" text-anchor="end">—</text></g>
+<g data-tx="body" data-state="none" data-label-json="OrderResponse" data-tone-json="committed" data-label-problem="problem+json" data-tone-problem="rolledback" data-label-empty="no body" data-tone-empty="suspended"><rect class="pb-chip" x="578" y="350" width="196" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="592" y="370.5">Body</text><text class="t-b pb-tx-status" data-tx-status x="760" y="370.5" text-anchor="end">—</text></g>
+<circle class="pb-anim-token" r="9" cx="-40" cy="-40" fill="#4f46e5" stroke="#ffffff" stroke-width="2.5"/>
+</svg>
+</div>
+<div class="pb-anim-script" data-scene="ok">
+<p class="pb-anim-scene-title"><strong>1 · Happy path</strong></p>
+<ol>
+<li data-path="c2f" data-hl="client filters" data-tx="handler:none status:none body:none"><code>POST /api/orders</code> arrives. <strong>Servlet filters</strong> run first, outside Spring MVC: Spring Security, correlation id / MDC, request logging. Any of them can end the request here.</li>
+<li data-path="f2ds" data-hl="hm" data-tx="handler:create status:none body:none"><code>DispatcherServlet</code> asks <code>RequestMappingHandlerMapping</code> for a handler. It matches path, method, <code>consumes</code> and <code>produces</code> and returns the controller method plus its interceptors.</li>
+<li data-path="hm2ic" data-hl="ic" data-tx="handler:create status:none body:none">Each <code>HandlerInterceptor</code>'s <code>preHandle()</code> runs. Unlike a filter it already knows the chosen handler method, and returning <code>false</code> stops the request (Interview Problem 6's rate limiter works this way).</li>
+<li data-path="ic2ar" data-hl="ar" data-tx="handler:create status:none body:none">The <code>HandlerAdapter</code> resolves each parameter. <code>@RequestBody</code> reads the JSON with an <code>HttpMessageConverter</code> (Jackson), then <code>@Valid</code> runs Bean Validation.</li>
+<li data-path="ar2ctl" data-hl="ctl" data-tx="handler:create status:none body:none">Your controller method runs with fully built, validated arguments. There's no HTTP parsing in your code.</li>
+<li data-path="ctl2rv" data-hl="rv" data-tx="handler:create status:c201 body:json">The returned <code>ResponseEntity&lt;OrderResponse&gt;</code> is written as JSON by a message converter, chosen by content negotiation against <code>Accept</code>. <code>ResponseBodyAdvice</code> can adjust the body here.</li>
+<li data-path="rv2ic" data-hl="ic" data-tx="handler:create status:c201 body:json"><code>postHandle()</code> then <code>afterCompletion()</code> run on the way out. With <code>@ResponseBody</code> the body is already written, so <code>postHandle()</code> can't change it; use <code>afterCompletion()</code> for timing and cleanup.</li>
+<li data-path="out1,out2" data-hl="filters client" data-tx="handler:create status:c201 body:json">The response passes back out through the filters, in reverse order, to the client: <strong>201 Created</strong>.</li>
+</ol></div>
+<div class="pb-anim-script" data-scene="invalid">
+<p class="pb-anim-scene-title"><strong>2 · Validation fails</strong></p>
+<ol>
+<li data-path="c2f,f2ds,hm2ic" data-hl="ic" data-tx="handler:create status:none body:none">Same request, but the body has <code>"quantity": 0</code>. Filters, handler mapping and <code>preHandle()</code> run exactly as before.</li>
+<li data-path="ic2ar" data-hl="ar" data-warn="ar" data-tx="handler:create status:none body:none"><code>@Valid</code> fails while the argument is being resolved, so Spring throws <code>MethodArgumentNotValidException</code>. Your controller method <strong>never runs</strong>.</li>
+<li data-path="err" data-hl="er" data-dim="ctl rv" data-token="error" data-tx="handler:create status:none body:none">The exception goes to the <code>HandlerExceptionResolver</code>s. <code>ExceptionHandlerExceptionResolver</code> finds the matching <code>@ExceptionHandler</code> in your <code>@ControllerAdvice</code> (Chapter 10).</li>
+<li data-hl="er" data-dim="ctl rv" data-tx="handler:create status:c400 body:problem">The handler returns a <code>ProblemDetail</code>, written as <code>application/problem+json</code> with status 400 and the field errors.</li>
+<li data-path="er2ic,out1,out2" data-hl="ic filters client" data-dim="ctl rv" data-tx="handler:create status:c400 body:problem"><code>postHandle()</code> is skipped, but <code>afterCompletion()</code> still runs. The 400 travels back out through the filters.</li>
+</ol></div>
+<div class="pb-anim-script" data-scene="filter">
+<p class="pb-anim-scene-title"><strong>3 · Rejected by a filter</strong></p>
+<ol>
+<li data-path="c2f" data-hl="filters" data-warn="filters" data-tx="handler:none status:c401 body:empty">No valid token. Spring Security's filter answers <strong>401</strong> on its own; <code>DispatcherServlet</code> is never called.</li>
+<li data-path="out2" data-hl="client" data-warn="filters" data-dim="ds hm ic er ha ar ctl rv" data-tx="handler:none status:c401 body:empty">So no interceptor, <code>@ControllerAdvice</code> or controller code runs, and your <code>ProblemDetail</code> handler can't shape this error. Filter-level errors need their own handling (Chapter 17's <code>AuthenticationEntryPoint</code>).</li>
+</ol></div>
+</div>

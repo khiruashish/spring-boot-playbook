@@ -172,6 +172,10 @@ sequenceDiagram
     DS-->>Client: response
 ```
 
+The same flow, animated, including where a validation error and a filter rejection leave the happy path:
+
+--8<-- "docs/snippets/animations/request-flow.html"
+
 Key classes:
 
 - **`DispatcherServlet`** — front controller registered by Boot at `/`.
