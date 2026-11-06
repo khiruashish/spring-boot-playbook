@@ -7,6 +7,10 @@ repo_url: https://github.com/khiruashish/spring-boot-playbook
 edit_uri: edit/main/docs/
 copyright: Personal knowledge base — Spring Boot 3 & 4 Enterprise Handbook
 
+# Reusable HTML fragments pulled into pages with pymdownx.snippets (--8<--); not pages themselves.
+exclude_docs: |
+  snippets/
+
 theme:
   name: material
   language: en
@@ -50,6 +54,7 @@ theme:
 extra_css:
   - stylesheets/extra.css
   - stylesheets/playbook-theme.css
+  - stylesheets/playbook-animations.css
 
 plugins:
   - search
@@ -221,3 +226,4 @@ nav:
 extra_javascript:
   - https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js
   - javascripts/playbook-diagrams.js
+  - javascripts/playbook-animations.js

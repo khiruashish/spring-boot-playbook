@@ -221,6 +221,10 @@ Key classes: `TransactionInterceptor`/`TransactionAspectSupport`, `AbstractPlatf
 
 The proxy is only involved on calls from **outside** the bean (Chapter 04). `this.reserve(...)` runs the target method directly — no interceptor, no transaction attribute, no new transaction. Symptoms are silent: `REQUIRES_NEW` is ignored, `readOnly` isn't applied, a method that "must" be transactional runs with auto-commit.
 
+Step through it — use the scene buttons to compare a normal proxied call, the self-invocation trap, and the fix:
+
+--8<-- "docs/snippets/animations/transactional-proxy.html"
+
 ### 3.3 When SQL actually runs
 
 ```mermaid
