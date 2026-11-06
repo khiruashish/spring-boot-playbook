@@ -1,0 +1,66 @@
+<div class="pb-anim" data-pb-anim>
+<div class="pb-anim-head"><span class="pb-anim-kicker">Animated walkthrough</span><span class="pb-anim-title">Consumer group rebalancing — cooperative sticky, eager, and a crash</span></div>
+<div class="pb-anim-stage">
+<svg viewBox="0 20 800 376" role="img" aria-labelledby="pb-kfk-title pb-kfk-desc" xmlns="http://www.w3.org/2000/svg">
+<title id="pb-kfk-title">Kafka consumer group rebalancing</title>
+<desc id="pb-kfk-desc">Four partitions of grocery.order.placed.v1 are assigned to consumers in the inventory group. When a third consumer joins, cooperative sticky assignment moves only partition 3 after committing its offsets, while an eager rebalance revokes everything first. When a consumer crashes mid-batch, its partitions move after the session timeout and the new owner replays records after the last committed offset.</desc>
+<defs><marker id="pb-kfk-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#818cf8"/></marker></defs>
+<g data-node="coord"><rect class="pb-box" x="262" y="30" width="196" height="42" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-11 t-c" x="360" y="48">Group coordinator</text><text class="t-xs t-sub t-c" x="360" y="63">broker · __consumer_offsets</text></g>
+<g data-node="topic"><rect class="pb-shell" x="16" y="40" width="200" height="250" rx="16" fill="none" stroke="#818cf8" stroke-dasharray="7 5"/><text class="t-sm t-b t-accent" x="30" y="58">grocery.order.placed.v1</text></g>
+<g data-node="p0"><rect class="pb-box" x="36" y="70" width="160" height="44" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="116" y="96.5">Partition 0</text></g>
+<g data-node="p1"><rect class="pb-box" x="36" y="124" width="160" height="44" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="116" y="150.5">Partition 1</text></g>
+<g data-node="p2"><rect class="pb-box" x="36" y="178" width="160" height="44" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="116" y="204.5">Partition 2</text></g>
+<g data-node="p3"><rect class="pb-box" x="36" y="232" width="160" height="44" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="116" y="258.5">Partition 3</text></g>
+<g data-node="group"><rect class="pb-shell" x="470" y="40" width="314" height="250" rx="16" fill="none" stroke="#818cf8" stroke-dasharray="7 5"/><text class="t-sm t-b t-accent" x="484" y="58">consumer group: inventory</text></g>
+<g data-node="c1"><rect class="pb-box" x="520" y="74" width="200" height="56" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="620" y="99">consumer-1</text><text class="t-xs t-sub t-c" x="620" y="114">pod A</text></g>
+<g data-node="c2"><rect class="pb-box" x="520" y="152" width="200" height="56" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="620" y="177">consumer-2</text><text class="t-xs t-sub t-c" x="620" y="192">pod B</text></g>
+<g data-node="c3"><rect class="pb-box" x="520" y="230" width="200" height="56" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="620" y="255">consumer-3</text><text class="t-xs t-sub t-c" x="620" y="270">pod C</text></g>
+<g data-node="a01"><path class="pb-route pb-link" d="M196 92 L520 102" fill="none" stroke="#a5b4fc" stroke-width="2.5"/></g>
+<g data-node="a02"><path class="pb-route pb-link" d="M196 92 L520 180" fill="none" stroke="#a5b4fc" stroke-width="2.5"/></g>
+<g data-node="a03"><path class="pb-route pb-link" d="M196 92 L520 258" fill="none" stroke="#a5b4fc" stroke-width="2.5"/></g>
+<g data-node="a11"><path class="pb-route pb-link" d="M196 146 L520 102" fill="none" stroke="#a5b4fc" stroke-width="2.5"/></g>
+<g data-node="a12"><path class="pb-route pb-link" d="M196 146 L520 180" fill="none" stroke="#a5b4fc" stroke-width="2.5"/></g>
+<g data-node="a13"><path class="pb-route pb-link" d="M196 146 L520 258" fill="none" stroke="#a5b4fc" stroke-width="2.5"/></g>
+<g data-node="a21"><path class="pb-route pb-link" d="M196 200 L520 102" fill="none" stroke="#a5b4fc" stroke-width="2.5"/></g>
+<g data-node="a22"><path class="pb-route pb-link" d="M196 200 L520 180" fill="none" stroke="#a5b4fc" stroke-width="2.5"/></g>
+<g data-node="a23"><path class="pb-route pb-link" d="M196 200 L520 258" fill="none" stroke="#a5b4fc" stroke-width="2.5"/></g>
+<g data-node="a31"><path class="pb-route pb-link" d="M196 254 L520 102" fill="none" stroke="#a5b4fc" stroke-width="2.5"/></g>
+<g data-node="a32"><path class="pb-route pb-link" d="M196 254 L520 180" fill="none" stroke="#a5b4fc" stroke-width="2.5"/></g>
+<g data-node="a33"><path class="pb-route pb-link" d="M196 254 L520 258" fill="none" stroke="#a5b4fc" stroke-width="2.5"/></g>
+<path class="pb-route" data-path="c1co" d="M520 88 L496 88 L496 86 L360 86 L360 72" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-kfk-arrow)"/>
+<path class="pb-route" data-path="c2co" d="M520 166 L496 166 L496 86 L360 86 L360 72" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-kfk-arrow)"/>
+<g data-node="c3lane">
+<path class="pb-route" data-path="c3co" d="M520 244 L496 244 L496 86 L360 86 L360 72" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-kfk-arrow)"/>
+</g>
+<rect class="pb-box" x="16" y="304" width="768" height="84" rx="14" fill="#f8fafc" stroke="#cbd5e1"/>
+<g data-tx="group" data-state="none" data-label-stable="STABLE" data-tone-stable="active" data-label-rebal="REBALANCING" data-tone-rebal="suspended" data-label-stw="ALL PARTITIONS REVOKED" data-tone-stw="rolledback"><rect class="pb-chip" x="28" y="314" width="360" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="42" y="334.5">Group</text><text class="t-b pb-tx-status" data-tx-status x="374" y="334.5" text-anchor="end">—</text></g>
+<g data-tx="dups" data-state="none" data-label-zero="NONE" data-tone-zero="committed" data-label-some="20 (100–119)" data-tone-some="rolledback"><rect class="pb-chip" x="28" y="350" width="360" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="42" y="370.5">Records processed twice</text><text class="t-b pb-tx-status" data-tx-status x="374" y="370.5" text-anchor="end">—</text></g>
+<g data-tx="offs" data-state="none" data-label-lag="processed 120 · committed 100" data-tone-lag="suspended" data-label-synced="committed 120" data-tone-synced="committed" data-label-replay="resumes at 100" data-tone-replay="rolledback"><rect class="pb-chip" x="404" y="314" width="368" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="418" y="334.5">Partition 3</text><text class="t-b pb-tx-status" data-tx-status x="758" y="334.5" text-anchor="end">—</text></g>
+<circle class="pb-anim-token" r="9" cx="-40" cy="-40" fill="#4f46e5" stroke="#ffffff" stroke-width="2.5"/>
+</svg>
+</div>
+<div class="pb-anim-script" data-scene="sticky">
+<p class="pb-anim-scene-title"><strong>1 · Scale out (cooperative sticky)</strong></p>
+<ol>
+<li data-hl="c1 c2" data-hide="c3 a01 a02 a03 a11 a12 a13 a21 a22 a23 a31 a32 a33 c3lane" data-tx="group:stable dups:none offs:none">Two pods in the <code>inventory</code> group share four partitions. Each partition has exactly <strong>one owner</strong>, which is how per-key ordering survives.</li>
+<li data-path="c3co" data-hl="c3 coord" data-hide="a02 a03 a12 a13 a21 a23 a31 a33" data-tx="group:rebal dups:none offs:none">A third pod starts and <strong>joins the group</strong>. The coordinator triggers a rebalance.</li>
+<li data-path="c2co" data-hl="c2 p3" data-hide="a02 a03 a12 a13 a21 a23 a31 a33" data-tx="group:rebal dups:none offs:synced">With <strong>cooperative sticky</strong> assignment, only partitions that must move are revoked. consumer-2 gives up partition 3, and Spring Kafka commits its processed offsets in the revoke callback first.</li>
+<li data-hl="c3 p3" data-hide="a02 a03 a12 a13 a21 a23 a31 a32" data-tx="group:stable dups:zero offs:synced">consumer-3 picks up partition 3 at the committed offset. Partitions 0–2 <strong>never stopped</strong>, and nothing was read twice.</li>
+</ol></div>
+<div class="pb-anim-script" data-scene="eager">
+<p class="pb-anim-scene-title"><strong>2 · Eager rebalance</strong></p>
+<ol>
+<li data-path="c3co" data-hl="c3 coord" data-hide="a02 a03 a12 a13 a21 a23 a31 a33" data-tx="group:rebal dups:none offs:none">The same scale-out, using the older <strong>eager</strong> protocol.</li>
+<li data-hl="c1 c2" data-warn="c1 c2" data-hide="a01 a02 a03 a11 a12 a13 a21 a22 a23 a31 a32 a33" data-tx="group:stw dups:none offs:none">Every consumer revokes <strong>all</strong> of its partitions and stops: a stop-the-world pause for the whole group, even though only one partition needed to move.</li>
+<li data-hl="c1 c2 c3" data-hide="a02 a03 a12 a13 a21 a23 a31 a32" data-tx="group:stable dups:none offs:none">Partitions are reassigned and everyone resumes. During a rolling deploy this repeats for every pod, which is why cooperative sticky is the modern default and static membership (<code>group.instance.id</code>) helps restarts.</li>
+</ol></div>
+<div class="pb-anim-script" data-scene="crash">
+<p class="pb-anim-scene-title"><strong>3 · Crash and replay</strong></p>
+<ol>
+<li data-hl="c2 p3" data-hide="c3 a01 a02 a03 a11 a12 a13 a21 a22 a23 a31 a32 a33 c3lane" data-tx="group:stable dups:none offs:lag">consumer-2 is mid-batch on partition 3. It has processed up to offset 120 but last committed 100, because offsets are committed <em>after</em> processing.</li>
+<li data-warn="c2" data-dim="c2" data-hide="c3 a01 a02 a03 a11 a12 a13 a21 a22 a23 a31 a32 a33 c3lane" data-tx="group:stable dups:none offs:lag">Pod B <strong>crashes</strong>. Nothing more gets committed, and the coordinator only notices when heartbeats stop and <code>session.timeout.ms</code> expires.</li>
+<li data-hl="coord" data-dim="c2" data-hide="c3 a02 a03 a12 a13 a21 a22 a23 a31 a32 a33 c3lane" data-tx="group:rebal dups:none offs:lag">The coordinator removes consumer-2 from the group and rebalances its partitions.</li>
+<li data-hl="c1 p3" data-hide="c3 a02 a03 a12 a13 a22 a23 a32 a33 c3lane" data-tx="group:stable dups:some offs:replay">consumer-1 resumes partition 3 from the last <strong>committed</strong> offset, 100. Records 100–119 are processed a second time.</li>
+<li data-hl="c1" data-hide="c3 a02 a03 a12 a13 a22 a23 a32 a33 c3lane" data-tx="group:stable dups:some offs:replay">That's at-least-once delivery working as designed. The defence is an <strong>idempotent consumer</strong> (§2.9): an inbox table or a conditional update makes the replay harmless.</li>
+</ol></div>
+</div>

@@ -217,6 +217,10 @@ flowchart LR
 
 Rolling deploys cause rebalances. Mitigations: **cooperative sticky** assignment (the modern default), **static membership** (`group.instance.id` + longer `session.timeout.ms`) so a restarting pod reclaims its partitions without a full reshuffle, and short, idempotent processing so reprocessing after a rebalance is harmless.
 
+Watch partition ownership move in the three cases that matter: a cooperative scale-out, an eager rebalance, and a crash:
+
+--8<-- "docs/snippets/animations/kafka-rebalancing.html"
+
 ---
 
 ## 4. Hands-On Code — Level 1 (Beginner)

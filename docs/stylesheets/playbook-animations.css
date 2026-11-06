@@ -70,6 +70,7 @@
 .pb-anim svg .pb-route { fill: none; stroke: var(--pb-indigo-200); stroke-width: 2.5; transition: stroke .3s ease; }
 [data-md-color-scheme="slate"] .pb-anim svg .pb-route { stroke: #3f4687; }
 .pb-anim svg .pb-route.is-live { stroke: var(--pb-indigo-500); stroke-width: 3; }
+.pb-anim svg .pb-link { stroke: var(--pb-indigo-400); stroke-width: 2.5; }
 .pb-anim svg .pb-route--ghost { stroke: var(--pb-anim-warn) !important; stroke-width: 2; stroke-dasharray: 5 5; opacity: .85; }
 
 .pb-anim svg .pb-anim-token {
