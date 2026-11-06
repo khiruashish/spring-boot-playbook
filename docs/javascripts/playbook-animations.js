@@ -8,6 +8,8 @@
  *
  * Step attributes (all optional, on each <li>):
  *   data-path   comma list of route names to move the token along; "name:rev" runs a route backwards
+ *   data-par    space list of routes to animate AT THE SAME TIME, one extra token each (e.g. concurrent requests);
+ *               flags after the name: ":rev", ":error" (red token), ":signal" (amber token, e.g. request(n))
  *   data-token  "error" paints the token red (an exception travelling back up the stack)
  *   data-hl / data-warn / data-dim / data-hide   space list of data-node names to highlight / flag / fade / hide
  *   data-tx     space list of "chipName:state". Built-in states: none, active, suspended, committed, rolledback,
@@ -23,6 +25,7 @@
     committed: "COMMITTED", rolledback: "ROLLED BACK", ignored: "NEVER STARTED"
   };
   var SEGMENT_MS = 700;
+  var PAR_STAGGER_MS = 140;
   var DWELL_MS = 2600;
 
   function words(s) { return (s || "").split(/[\s,]+/).filter(Boolean); }
@@ -102,12 +105,31 @@
     function route(spec) {
       var parts = spec.split(":");
       var path = svg.querySelector('[data-path="' + parts[0] + '"]');
-      return path ? { el: path, rev: parts[1] === "rev" } : null;
+      if (!path) return null;
+      return {
+        el: path,
+        rev: parts.indexOf("rev") > 0,
+        kind: parts.indexOf("error") > 0 ? "is-error" : parts.indexOf("signal") > 0 ? "is-signal" : ""
+      };
     }
-    function routesOf(li) { return words(li.getAttribute("data-path")).map(route).filter(Boolean); }
+    function routesOf(li, attr) { return words(li.getAttribute(attr || "data-path")).map(route).filter(Boolean); }
     function endPoint(r) { return r.el.getPointAtLength(r.rev ? 0 : r.el.getTotalLength()); }
-    function put(p) { token.setAttribute("cx", p.x); token.setAttribute("cy", p.y); }
+    function startPoint(r) { return r.el.getPointAtLength(r.rev ? r.el.getTotalLength() : 0); }
+    function put(p, tok) { (tok || token).setAttribute("cx", p.x); (tok || token).setAttribute("cy", p.y); }
     function hideToken() { put({ x: -40, y: -40 }); }
+    var extras = [];
+    function clearExtras() {
+      extras.forEach(function (t) { t.remove(); });
+      extras = [];
+    }
+    function extraToken(r) {
+      var t = token.cloneNode(false);
+      t.setAttribute("class", "pb-anim-token pb-anim-token--extra " + r.kind);
+      t.setAttribute("r", "7");
+      token.parentNode.insertBefore(t, token);
+      extras.push(t);
+      return t;
+    }
 
     function restingPoint(steps, i) {
       for (var k = i; k >= 0; k--) {
@@ -117,8 +139,8 @@
       return null;
     }
 
-    function animate(routes, done) {
-      var gen = ++state.gen;
+    function animate(routes, done, tok, delay) {
+      var gen = state.gen;
       var k = 0;
       function segment() {
         var r = routes[k];
@@ -129,14 +151,15 @@
           if (t0 === null) t0 = ts;
           var p = Math.min(1, (ts - t0) / SEGMENT_MS);
           var e = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
-          put(r.el.getPointAtLength((r.rev ? 1 - e : e) * len));
+          put(r.el.getPointAtLength((r.rev ? 1 - e : e) * len), tok);
           if (p < 1) requestAnimationFrame(frame);
           else if (++k < routes.length) segment();
           else if (done) done();
         }
         requestAnimationFrame(frame);
       }
-      segment();
+      if (delay) setTimeout(function () { if (gen === state.gen) segment(); }, delay);
+      else segment();
     }
 
     function setNodes(attr, cls, li) {
@@ -169,7 +192,10 @@
 
       svg.querySelectorAll("[data-path].is-live").forEach(function (p) { p.classList.remove("is-live"); });
       var routes = routesOf(li);
-      routes.forEach(function (r) { r.el.classList.add("is-live"); });
+      var par = routesOf(li, "data-par");
+      routes.concat(par).forEach(function (r) { r.el.classList.add("is-live"); });
+      clearExtras();
+      var parTokens = par.map(extraToken);
       token.classList.toggle("is-error", li.getAttribute("data-token") === "error");
 
       caption.textContent = "";
@@ -183,14 +209,32 @@
       prev.disabled = i === 0;
       next.disabled = i === sc.steps.length - 1;
 
-      if (routes.length && withMotion && !reducedMotion()) {
-        put(routes[0].el.getPointAtLength(routes[0].rev ? routes[0].el.getTotalLength() : 0));
-        animate(routes, done);
+      var motion = withMotion && !reducedMotion();
+      var pending = 1;
+      function finished() { if (--pending === 0 && done) done(); }
+
+      // parallel tokens: several requests / items in flight at once, slightly staggered
+      par.forEach(function (r, k) {
+        if (motion) {
+          pending++;
+          put(startPoint(r), parTokens[k]);
+          animate([r], finished, parTokens[k], k * PAR_STAGGER_MS);
+        } else {
+          put(endPoint(r), parTokens[k]);
+        }
+      });
+
+      if (routes.length && motion) {
+        pending++;
+        put(startPoint(routes[0]));
+        animate(routes, finished);
+      } else if (par.length && !routes.length) {
+        hideToken();
       } else {
         var rest = restingPoint(sc.steps, i);
         rest ? put(rest) : hideToken();
-        if (done) done();
       }
+      finished();
     }
 
     function selectScene(i, withMotion) {

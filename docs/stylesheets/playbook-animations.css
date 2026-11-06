@@ -78,6 +78,7 @@
   filter: drop-shadow(0 2px 4px rgba(49, 46, 129, .45));
 }
 .pb-anim svg .pb-anim-token.is-error { fill: var(--pb-anim-err); }
+.pb-anim svg .pb-anim-token.is-signal { fill: var(--pb-anim-warn); }
 
 .pb-anim svg .pb-chip { fill: var(--pb-surface); stroke: var(--pb-border); stroke-width: 1.5; transition: fill .3s, stroke .3s; }
 .pb-anim svg [data-state="active"] .pb-chip { stroke: var(--pb-anim-ok); fill: var(--pb-anim-ok-bg); }
