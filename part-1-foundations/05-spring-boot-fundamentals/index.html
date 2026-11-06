@@ -5968,6 +5968,70 @@
     F --&gt; G[process as configuration classes&lt;br/&gt;AFTER all user configuration]
     G --&gt; H["full condition evaluation&lt;br/&gt;per class and per @Bean"]
     H --&gt; I[ConditionEvaluationReport&lt;br/&gt;--debug, /actuator/conditions]</div>
+<p>Watch one auto-configuration go through that pipeline three ways: Boot's default, your bean winning, and the library missing:</p>
+<div class="pb-anim" data-pb-anim>
+<div class="pb-anim-head"><span class="pb-anim-kicker">Animated walkthrough</span><span class="pb-anim-title">How Boot decides — <code>JdbcTemplateAutoConfiguration</code> through the selection pipeline</span></div>
+<div class="pb-anim-stage">
+<svg viewBox="0 40 800 280" role="img" aria-labelledby="pb-ac-title pb-ac-desc" xmlns="http://www.w3.org/2000/svg">
+<title id="pb-ac-title">Auto-configuration selection</title>
+<desc id="pb-ac-desc">Your configuration is registered first. AutoConfigurationImportSelector reads every AutoConfiguration.imports file, removes exclusions, pre-filters with the metadata file, sorts by before/after, then evaluates each candidate&#x27;s conditions. For JdbcTemplateAutoConfiguration: OnClass(JdbcTemplate), OnSingleCandidate(DataSource) and OnMissingBean(JdbcOperations) decide whether Boot&#x27;s JdbcTemplate, your own, or none is registered, and every decision goes into the ConditionEvaluationReport.</desc>
+<defs><marker id="pb-ac-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#818cf8"/></marker></defs>
+<text class="t-sm t-b" x="16" y="50">Auto-configuration import (deferred: runs after your configuration)</text>
+<g data-node="imp"><rect class="pb-box" x="16" y="60" width="140" height="64" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-11 t-c" x="86" y="81.5">AutoConfiguration</text><text class="t-b t-11 t-mono t-c" x="86" y="96.5">.imports</text><text class="t-xs t-sub t-c" x="86" y="111.5">in every JAR</text></g>
+<g data-node="excl"><rect class="pb-box" x="170" y="60" width="130" height="64" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="235" y="89">Exclusions</text><text class="t-xs t-sub t-mono t-c" x="235" y="104">exclude = …</text></g>
+<g data-node="pre"><rect class="pb-box" x="314" y="60" width="150" height="64" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="389" y="81.5">Pre-filter</text><text class="t-xs t-sub t-c" x="389" y="96.5">metadata file:</text><text class="t-xs t-sub t-c" x="389" y="111.5">OnClass, no class loading</text></g>
+<g data-node="sort"><rect class="pb-box" x="478" y="60" width="130" height="64" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="543" y="89">Sort</text><text class="t-xs t-sub t-mono t-c" x="543" y="104">before / after</text></g>
+<g data-node="eval"><rect class="pb-box" x="622" y="60" width="162" height="64" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-11 t-c" x="703" y="89">Evaluate conditions</text><text class="t-xs t-sub t-c" x="703" y="104">per class and @Bean</text></g>
+<g data-node="user"><rect class="pb-box" x="16" y="150" width="200" height="70" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-mono t-11 t-c" x="116" y="174.5">Your @Configuration</text><text class="t-xs t-sub t-c" x="116" y="189.5">+ scanned components</text><text class="t-xs t-sub t-c" x="116" y="204.5">registered FIRST</text></g>
+<g data-node="registry"><rect class="pb-box" x="250" y="150" width="200" height="70" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="350" y="182">Bean registry</text><text class="t-xs t-sub t-c" x="350" y="197">what the context will create</text></g>
+<g data-node="report"><rect class="pb-box" x="250" y="240" width="200" height="64" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="350" y="269">Conditions report</text><text class="t-xs t-sub t-mono t-c" x="350" y="284">--debug · /actuator/conditions</text></g>
+<path class="pb-route" data-path="i2e" d="M156 92 L170 92" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-ac-arrow)"/>
+<path class="pb-route" data-path="e2p" d="M300 92 L314 92" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-ac-arrow)"/>
+<path class="pb-route" data-path="p2s" d="M464 92 L478 92" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-ac-arrow)"/>
+<path class="pb-route" data-path="s2v" d="M608 92 L622 92" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-ac-arrow)"/>
+<path class="pb-route" data-path="u2r" d="M216 185 L250 185" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-ac-arrow)"/>
+<path class="pb-route" data-path="v2c" d="M703 124 L703 150" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-ac-arrow)"/>
+<path class="pb-route" data-path="c2r" d="M480 286 L466 286 L466 196 L450 196" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-ac-arrow)"/>
+<path class="pb-route" data-path="rep" d="M560 304 L560 312 L466 312 L466 272 L450 272" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-ac-arrow)"/>
+<g data-tx="c1" data-state="none" data-label-match="MATCH ✓" data-tone-match="active" data-label-fail="NO MATCH" data-tone-fail="rolledback"><rect class="pb-chip" x="480" y="150" width="304" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="494" y="170.5">OnClass(JdbcTemplate)</text><text class="t-b pb-tx-status" data-tx-status x="770" y="170.5" text-anchor="end">—</text></g>
+<g data-tx="c2" data-state="none" data-label-match="MATCH ✓" data-tone-match="active" data-label-fail="NO MATCH" data-tone-fail="rolledback"><rect class="pb-chip" x="480" y="190" width="304" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="494" y="210.5">OnSingleCandidate(DataSource)</text><text class="t-b pb-tx-status" data-tx-status x="770" y="210.5" text-anchor="end">—</text></g>
+<g data-tx="c3" data-state="none" data-label-match="MATCH ✓" data-tone-match="active" data-label-fail="BACKS OFF" data-tone-fail="suspended"><rect class="pb-chip" x="480" y="230" width="304" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="494" y="250.5">OnMissingBean(JdbcOperations)</text><text class="t-b pb-tx-status" data-tx-status x="770" y="250.5" text-anchor="end">—</text></g>
+<g data-tx="result" data-state="none" data-label-boot="BOOT&#x27;S DEFAULT" data-tone-boot="committed" data-label-yours="YOURS · Boot backed off" data-tone-yours="committed" data-label-none="NOT CREATED" data-tone-none="rolledback"><rect class="pb-chip" x="480" y="270" width="304" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="494" y="290.5">JdbcTemplate</text><text class="t-b pb-tx-status" data-tx-status x="770" y="290.5" text-anchor="end">—</text></g>
+<g data-tx="cand" data-state="none" data-label-all="ALL" data-tone-all="none" data-label-excl="− EXCLUDED" data-tone-excl="none" data-label-pre="− FILTERED" data-tone-pre="none" data-label-sorted="ORDERED" data-tone-sorted="committed"><rect class="pb-chip" x="16" y="240" width="220" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="30" y="260.5">Candidates</text><text class="t-b pb-tx-status" data-tx-status x="222" y="260.5" text-anchor="end">—</text></g>
+<circle class="pb-anim-token" r="9" cx="-40" cy="-40" fill="#4f46e5" stroke="#ffffff" stroke-width="2.5"/>
+</svg>
+</div>
+<div class="pb-anim-script" data-scene="boot">
+<p class="pb-anim-scene-title"><strong>1 · Boot's default</strong></p>
+<ol>
+<li data-path="u2r" data-hl="user registry" data-tx="c1:none c2:none c3:none result:none cand:none">Your own <code>@Configuration</code> classes and scanned components are registered first. In this app none of them defines a <code>JdbcTemplate</code>.</li>
+<li data-hl="imp" data-tx="c1:none c2:none c3:none result:none cand:all"><code>AutoConfigurationImportSelector</code> reads every <code>AutoConfiguration.imports</code> file on the classpath: hundreds of candidates.</li>
+<li data-path="i2e" data-hl="excl" data-tx="c1:none c2:none c3:none result:none cand:excl">Exclusions are removed: <code>@SpringBootApplication(exclude = …)</code> and <code>spring.autoconfigure.exclude</code>.</li>
+<li data-path="e2p" data-hl="pre" data-tx="c1:none c2:none c3:none result:none cand:pre">A fast pre-filter reads <code>spring-autoconfigure-metadata.properties</code> and drops candidates whose <code>@ConditionalOnClass</code> can't match, <strong>without loading them</strong>.</li>
+<li data-path="p2s" data-hl="sort" data-tx="c1:none c2:none c3:none result:none cand:sorted">Survivors are sorted by <code>@AutoConfiguration(before/after)</code>. <code>JdbcTemplateAutoConfiguration</code> runs after <code>DataSourceAutoConfiguration</code>, so a <code>DataSource</code> already exists.</li>
+<li data-path="s2v,v2c" data-hl="eval" data-tx="c1:match c2:match c3:none result:none cand:sorted">Full evaluation of the class: <code>JdbcTemplate</code> is on the classpath ✓, and there is exactly one <code>DataSource</code> ✓.</li>
+<li data-hl="eval" data-tx="c1:match c2:match c3:match result:none cand:sorted">Then the <code>@Bean</code> method's own condition: is there already a <code>JdbcOperations</code> bean? No, so <code>@ConditionalOnMissingBean</code> matches.</li>
+<li data-path="c2r" data-hl="registry" data-tx="c1:match c2:match c3:match result:boot cand:sorted">Boot registers its <code>JdbcTemplate</code>, configured from <code>spring.jdbc.template.*</code> properties.</li>
+<li data-path="rep" data-hl="report" data-tx="c1:match c2:match c3:match result:boot cand:sorted">Every decision is recorded. Run with <code>--debug</code> or open <code>/actuator/conditions</code> to see positive and negative matches, each with its reason.</li>
+</ol></div>
+<div class="pb-anim-script" data-scene="yours">
+<p class="pb-anim-scene-title"><strong>2 · Your bean wins</strong></p>
+<ol>
+<li data-path="u2r" data-hl="user registry" data-tx="c1:none c2:none c3:none result:none cand:none">This time your <code>@Configuration</code> declares its own <code>JdbcTemplate</code> (say, with a custom fetch size). It's registered first.</li>
+<li data-path="i2e,e2p,p2s,s2v" data-hl="eval" data-tx="c1:none c2:none c3:none result:none cand:sorted">The auto-configuration import is a <code>DeferredImportSelector</code>, so it runs only after all of your configuration…</li>
+<li data-path="v2c" data-hl="eval" data-tx="c1:match c2:match c3:none result:none cand:sorted">…and the class-level conditions still match.</li>
+<li data-hl="eval" data-tx="c1:match c2:match c3:fail result:yours cand:sorted">But <code>@ConditionalOnMissingBean(JdbcOperations.class)</code> finds your bean, so Boot <strong>backs off</strong> and its default is never created. The golden rule: <em>your beans win</em>.</li>
+<li data-path="rep" data-hl="report" data-tx="c1:match c2:match c3:fail result:yours cand:sorted">The report lists this as a negative match, <em>found beans of type JdbcOperations</em>. It's the first place to look when Boot seems to ignore a default.</li>
+</ol></div>
+<div class="pb-anim-script" data-scene="missing">
+<p class="pb-anim-scene-title"><strong>3 · Library not on the classpath</strong></p>
+<ol>
+<li data-hl="imp" data-tx="c1:none c2:none c3:none result:none cand:all">Now <code>spring-jdbc</code> isn't on the classpath (say, a WebFlux service using R2DBC). <code>JdbcTemplateAutoConfiguration</code> is still listed in Boot's imports file.</li>
+<li data-path="i2e,e2p" data-hl="pre" data-warn="pre" data-tx="c1:fail c2:none c3:none result:none cand:pre">The pre-filter sees that <code>@ConditionalOnClass(JdbcTemplate.class)</code> can't match and drops the candidate before the class is loaded. That's why a class referring to <code>JdbcTemplate</code> doesn't cause a <code>ClassNotFoundException</code>.</li>
+<li data-path="rep" data-hl="report" data-dim="sort eval" data-tx="c1:fail c2:none c3:none result:none cand:pre">It still shows up in the report as a negative match: <em>did not find required class</em>.</li>
+</ol></div>
+</div>
+
 <p>Details that matter:</p>
 <ul>
 <li><strong>Deferred:</strong> <code>DeferredImportSelector</code> guarantees auto-configurations are processed after your <code>@Configuration</code> classes, which is why <code>@ConditionalOnMissingBean</code> sees your beans.</li>
@@ -7106,6 +7170,8 @@
         <script src="../../javascripts/playbook-diagrams.js"></script>
       
         <script src="../../javascripts/playbook-animations.js"></script>
+      
+        <script src="../../javascripts/playbook-simulators.js"></script>
       
     
   </body>

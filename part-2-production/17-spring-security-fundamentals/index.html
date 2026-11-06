@@ -5814,6 +5814,84 @@
 <li><strong><code>ExceptionTranslationFilter</code></strong> catches <code>AuthenticationException</code> → entry point (401) and <code>AccessDeniedException</code> → 403 (or entry point if anonymous). This is why security errors don't reach <code>@ControllerAdvice</code> by default (Chapter 10).</li>
 <li><strong><code>AuthorizationFilter</code></strong> (Security 6+, replacing <code>FilterSecurityInterceptor</code>) applies the request-level rules.</li>
 </ul>
+<p>Follow one request through the stateless <code>/api/**</code> chain, then see where a 401 and a 403 come from (§3.2 and §3.3 explain the details):</p>
+<div class="pb-anim" data-pb-anim>
+<div class="pb-anim-head"><span class="pb-anim-kicker">Animated walkthrough</span><span class="pb-anim-title">Through the security filter chain — 200, 401 and 403</span></div>
+<div class="pb-anim-stage">
+<svg viewBox="0 46 800 370" role="img" aria-labelledby="pb-sec-title pb-sec-desc" xmlns="http://www.w3.org/2000/svg">
+<title id="pb-sec-title">Spring Security filter chain</title>
+<desc id="pb-sec-desc">A request enters DelegatingFilterProxy and FilterChainProxy, which picks the stateless /api/** chain. BearerTokenAuthenticationFilter validates a JWT with JwtDecoder and stores the authentication in the SecurityContext. AnonymousAuthenticationFilter covers missing tokens. AuthorizationFilter applies the rules; ExceptionTranslationFilter turns denials into a 401 from the AuthenticationEntryPoint or a 403 from the AccessDeniedHandler, before DispatcherServlet runs.</desc>
+<defs><marker id="pb-sec-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#818cf8"/></marker></defs>
+<g data-node="client"><rect class="pb-box" x="16" y="60" width="90" height="60" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="61" y="94.5">Client</text></g>
+<g data-node="dfp"><rect class="pb-box pb-band" x="118" y="60" width="132" height="60" rx="10" fill="#eef2ff" stroke="#6366f1"/><text class="t-b t-c" x="184" y="87">DelegatingFilter</text><text class="t-b t-c" x="184" y="102">Proxy</text></g>
+<g data-node="fcp"><rect class="pb-box" x="260" y="60" width="132" height="60" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="326" y="87">FilterChainProxy</text><text class="t-xs t-sub t-c" x="326" y="102">picks the /api/** chain</text></g>
+<g data-node="sch"><rect class="pb-box" x="402" y="60" width="132" height="60" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="468" y="87">SecurityContext</text><text class="t-b t-c" x="468" y="102">HolderFilter</text></g>
+<g data-node="hdr"><rect class="pb-box" x="544" y="60" width="132" height="60" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="610" y="87">Headers · CORS</text><text class="t-xs t-sub t-c" x="610" y="102">CSRF</text></g>
+<g data-node="bearer"><rect class="pb-box" x="118" y="170" width="132" height="60" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="184" y="197">BearerToken</text><text class="t-b t-10 t-c" x="184" y="212">AuthenticationFilter</text></g>
+<g data-node="anon"><rect class="pb-box" x="260" y="170" width="132" height="60" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="326" y="197">Anonymous</text><text class="t-b t-10 t-c" x="326" y="212">AuthenticationFilter</text></g>
+<g data-node="etf"><rect class="pb-box" x="402" y="170" width="132" height="60" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-11 t-c" x="468" y="197">ExceptionTranslation</text><text class="t-b t-c" x="468" y="212">Filter</text></g>
+<g data-node="az"><rect class="pb-box" x="544" y="170" width="132" height="60" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-11 t-c" x="610" y="197">AuthorizationFilter</text><text class="t-xs t-sub t-c" x="610" y="212">URL rules</text></g>
+<g data-node="ds"><rect class="pb-box pb-band" x="688" y="170" width="96" height="60" rx="10" fill="#eef2ff" stroke="#6366f1"/><text class="t-b t-c" x="736" y="197">Dispatcher</text><text class="t-b t-c" x="736" y="212">Servlet</text></g>
+<g data-node="jwt"><rect class="pb-box" x="118" y="286" width="132" height="56" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="184" y="311">JwtDecoder</text><text class="t-xs t-sub t-c" x="184" y="326">JWK · exp · iss · aud</text></g>
+<g data-node="ctx"><rect class="pb-box" x="260" y="286" width="132" height="56" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="326" y="311">SecurityContext</text><text class="t-xs t-sub t-c" x="326" y="326">who is calling</text></g>
+<g data-node="entry"><rect class="pb-box" x="402" y="286" width="132" height="56" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-mono t-c" x="468" y="311">EntryPoint</text><text class="t-xs t-sub t-c" x="468" y="326">401 Unauthorized</text></g>
+<g data-node="denied"><rect class="pb-box" x="544" y="286" width="132" height="56" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-mono t-c" x="610" y="311">AccessDenied</text><text class="t-xs t-sub t-c" x="610" y="326">Handler · 403</text></g>
+<path class="pb-route" data-path="c2dfp" d="M106 90 L118 90" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-sec-arrow)"/>
+<path class="pb-route" data-path="dfp2fcp" d="M250 90 L260 90" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-sec-arrow)"/>
+<path class="pb-route" data-path="fcp2sch" d="M392 90 L402 90" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-sec-arrow)"/>
+<path class="pb-route" data-path="sch2hdr" d="M534 90 L544 90" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-sec-arrow)"/>
+<path class="pb-route" data-path="wrap" d="M660 120 L660 146 L184 146 L184 170" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-sec-arrow)"/>
+<path class="pb-route" data-path="b2anon" d="M250 200 L260 200" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-sec-arrow)"/>
+<path class="pb-route" data-path="anon2etf" d="M392 200 L402 200" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-sec-arrow)"/>
+<path class="pb-route" data-path="etf2az" d="M534 200 L544 200" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-sec-arrow)"/>
+<path class="pb-route" data-path="az2ds" d="M676 200 L688 200" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-sec-arrow)"/>
+<path class="pb-route" data-path="b2jwt" d="M160 230 L160 286" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-sec-arrow)"/>
+<path class="pb-route" data-path="b2ctx" d="M230 230 L230 258 L326 258 L326 286" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-sec-arrow)"/>
+<path class="pb-route" data-path="etf2entry" d="M440 230 L440 286" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-sec-arrow)"/>
+<path class="pb-route" data-path="etf2denied" d="M520 230 L520 258 L610 258 L610 286" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-sec-arrow)"/>
+<path class="pb-route" data-path="out401" d="M468 342 L468 352 L60 352 L60 120" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-sec-arrow)"/>
+<path class="pb-route" data-path="out403" d="M610 342 L610 352 L60 352 L60 120" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-sec-arrow)"/>
+<rect class="pb-box" x="16" y="360" width="768" height="48" rx="14" fill="#f8fafc" stroke="#cbd5e1"/>
+<g data-tx="req" data-state="none" data-label-orders="GET /api/orders" data-tone-orders="none" data-label-admin="GET /api/admin/reports" data-tone-admin="none"><rect class="pb-chip" x="28" y="368" width="250" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="42" y="388.5">Request</text><text class="t-b pb-tx-status" data-tx-status x="264" y="388.5" text-anchor="end">—</text></g>
+<g data-tx="auth" data-state="none" data-label-anon="ANONYMOUS" data-tone-anon="suspended" data-label-jwt="JWT · ROLE_CUSTOMER" data-tone-jwt="committed"><rect class="pb-chip" x="290" y="368" width="250" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="304" y="388.5">Auth</text><text class="t-b pb-tx-status" data-tx-status x="526" y="388.5" text-anchor="end">—</text></g>
+<g data-tx="status" data-state="none" data-label-ok="200 → CONTROLLER" data-tone-ok="committed" data-label-c401="401" data-tone-c401="rolledback" data-label-c403="403" data-tone-c403="rolledback"><rect class="pb-chip" x="552" y="368" width="220" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="566" y="388.5">Status</text><text class="t-b pb-tx-status" data-tx-status x="758" y="388.5" text-anchor="end">—</text></g>
+<circle class="pb-anim-token" r="9" cx="-40" cy="-40" fill="#4f46e5" stroke="#ffffff" stroke-width="2.5"/>
+</svg>
+</div>
+<div class="pb-anim-script" data-scene="ok">
+<p class="pb-anim-scene-title"><strong>1 · Valid JWT</strong></p>
+<ol>
+<li data-path="c2dfp" data-hl="client dfp" data-tx="req:orders auth:none status:none">Spring Security is a single servlet filter, <code>DelegatingFilterProxy</code>, which hands the request to <code>FilterChainProxy</code>.</li>
+<li data-path="dfp2fcp" data-hl="fcp" data-tx="req:orders auth:none status:none"><code>FilterChainProxy</code> picks the <strong>first</strong> <code>SecurityFilterChain</code> whose matcher fits. <code>/api/orders</code> matches the stateless <code>/api/**</code> chain, and only that chain's filters run.</li>
+<li data-path="fcp2sch,sch2hdr" data-hl="sch hdr" data-tx="req:orders auth:none status:none"><code>SecurityContextHolderFilter</code> sets up an empty <code>SecurityContext</code> for this thread. Header, CORS and CSRF filters follow; a stateless token API usually disables CSRF.</li>
+<li data-path="wrap" data-hl="bearer" data-tx="req:orders auth:none status:none"><code>BearerTokenAuthenticationFilter</code> finds <code>Authorization: Bearer …</code>. (An invalid or expired token fails right here, with a 401.)</li>
+<li data-path="b2jwt" data-hl="jwt" data-tx="req:orders auth:jwt status:none"><code>JwtDecoder</code> checks the signature against the cached JWK set, then <code>exp</code>, issuer and audience. <code>JwtAuthenticationConverter</code> maps claims to authorities such as <code>ROLE_CUSTOMER</code>.</li>
+<li data-path="b2jwt:rev,b2ctx" data-hl="ctx" data-tx="req:orders auth:jwt status:none">The authenticated token is stored in the <strong><code>SecurityContext</code></strong>, so later filters and your code (<code>@AuthenticationPrincipal</code>, <code>@PreAuthorize</code>) can see who is calling.</li>
+<li data-path="b2anon" data-hl="anon" data-tx="req:orders auth:jwt status:none"><code>AnonymousAuthenticationFilter</code> has nothing to do, because a user is already authenticated.</li>
+<li data-path="anon2etf,etf2az" data-hl="etf az" data-tx="req:orders auth:jwt status:none"><code>ExceptionTranslationFilter</code> wraps the rest of the chain to catch security exceptions. <code>AuthorizationFilter</code> checks the rule for <code>/api/orders</code> (<code>authenticated()</code>): <strong>granted</strong>.</li>
+<li data-path="az2ds" data-hl="ds" data-tx="req:orders auth:jwt status:ok">The request reaches <code>DispatcherServlet</code> and your controller, which is the Spring MVC flow from Chapter 8.</li>
+</ol></div>
+<div class="pb-anim-script" data-scene="none">
+<p class="pb-anim-scene-title"><strong>2 · No token → 401</strong></p>
+<ol>
+<li data-path="c2dfp,dfp2fcp,fcp2sch,sch2hdr,wrap" data-hl="bearer" data-tx="req:orders auth:none status:none"><code>GET /api/orders</code> again, but with no <code>Authorization</code> header. <code>BearerTokenAuthenticationFilter</code> finds no token and passes the request on. A missing token isn't an error <em>yet</em>.</li>
+<li data-path="b2anon" data-hl="anon" data-tx="req:orders auth:anon status:none"><code>AnonymousAuthenticationFilter</code> fills the empty context with an <code>AnonymousAuthenticationToken</code>.</li>
+<li data-path="anon2etf,etf2az" data-hl="az" data-warn="az" data-tx="req:orders auth:anon status:none"><code>AuthorizationFilter</code>: <code>/api/orders</code> needs an authenticated user, so it throws <code>AccessDeniedException</code>.</li>
+<li data-path="etf2az:rev" data-hl="etf" data-token="error" data-tx="req:orders auth:anon status:none"><code>ExceptionTranslationFilter</code> catches it. The caller is anonymous, so this is really an <em>authentication</em> problem…</li>
+<li data-path="etf2entry" data-hl="entry" data-token="error" data-tx="req:orders auth:anon status:c401">…so it starts authentication through the <code>AuthenticationEntryPoint</code>: <strong>401</strong> with <code>WWW-Authenticate: Bearer</code>.</li>
+<li data-path="out401" data-hl="client" data-dim="ds" data-token="error" data-tx="req:orders auth:anon status:c401">The 401 goes straight back. <code>DispatcherServlet</code> and <code>@ControllerAdvice</code> never ran, which is why §3.3 configures the entry point to write a <code>ProblemDetail</code>.</li>
+</ol></div>
+<div class="pb-anim-script" data-scene="role">
+<p class="pb-anim-scene-title"><strong>3 · Wrong role → 403</strong></p>
+<ol>
+<li data-path="c2dfp,dfp2fcp,fcp2sch,sch2hdr,wrap,b2jwt" data-hl="jwt" data-tx="req:admin auth:jwt status:none">A customer with a valid token calls <code>GET /api/admin/reports</code>. Authentication succeeds exactly as in scene 1: <code>ROLE_CUSTOMER</code>.</li>
+<li data-path="b2jwt:rev,b2anon,anon2etf,etf2az" data-hl="az" data-warn="az" data-tx="req:admin auth:jwt status:none"><code>AuthorizationFilter</code>: <code>/api/admin/**</code> requires <code>hasRole("OPS")</code>, meaning the authority <code>ROLE_OPS</code>. Denied, with <code>AccessDeniedException</code>.</li>
+<li data-path="etf2az:rev" data-hl="etf" data-token="error" data-tx="req:admin auth:jwt status:none"><code>ExceptionTranslationFilter</code> catches it. This time the caller <em>is</em> authenticated, so it's a genuine authorization failure…</li>
+<li data-path="etf2denied" data-hl="denied" data-token="error" data-tx="req:admin auth:jwt status:c403">…handled by the <code>AccessDeniedHandler</code>: <strong>403 Forbidden</strong>.</li>
+<li data-path="out403" data-hl="client" data-dim="ds" data-token="error" data-tx="req:admin auth:jwt status:c403">Again, nothing in Spring MVC ran. Method-level <code>@PreAuthorize</code> denials are different: they happen inside the controller call, so <code>@ControllerAdvice</code> can handle them.</li>
+</ol></div>
+</div>
+
 <h3 id="23-securityfilterchain-beans">2.3 <code>SecurityFilterChain</code> beans<a class="headerlink" href="#23-securityfilterchain-beans" title="Permanent link">&para;</a></h3>
 <p>Boot auto-configures a default chain (everything authenticated, HTTP Basic + form login, generated password) <strong>only if you define none</strong>. In production you define one or more:</p>
 <div class="language-java highlight"><span class="filename">SecurityFilterChain beans (snippet)</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nd">@Bean</span>
@@ -7271,6 +7349,8 @@
         <script src="../../javascripts/playbook-diagrams.js"></script>
       
         <script src="../../javascripts/playbook-animations.js"></script>
+      
+        <script src="../../javascripts/playbook-simulators.js"></script>
       
     
   </body>

@@ -5799,11 +5799,17 @@
     [*] --&gt; CLOSED
     CLOSED --&gt; OPEN: failure rate ≥ threshold&lt;br/&gt;(over the sliding window)
     OPEN --&gt; HALF_OPEN: after waitDurationInOpenState
-    HALF_OPEN --&gt; CLOSED: permitted trial calls succeed
-    HALF_OPEN --&gt; OPEN: a trial call fails
+    HALF_OPEN --&gt; CLOSED: trial failure rate &lt; threshold
+    HALF_OPEN --&gt; OPEN: trial failure rate ≥ threshold
     CLOSED --&gt; CLOSED: calls pass through
     OPEN --&gt; OPEN: calls fail fast (CallNotPermittedException)</div>
 <p>Purpose: <strong>stop hammering something that's already down</strong>, fail fast (milliseconds instead of seconds), and give the dependency room to recover.</p>
+<div class="pb-anim pb-sim" data-pb-sim="circuit-breaker">
+<div class="pb-anim-head"><span class="pb-anim-kicker">Interactive simulator</span><span class="pb-anim-title">Drive a circuit breaker yourself</span></div>
+<p class="pb-sim-intro">Settings are scaled down so you can watch a full cycle in seconds: a <code>COUNT_BASED</code> window of 10 calls, <code>minimumNumberOfCalls</code> 5, <code>waitDurationInOpenState</code> 5 s, <code>permittedNumberOfCallsInHalfOpenState</code> 3, automatic OPEN → HALF_OPEN. Try <em>Dependency goes down</em>, wait for HALF_OPEN, then <em>Dependency recovers</em>, or set the failure rate near the threshold and watch it flap.</p>
+<div class="pb-sim-fallback"><p><strong>This simulator needs JavaScript.</strong> In the online handbook you can set the dependency's failure rate and the <code>failureRateThreshold</code>, send traffic, and watch the breaker move between CLOSED, OPEN and HALF_OPEN: calls recorded in a sliding window, fast failures with <code>CallNotPermittedException</code> while OPEN, and a few trial calls deciding whether HALF_OPEN closes or reopens.</p></div>
+</div>
+
 <p>Key settings:</p>
 <table>
 <thead>
@@ -6052,7 +6058,7 @@
 <ul>
 <li><strong>CLOSED</strong>: record result; if <code>minimumNumberOfCalls</code> reached and failure/slow rate ≥ threshold → OPEN.</li>
 <li><strong>OPEN</strong>: throw <code>CallNotPermittedException</code> immediately (no call made); after <code>waitDurationInOpenState</code> → HALF_OPEN.</li>
-<li><strong>HALF_OPEN</strong>: allow <code>permittedNumberOfCallsInHalfOpenState</code>; all succeed → CLOSED, any fails → OPEN.</li>
+<li><strong>HALF_OPEN</strong>: allow <code>permittedNumberOfCallsInHalfOpenState</code> trial calls (further calls are rejected); once they complete, their failure (or slow-call) rate is compared with the threshold: below → CLOSED, at or above → OPEN.</li>
 </ul>
 <p>State transitions emit events — subscribe to them for logging, metrics and alerts.</p>
 <h3 id="33-where-timeouts-actually-fire">3.3 Where timeouts actually fire<a class="headerlink" href="#33-where-timeouts-actually-fire" title="Permanent link">&para;</a></h3>
@@ -7112,6 +7118,8 @@
         <script src="../../javascripts/playbook-diagrams.js"></script>
       
         <script src="../../javascripts/playbook-animations.js"></script>
+      
+        <script src="../../javascripts/playbook-simulators.js"></script>
       
     
   </body>
