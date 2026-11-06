@@ -59,6 +59,8 @@
     
       <link rel="stylesheet" href="../../stylesheets/playbook-theme.css">
     
+      <link rel="stylesheet" href="../../stylesheets/playbook-animations.css">
+    
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -4604,6 +4606,69 @@ decides whether an inner call joins the caller's transaction (<code>REQUIRED</co
     T-&gt;&gt;P: selfInvocationHasTransaction()
     P-&gt;&gt;S: (no tx)
     S-&gt;&gt;S: this.insideTransactional(): proxy bypassed → false</div>
+<p>The same three ideas, animated. Scene 2 is trap 2 (self-invocation), and scene 3 is trap 3 (<code>REQUIRES_NEW</code> audit):</p>
+<div class="pb-anim" data-pb-anim>
+<div class="pb-anim-head"><span class="pb-anim-kicker">Animated walkthrough</span><span class="pb-anim-title">The <code>@Transactional</code> proxy — and how <code>this.method()</code> escapes it</span></div>
+<div class="pb-anim-stage">
+<svg viewBox="0 0 780 396" role="img" aria-labelledby="pb-txp-title pb-txp-desc" xmlns="http://www.w3.org/2000/svg">
+<title id="pb-txp-title">Transactional proxy and self-invocation</title>
+<desc id="pb-txp-desc">A caller calls TransferService through its CGLIB proxy. The proxy's TransactionInterceptor begins and commits transactions around the real method. A this.audit() call stays inside the target object and skips the interceptor. Calling a separate AuditService bean goes through that bean's proxy, so REQUIRES_NEW starts its own transaction.</desc>
+<defs><marker id="pb-txp-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#818cf8"/></marker></defs>
+<g data-node="caller"><rect class="pb-box" x="16" y="150" width="120" height="64" rx="12" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="76" y="178">Caller</text><text class="t-sm t-c" x="76" y="198">controller / test</text></g>
+<g data-node="proxy"><rect class="pb-shell" x="170" y="34" width="390" height="270" rx="16" fill="none" stroke="#818cf8" stroke-dasharray="7 5"/><text class="t-b" x="186" y="58">TransferService proxy</text><text class="t-sm" x="352" y="58">CGLIB subclass Spring injects</text></g>
+<g data-node="interceptor"><rect class="pb-box pb-band" x="186" y="72" width="110" height="216" rx="12" fill="#eef2ff" stroke="#6366f1"/><text class="t-b t-c" x="241" y="160">Transaction</text><text class="t-b t-c" x="241" y="178">Interceptor</text><text class="t-sm t-c" x="241" y="206">BEGIN</text><text class="t-sm t-c" x="241" y="222">COMMIT</text><text class="t-sm t-c" x="241" y="238">ROLLBACK</text></g>
+<g data-node="target"><rect class="pb-box pb-target" x="314" y="72" width="232" height="216" rx="12" fill="#f8fafc" stroke="#cbd5e1"/><text class="t-b" x="330" y="96">TransferService</text><text class="t-sm" x="330" y="112">target object (this)</text></g>
+<g data-node="m1"><rect class="pb-box" x="330" y="124" width="200" height="56" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-mono" x="344" y="148">transfer()</text><text class="t-sm t-mono t-accent" x="344" y="168">@Transactional</text></g>
+<g data-node="m2"><rect class="pb-box" x="330" y="212" width="200" height="56" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-mono" x="344" y="236">audit()</text><text class="t-xs t-mono t-accent" x="344" y="256">@Transactional(REQUIRES_NEW)</text></g>
+<g data-scenes="fix">
+<g data-node="audit"><rect class="pb-shell" x="578" y="120" width="186" height="168" rx="16" fill="none" stroke="#818cf8" stroke-dasharray="7 5"/><text class="t-b" x="592" y="144">AuditService proxy</text></g>
+<g data-node="auditint"><rect class="pb-box pb-band" x="592" y="158" width="158" height="36" rx="10" fill="#eef2ff" stroke="#6366f1"/><text class="t-sm t-c" x="671" y="181">TransactionInterceptor</text></g>
+<g data-node="record"><rect class="pb-box" x="592" y="212" width="158" height="56" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-mono" x="606" y="236">record()</text><text class="t-xs t-mono t-accent" x="606" y="256">REQUIRES_NEW</text></g>
+</g>
+<path class="pb-route" data-path="call-in" d="M136 182 L186 182" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-txp-arrow)"/>
+<path class="pb-route" data-path="int-out" d="M186 200 L136 200" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-txp-arrow)"/>
+<path class="pb-route" data-path="int-m1" d="M296 152 L330 152" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-txp-arrow)"/>
+<g data-scenes="self"><path class="pb-route" data-path="self" d="M430 180 L430 212" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-txp-arrow)"/><path class="pb-route pb-route--ghost" d="M330 168 C 266 168 266 240 330 240" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="5 5"/><text class="t-xs t-mono t-warn" x="438" y="200">this.audit()</text></g>
+<g data-scenes="fix"><path class="pb-route" data-path="m1-audit" d="M530 152 C 566 152 562 176 592 176" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-txp-arrow)"/><path class="pb-route" data-path="audit-in" d="M671 194 L671 212" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-txp-arrow)"/></g>
+<g class="pb-tx-panel"><rect class="pb-box" x="16" y="320" width="748" height="64" rx="14" fill="#f8fafc" stroke="#cbd5e1"/><text class="t-b" x="34" y="357">Transactions</text>
+<g data-tx="tx1" data-state="none"><rect class="pb-chip" x="150" y="334" width="290" height="36" rx="18" fill="#ffffff" stroke="#cbd5e1"/><text class="t-mono t-b" x="170" y="357">tx1</text><text class="t-sm" x="204" y="357">outer · transfer()</text><text class="t-b pb-tx-status" data-tx-status x="424" y="357" text-anchor="end">—</text></g>
+<g data-tx="tx2" data-state="none"><rect class="pb-chip" x="458" y="334" width="290" height="36" rx="18" fill="#ffffff" stroke="#cbd5e1"/><text class="t-mono t-b" x="478" y="357">tx2</text><text class="t-sm" x="512" y="357">inner · audit</text><text class="t-b pb-tx-status" data-tx-status x="732" y="357" text-anchor="end">—</text></g>
+</g>
+<circle class="pb-anim-token" r="9" cx="-40" cy="-40" fill="#4f46e5" stroke="#ffffff" stroke-width="2.5"/>
+</svg>
+</div>
+<div class="pb-anim-script" data-scene="proxy">
+<p class="pb-anim-scene-title"><strong>1 · Through the proxy</strong></p>
+<ol>
+<li data-path="call-in" data-hl="caller interceptor" data-tx="tx1:none tx2:none">Spring injected a <strong>proxy</strong>, not your class. The caller's <code>transferService.transfer()</code> lands in the proxy first.</li>
+<li data-hl="interceptor" data-tx="tx1:active tx2:none"><code>TransactionInterceptor</code> finds <code>@Transactional</code> on <code>transfer()</code> and asks the <code>PlatformTransactionManager</code> for a transaction: <strong>BEGIN tx1</strong>, with the connection bound to the current thread.</li>
+<li data-path="int-m1" data-hl="m1" data-tx="tx1:active tx2:none"><code>proceed()</code> calls the real <code>transfer()</code> on the target object. The debit and the credit run on tx1's connection.</li>
+<li data-path="int-m1:rev,int-out" data-hl="interceptor caller" data-tx="tx1:committed tx2:none">The method returns normally, so the interceptor <strong>commits tx1</strong> on the way out. An unchecked exception would have rolled it back instead.</li>
+</ol>
+</div>
+<div class="pb-anim-script" data-scene="self">
+<p class="pb-anim-scene-title"><strong>2 · The self-invocation trap</strong></p>
+<ol>
+<li data-path="call-in" data-hl="caller interceptor" data-tx="tx1:none tx2:none">Same entry through the proxy. This time <code>transfer()</code> also calls <code>this.audit()</code>, which is annotated <code>@Transactional(REQUIRES_NEW)</code>.</li>
+<li data-path="int-m1" data-hl="interceptor m1" data-tx="tx1:active tx2:none">The interceptor begins <strong>tx1</strong> and calls the real <code>transfer()</code>.</li>
+<li data-path="self" data-hl="m2" data-warn="m2" data-tx="tx1:active tx2:ignored"><code>this.audit()</code> is a plain Java call on the target object. It never leaves the bean, so no interceptor runs: the dashed route back through the proxy never happens. <code>REQUIRES_NEW</code> is ignored and the audit row is written inside <strong>tx1</strong>.</li>
+<li data-path="self:rev" data-token="error" data-warn="m1" data-tx="tx1:active tx2:ignored">Back in <code>transfer()</code>, the debit finds insufficient funds and throws a <code>RuntimeException</code>.</li>
+<li data-path="int-m1:rev,int-out" data-token="error" data-hl="interceptor caller" data-tx="tx1:rolledback tx2:ignored">The interceptor sees the exception and <strong>rolls back tx1</strong>. The audit row disappears along with the debit, which is the opposite of what <code>REQUIRES_NEW</code> promised.</li>
+</ol>
+</div>
+<div class="pb-anim-script" data-scene="fix">
+<p class="pb-anim-scene-title"><strong>3 · The fix: call another bean</strong></p>
+<ol>
+<li data-path="call-in" data-hl="caller interceptor" data-dim="m2" data-tx="tx1:none tx2:none">Move the audit logic into its own bean, <code>AuditService.record()</code>, and inject it into <code>TransferService</code>. (A self-injected proxy or a <code>TransactionTemplate</code> also work, but a separate bean is the clearest.)</li>
+<li data-path="int-m1" data-hl="interceptor m1" data-dim="m2" data-tx="tx1:active tx2:none">The interceptor begins <strong>tx1</strong> and calls the real <code>transfer()</code>.</li>
+<li data-path="m1-audit" data-hl="audit auditint" data-dim="m2" data-tx="tx1:suspended tx2:active"><code>auditService.record()</code> targets a different bean, so the call goes through <em>its</em> proxy. <code>REQUIRES_NEW</code> now takes effect: <strong>tx1 is suspended</strong> and <strong>tx2 begins</strong> on a separate connection.</li>
+<li data-path="audit-in" data-hl="record" data-dim="m2" data-tx="tx1:suspended tx2:active"><code>record()</code> inserts the audit row inside tx2.</li>
+<li data-path="audit-in:rev,m1-audit:rev" data-hl="auditint m1" data-dim="m2" data-tx="tx1:active tx2:committed">On return, the audit proxy <strong>commits tx2</strong> and resumes tx1. The audit row is now durable.</li>
+<li data-path="int-m1:rev,int-out" data-token="error" data-hl="interceptor caller" data-dim="m2" data-tx="tx1:rolledback tx2:committed"><code>transfer()</code> throws, and tx1 rolls back the debit. The audit row survives because tx2 already committed. This is exactly what the <code>REQUIRES_NEW</code> test in Interview Problem 7 asserts.</li>
+</ol>
+</div>
+</div>
+
 <h2 id="solution">Solution<a class="headerlink" href="#solution" title="Permanent link">&para;</a></h2>
 <div class="language-java highlight"><span class="filename">TransferService.java</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">package</span><span class="w"> </span><span class="nn">com.playbook.interview.p07</span><span class="p">;</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
@@ -4910,6 +4975,8 @@ decides whether an inner call joins the caller's transaction (<code>REQUIRED</co
         <script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
       
         <script src="../../javascripts/playbook-diagrams.js"></script>
+      
+        <script src="../../javascripts/playbook-animations.js"></script>
       
     
   </body>
