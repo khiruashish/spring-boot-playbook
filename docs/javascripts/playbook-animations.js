@@ -10,7 +10,7 @@
  *   data-path   comma list of route names to move the token along; "name:rev" runs a route backwards
  *   data-par    space list of routes to animate AT THE SAME TIME, one extra token each (e.g. concurrent requests);
  *               flags after the name: ":rev", ":error" (red token), ":signal" (amber token, e.g. request(n))
- *   data-token  "error" paints the token red (an exception travelling back up the stack)
+ *   data-token  "error" paints the token red (an exception travelling back up the stack), "signal" amber
  *   data-hl / data-warn / data-dim / data-hide   space list of data-node names to highlight / flag / fade / hide
  *   data-tx     space list of "chipName:state". Built-in states: none, active, suspended, committed, rolledback,
  *               ignored. A chip may define its own: data-label-<state>="TEXT" sets the status text and
@@ -197,6 +197,7 @@
       clearExtras();
       var parTokens = par.map(extraToken);
       token.classList.toggle("is-error", li.getAttribute("data-token") === "error");
+      token.classList.toggle("is-signal", li.getAttribute("data-token") === "signal");
 
       caption.textContent = "";
       var num = el("span", "pb-anim-step-num", String(i + 1));

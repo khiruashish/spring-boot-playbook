@@ -1,0 +1,66 @@
+<div class="pb-anim" data-pb-anim>
+<div class="pb-anim-head"><span class="pb-anim-kicker">Animated walkthrough</span><span class="pb-anim-title">Virtual threads — six requests on two carrier threads, and what pinning does</span></div>
+<div class="pb-anim-stage">
+<svg viewBox="0 30 800 352" role="img" aria-labelledby="pb-vt-title pb-vt-desc" xmlns="http://www.w3.org/2000/svg">
+<title id="pb-vt-title">Virtual thread mounting</title>
+<desc id="pb-vt-desc">Six virtual threads share two carrier threads from a ForkJoinPool. When a mounted virtual thread blocks on database or HTTP I/O it unmounts, freeing its carrier for another virtual thread, and later remounts on any free carrier. A native (JNI) call pins its virtual thread, blocking the carrier for the whole call.</desc>
+<defs><marker id="pb-vt-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#818cf8"/></marker></defs>
+<text class="t-sm t-b" x="16" y="44">Virtual threads (one per request)</text>
+<g data-node="v1"><rect class="pb-box" x="16" y="44" width="150" height="36" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-11 t-c" x="91" y="66.5">VT1 · request 1</text></g>
+<g data-node="v2"><rect class="pb-box" x="16" y="90" width="150" height="36" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-11 t-c" x="91" y="112.5">VT2 · request 2</text></g>
+<g data-node="v3"><rect class="pb-box" x="16" y="136" width="150" height="36" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-11 t-c" x="91" y="158.5">VT3 · request 3</text></g>
+<g data-node="v4"><rect class="pb-box" x="16" y="182" width="150" height="36" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-11 t-c" x="91" y="204.5">VT4 · request 4</text></g>
+<g data-node="v5"><rect class="pb-box" x="16" y="228" width="150" height="36" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-11 t-c" x="91" y="250.5">VT5 · request 5</text></g>
+<g data-node="v6"><rect class="pb-box" x="16" y="274" width="150" height="36" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-11 t-c" x="91" y="296.5">VT6 · request 6</text></g>
+<g data-node="pool"><rect class="pb-shell" x="286" y="40" width="210" height="272" rx="16" fill="none" stroke="#818cf8" stroke-dasharray="7 5"/><text class="t-sm t-b t-accent" x="300" y="58">Carrier pool · ForkJoinPool</text></g>
+<g data-node="c1"><rect class="pb-box" x="306" y="92" width="170" height="72" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="391" y="125">carrier 1</text><text class="t-xs t-sub t-c" x="391" y="140">platform (OS) thread</text></g>
+<g data-node="c2"><rect class="pb-box" x="306" y="200" width="170" height="72" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="391" y="233">carrier 2</text><text class="t-xs t-sub t-c" x="391" y="248">platform (OS) thread</text></g>
+<text class="t-xs t-sub" x="391" y="300" text-anchor="middle">size = CPU cores (here 2)</text>
+<g data-node="io"><rect class="pb-box" x="620" y="128" width="164" height="110" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="702" y="180">Database / HTTP</text><text class="t-xs t-sub t-c" x="702" y="195">blocking I/O</text></g>
+<g data-scenes="pin">
+<g data-node="jni"><rect class="pb-box" x="620" y="260" width="164" height="52" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="702" y="283">native library</text><text class="t-xs t-sub t-c" x="702" y="298">JNI call</text></g>
+</g>
+<g data-node="m11"><path class="pb-route pb-link" d="M166 62 L306 128" fill="none" stroke="#a5b4fc" stroke-width="2.5"/></g>
+<g data-node="m12"><path class="pb-route pb-link" d="M166 62 L306 236" fill="none" stroke="#a5b4fc" stroke-width="2.5"/></g>
+<g data-node="m21"><path class="pb-route pb-link" d="M166 108 L306 128" fill="none" stroke="#a5b4fc" stroke-width="2.5"/></g>
+<g data-node="m22"><path class="pb-route pb-link" d="M166 108 L306 236" fill="none" stroke="#a5b4fc" stroke-width="2.5"/></g>
+<g data-node="m31"><path class="pb-route pb-link" d="M166 154 L306 128" fill="none" stroke="#a5b4fc" stroke-width="2.5"/></g>
+<g data-node="m32"><path class="pb-route pb-link" d="M166 154 L306 236" fill="none" stroke="#a5b4fc" stroke-width="2.5"/></g>
+<g data-node="m41"><path class="pb-route pb-link" d="M166 200 L306 128" fill="none" stroke="#a5b4fc" stroke-width="2.5"/></g>
+<g data-node="m42"><path class="pb-route pb-link" d="M166 200 L306 236" fill="none" stroke="#a5b4fc" stroke-width="2.5"/></g>
+<g data-node="m51"><path class="pb-route pb-link" d="M166 246 L306 128" fill="none" stroke="#a5b4fc" stroke-width="2.5"/></g>
+<g data-node="m52"><path class="pb-route pb-link" d="M166 246 L306 236" fill="none" stroke="#a5b4fc" stroke-width="2.5"/></g>
+<g data-node="m61"><path class="pb-route pb-link" d="M166 292 L306 128" fill="none" stroke="#a5b4fc" stroke-width="2.5"/></g>
+<g data-node="m62"><path class="pb-route pb-link" d="M166 292 L306 236" fill="none" stroke="#a5b4fc" stroke-width="2.5"/></g>
+<path class="pb-route" data-path="io1" d="M476 128 L548 128 L548 170 L620 170" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-vt-arrow)"/>
+<path class="pb-route" data-path="io2" d="M476 236 L548 236 L548 196 L620 196" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-vt-arrow)"/>
+<g data-scenes="pin">
+<path class="pb-route" data-path="jni1" d="M476 140 L520 140 L520 286 L620 286" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-vt-arrow)"/>
+</g>
+<rect class="pb-box" x="16" y="324" width="768" height="50" rx="14" fill="#f8fafc" stroke="#cbd5e1"/>
+<g data-tx="flight" data-state="none" data-label-n2="2 requests" data-tone-n2="active" data-label-n4="4 requests" data-tone-n4="active" data-label-n6="6 requests" data-tone-n6="committed" data-label-n3="3 requests" data-tone-n3="suspended"><rect class="pb-chip" x="28" y="333" width="236" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="42" y="353.5">In flight</text><text class="t-b pb-tx-status" data-tx-status x="250" y="353.5" text-anchor="end">—</text></g>
+<g data-tx="carriers" data-state="none" data-label-busy="2 of 2 running" data-tone-busy="active" data-label-pinned="1 PINNED" data-tone-pinned="rolledback"><rect class="pb-chip" x="276" y="333" width="260" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="290" y="353.5">Carriers</text><text class="t-b pb-tx-status" data-tx-status x="522" y="353.5" text-anchor="end">—</text></g>
+<g data-tx="os" data-state="none" data-label-two="2" data-tone-two="committed"><rect class="pb-chip" x="548" y="333" width="224" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="562" y="353.5">OS threads used</text><text class="t-b pb-tx-status" data-tx-status x="758" y="353.5" text-anchor="end">—</text></g>
+<circle class="pb-anim-token" r="9" cx="-40" cy="-40" fill="#4f46e5" stroke="#ffffff" stroke-width="2.5"/>
+</svg>
+</div>
+<div class="pb-anim-script" data-scene="mount">
+<p class="pb-anim-scene-title"><strong>1 · Block, unmount, remount</strong></p>
+<ol>
+<li data-hl="v1 v2 c1 c2" data-dim="v3 v4 v5 v6" data-hide="m12 m21 m31 m32 m41 m42 m51 m52 m61 m62" data-tx="flight:n2 carriers:busy os:two">Six requests, six virtual threads, but only <strong>two carrier threads</strong>: a <code>ForkJoinPool</code> sized to the CPU count. VT1 and VT2 are mounted and running.</li>
+<li data-par="io1 io2" data-hl="io" data-dim="v3 v4 v5 v6" data-hide="m12 m21 m31 m32 m41 m42 m51 m52 m61 m62" data-tx="flight:n2 carriers:busy os:two">Both make a blocking JDBC call. On a virtual thread, that doesn't block the carrier…</li>
+<li data-hl="v3 v4 c1 c2" data-dim="v1 v2 v5 v6" data-hide="m11 m12 m21 m22 m32 m41 m51 m52 m61 m62" data-tx="flight:n4 carriers:busy os:two">…the JVM <strong>unmounts</strong> VT1 and VT2 (their stacks are parked on the heap) and mounts VT3 and VT4 on the freed carriers.</li>
+<li data-par="io1 io2" data-hl="v5 v6 c1 c2" data-dim="v1 v2 v3 v4" data-hide="m11 m12 m21 m22 m31 m32 m41 m42 m52 m61" data-tx="flight:n6 carriers:busy os:two">They block too and unmount, and VT5 and VT6 run. <strong>Six requests are in flight on two OS threads.</strong></li>
+<li data-par="io1:rev io2:rev" data-hl="v1 v2 c1 c2" data-dim="v3 v4 v5 v6" data-hide="m11 m22 m31 m32 m41 m42 m51 m52 m61 m62" data-tx="flight:n6 carriers:busy os:two">When VT1's and VT2's results arrive they <strong>remount on whichever carrier is free</strong>, not necessarily the one they started on, and carry on where they left off.</li>
+<li data-hl="io" data-hide="m11 m22 m31 m32 m41 m42 m51 m52 m61 m62" data-tx="flight:n6 carriers:busy os:two">So virtual threads make <em>blocking</em> code scale; they don't make CPU work faster. The database pool is still bounded, which is why §5.4 adds a bulkhead.</li>
+</ol></div>
+<div class="pb-anim-script" data-scene="pin">
+<p class="pb-anim-scene-title"><strong>2 · A pinned carrier</strong></p>
+<ol>
+<li data-hl="v1 v2 c1 c2" data-dim="v3 v4 v5 v6" data-hide="m12 m21 m31 m32 m41 m42 m51 m52 m61 m62" data-tx="flight:n2 carriers:busy os:two">Same pool. This time VT1 calls into a native library through JNI, and the native code blocks.</li>
+<li data-par="jni1" data-hl="v1 jni" data-warn="c1" data-dim="v3 v4 v5 v6" data-hide="m12 m21 m31 m32 m41 m42 m51 m52 m61 m62" data-tx="flight:n2 carriers:pinned os:two">A virtual thread can't unmount while a native frame is on its stack: it is <strong>pinned</strong>, and carrier 1 is blocked for the whole call.</li>
+<li data-par="io2" data-hl="v3 c2" data-warn="c1" data-dim="v2 v4 v5 v6" data-hide="m12 m21 m22 m31 m41 m42 m51 m52 m61 m62" data-tx="flight:n3 carriers:pinned os:two">Carrier 2 still works normally: VT2 unmounts on its I/O and VT3 takes its place.</li>
+<li data-hl="v4 v5 v6" data-warn="c1" data-dim="v2" data-hide="m12 m21 m22 m31 m41 m42 m51 m52 m61 m62" data-tx="flight:n3 carriers:pinned os:two">But half the pool is gone. Pin both carriers and <em>every</em> virtual thread in the application waits, including ones that have nothing to do with the native call.</li>
+<li data-warn="c1" data-hide="m12 m21 m22 m31 m41 m42 m51 m52 m61 m62" data-tx="flight:n3 carriers:pinned os:two">On Java 21–23, <code>synchronized</code> around I/O pinned the same way; JDK 24 removed that (JEP 491). Find what's left with JFR <code>jdk.VirtualThreadPinned</code> events (§5.5).</li>
+</ol></div>
+</div>
