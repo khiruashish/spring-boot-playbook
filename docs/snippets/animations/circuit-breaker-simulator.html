@@ -1,0 +1,5 @@
+<div class="pb-anim pb-sim" data-pb-sim="circuit-breaker">
+<div class="pb-anim-head"><span class="pb-anim-kicker">Interactive simulator</span><span class="pb-anim-title">Drive a circuit breaker yourself</span></div>
+<p class="pb-sim-intro">Settings are scaled down so you can watch a full cycle in seconds: a <code>COUNT_BASED</code> window of 10 calls, <code>minimumNumberOfCalls</code> 5, <code>waitDurationInOpenState</code> 5 s, <code>permittedNumberOfCallsInHalfOpenState</code> 3, automatic OPEN → HALF_OPEN. Try <em>Dependency goes down</em>, wait for HALF_OPEN, then <em>Dependency recovers</em>, or set the failure rate near the threshold and watch it flap.</p>
+<div class="pb-sim-fallback"><p><strong>This simulator needs JavaScript.</strong> In the online handbook you can set the dependency's failure rate and the <code>failureRateThreshold</code>, send traffic, and watch the breaker move between CLOSED, OPEN and HALF_OPEN: calls recorded in a sliding window, fast failures with <code>CallNotPermittedException</code> while OPEN, and a few trial calls deciding whether HALF_OPEN closes or reopens.</p></div>
+</div>
