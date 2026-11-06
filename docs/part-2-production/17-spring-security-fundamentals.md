@@ -66,6 +66,10 @@ Two filters deserve special attention:
 - **`ExceptionTranslationFilter`** catches `AuthenticationException` → entry point (401) and `AccessDeniedException` → 403 (or entry point if anonymous). This is why security errors don't reach `@ControllerAdvice` by default (Chapter 10).
 - **`AuthorizationFilter`** (Security 6+, replacing `FilterSecurityInterceptor`) applies the request-level rules.
 
+Follow one request through the stateless `/api/**` chain, then see where a 401 and a 403 come from (§3.2 and §3.3 explain the details):
+
+--8<-- "docs/snippets/animations/security-filter-chain.html"
+
 ### 2.3 `SecurityFilterChain` beans
 
 Boot auto-configures a default chain (everything authenticated, HTTP Basic + form login, generated password) **only if you define none**. In production you define one or more:

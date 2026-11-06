@@ -64,13 +64,15 @@ stateDiagram-v2
     [*] --> CLOSED
     CLOSED --> OPEN: failure rate ≥ threshold<br/>(over the sliding window)
     OPEN --> HALF_OPEN: after waitDurationInOpenState
-    HALF_OPEN --> CLOSED: permitted trial calls succeed
-    HALF_OPEN --> OPEN: a trial call fails
+    HALF_OPEN --> CLOSED: trial failure rate < threshold
+    HALF_OPEN --> OPEN: trial failure rate ≥ threshold
     CLOSED --> CLOSED: calls pass through
     OPEN --> OPEN: calls fail fast (CallNotPermittedException)
 ```
 
 Purpose: **stop hammering something that's already down**, fail fast (milliseconds instead of seconds), and give the dependency room to recover.
+
+--8<-- "docs/snippets/animations/circuit-breaker-simulator.html"
 
 Key settings:
 
@@ -182,7 +184,7 @@ A ring-bit-buffer (count-based) or sliding time window records outcomes. On each
 
 - **CLOSED**: record result; if `minimumNumberOfCalls` reached and failure/slow rate ≥ threshold → OPEN.
 - **OPEN**: throw `CallNotPermittedException` immediately (no call made); after `waitDurationInOpenState` → HALF_OPEN.
-- **HALF_OPEN**: allow `permittedNumberOfCallsInHalfOpenState`; all succeed → CLOSED, any fails → OPEN.
+- **HALF_OPEN**: allow `permittedNumberOfCallsInHalfOpenState` trial calls (further calls are rejected); once they complete, their failure (or slow-call) rate is compared with the threshold: below → CLOSED, at or above → OPEN.
 
 State transitions emit events — subscribe to them for logging, metrics and alerts.
 

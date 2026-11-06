@@ -179,6 +179,10 @@ The key property: between issuing I/O and receiving the result, **no thread is p
 
 For SSE and streaming responses, the TCP send buffer and the client's read speed propagate upstream as `request(n)` demand. A slow mobile client therefore slows the source — which is either exactly what you want (paged data) or a memory risk (live feeds), which is why an explicit strategy (2.6) is mandatory for infinite streams.
 
+Demand and data in motion: a paged export that pauses its source, and a live feed that has to drop:
+
+--8<-- "docs/snippets/animations/backpressure.html"
+
 ---
 
 ## 4. Hands-On Code — Level 1 (Beginner)

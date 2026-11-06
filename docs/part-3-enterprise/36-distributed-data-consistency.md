@@ -173,6 +173,10 @@ sequenceDiagram
 
 Two operational facts: the connector's **offset advance** is what frees WAL, and the outbox table can be pruned once rows are captured (or written as insert-then-delete in the same transaction, if your connector supports it).
 
+Step through the problem (§2.2), the outbox fix, and a saga that has to compensate (§3.2):
+
+--8<-- "docs/snippets/animations/outbox-saga.html"
+
 ### 3.2 Saga state machine
 
 ```mermaid

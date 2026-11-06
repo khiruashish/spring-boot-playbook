@@ -215,6 +215,10 @@ flowchart LR
 
 Carrier threads are a `ForkJoinPool` sized to the CPU count by default (`jdk.virtualThreadScheduler.parallelism`). Pinning matters because it removes a carrier from that small pool.
 
+Six requests on two carriers, then a pinned carrier:
+
+--8<-- "docs/snippets/animations/virtual-threads.html"
+
 ### 3.4 Scheduling
 
 `ThreadPoolTaskScheduler` wraps a `ScheduledThreadPoolExecutor`. A `fixedDelay` task schedules its next run **after** completion; a `cron` task computes the next time from a `CronTrigger`. If the pool is busy, executions are **delayed, not parallelized** — the pool size is the ceiling on concurrent scheduled work.

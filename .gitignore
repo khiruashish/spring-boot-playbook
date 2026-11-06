@@ -3,3 +3,5 @@ site/
 .cache/
 tools/pdf/build/
 tools/pdf/node_modules/
+__pycache__/
+animation-shots/

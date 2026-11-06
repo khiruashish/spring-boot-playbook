@@ -1,0 +1,74 @@
+<div class="pb-anim" data-pb-anim>
+<div class="pb-anim-head"><span class="pb-anim-kicker">Animated walkthrough</span><span class="pb-anim-title">Propagation in motion — <code>REQUIRED</code>, the rollback-only trap, <code>REQUIRES_NEW</code>, <code>NESTED</code></span></div>
+<div class="pb-anim-stage">
+<svg viewBox="0 0 800 380" role="img" aria-labelledby="pb-prop-title pb-prop-desc" xmlns="http://www.w3.org/2000/svg">
+<title id="pb-prop-title">Transaction propagation</title>
+<desc id="pb-prop-desc">ImportService.importAll() runs in transaction tx1 and calls RowImporter.importRow() through its proxy. Depending on propagation, the inner call joins tx1, marks it rollback-only, suspends it and starts tx2 on a second connection, or sets a savepoint. Chips show both transactions, the rollback-only flag, the outcome, and the two pooled connections.</desc>
+<defs><marker id="pb-prop-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#818cf8"/></marker></defs>
+<g data-node="outer"><rect class="pb-box" x="16" y="92" width="170" height="84" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-mono t-c" x="101" y="123.5">importAll()</text><text class="t-xs t-sub t-c" x="101" y="138.5">ImportService</text><text class="t-xs t-sub t-c" x="101" y="153.5">@Transactional · tx1</text></g>
+<g data-node="proxy"><rect class="pb-shell" x="222" y="40" width="338" height="218" rx="16" fill="none" stroke="#818cf8" stroke-dasharray="7 5"/><text class="t-sm t-b t-accent" x="236" y="58">RowImporter proxy</text></g>
+<g data-node="interceptor"><rect class="pb-box pb-band" x="238" y="70" width="112" height="172" rx="10" fill="#eef2ff" stroke="#6366f1"/><text class="t-b t-c" x="294" y="153">Transaction</text><text class="t-b t-c" x="294" y="168">Interceptor</text></g>
+<g data-node="target"><rect class="pb-box pb-target" x="366" y="70" width="180" height="172" rx="10" fill="#f8fafc" stroke="#cbd5e1"/></g>
+<text class="t-b" x="380" y="92">RowImporter (target)</text>
+<g data-node="m"><rect class="pb-box" x="380" y="116" width="152" height="64" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-mono t-c" x="456" y="152.5">importRow(row)</text></g>
+<g data-scenes="req trap">
+<text class="t-xs t-mono t-accent" x="456" y="168" text-anchor="middle">@Transactional (REQUIRED)</text>
+</g>
+<g data-scenes="new">
+<text class="t-xs t-mono t-accent" x="456" y="168" text-anchor="middle">REQUIRES_NEW</text>
+</g>
+<g data-scenes="nested">
+<text class="t-xs t-mono t-accent" x="456" y="168" text-anchor="middle">NESTED</text>
+</g>
+<path class="pb-route" data-path="call" d="M186 128 L238 128" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-prop-arrow)"/>
+<path class="pb-route" data-path="ret" d="M238 146 L186 146" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-prop-arrow)"/>
+<path class="pb-route" data-path="in" d="M350 148 L380 148" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-prop-arrow)"/>
+<text class="t-sm t-b" x="590" y="58">Connection pool (max 2)</text>
+<g data-tx="conn1" data-state="none" data-label-idle="idle" data-tone-idle="none" data-label-tx1="tx1" data-tone-tx1="active" data-label-held="tx1 · waiting" data-tone-held="suspended" data-label-tx2="tx2" data-tone-tx2="active"><rect class="pb-chip" x="590" y="70" width="194" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="604" y="90.5">Connection #1</text><text class="t-b pb-tx-status" data-tx-status x="770" y="90.5" text-anchor="end">—</text></g>
+<g data-tx="conn2" data-state="none" data-label-idle="idle" data-tone-idle="none" data-label-tx1="tx1" data-tone-tx1="active" data-label-held="tx1 · waiting" data-tone-held="suspended" data-label-tx2="tx2" data-tone-tx2="active"><rect class="pb-chip" x="590" y="110" width="194" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="604" y="130.5">Connection #2</text><text class="t-b pb-tx-status" data-tx-status x="770" y="130.5" text-anchor="end">—</text></g>
+<g data-tx="sp" data-state="none" data-label-set="SP1" data-tone-set="suspended" data-label-rolled="ROLLED BACK" data-tone-rolled="rolledback"><rect class="pb-chip" x="590" y="150" width="194" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="604" y="170.5">Savepoint</text><text class="t-b pb-tx-status" data-tx-status x="770" y="170.5" text-anchor="end">—</text></g>
+<rect class="pb-box" x="16" y="276" width="768" height="94" rx="14" fill="#f8fafc" stroke="#cbd5e1"/>
+<text class="t-b" x="32" y="298">Transactions</text>
+<g data-tx="tx1" data-state="none"><rect class="pb-chip" x="150" y="288" width="304" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="164" y="308.5">tx1 · importAll()</text><text class="t-b pb-tx-status" data-tx-status x="440" y="308.5" text-anchor="end">—</text></g>
+<g data-tx="tx2" data-state="none" data-label-joined="JOINS tx1" data-tone-joined="committed" data-label-savepoint="INSIDE tx1 · SP1" data-tone-savepoint="suspended" data-label-tosp="UNDONE TO SP1" data-tone-tosp="rolledback" data-label-done="FINISHED" data-tone-done="none"><rect class="pb-chip" x="470" y="288" width="304" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="484" y="308.5">inner · importRow()</text><text class="t-b pb-tx-status" data-tx-status x="760" y="308.5" text-anchor="end">—</text></g>
+<g data-tx="flag" data-state="none" data-label-no="not set" data-tone-no="none" data-label-yes="SET" data-tone-yes="rolledback"><rect class="pb-chip" x="150" y="328" width="304" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="164" y="348.5">rollback-only flag</text><text class="t-b pb-tx-status" data-tx-status x="440" y="348.5" text-anchor="end">—</text></g>
+<g data-tx="out" data-state="none" data-label-ok="COMMITTED" data-tone-ok="committed" data-label-boom="UnexpectedRollbackException" data-tone-boom="rolledback"><rect class="pb-chip" x="470" y="328" width="304" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="484" y="348.5">Outcome</text><text class="t-b pb-tx-status" data-tx-status x="760" y="348.5" text-anchor="end">—</text></g>
+<circle class="pb-anim-token" r="9" cx="-40" cy="-40" fill="#4f46e5" stroke="#ffffff" stroke-width="2.5"/>
+</svg>
+</div>
+<div class="pb-anim-script" data-scene="req">
+<p class="pb-anim-scene-title"><strong>1 · <code>REQUIRED</code> joins</strong></p>
+<ol>
+<li data-hl="outer" data-tx="conn1:tx1 conn2:idle sp:none tx1:active tx2:none flag:no out:none"><code>importAll()</code> is <code>@Transactional</code>, so its own proxy already began <strong>tx1</strong> on connection #1. It loops over rows and calls <code>importer.importRow(row)</code>.</li>
+<li data-path="call" data-hl="interceptor" data-tx="conn1:tx1 conn2:idle sp:none tx1:active tx2:none flag:no out:none">The call reaches <code>RowImporter</code>'s proxy. <code>importRow()</code> uses the default propagation, <code>REQUIRED</code>.</li>
+<li data-path="in" data-hl="interceptor m" data-tx="conn1:tx1 conn2:idle sp:none tx1:active tx2:joined flag:no out:none">A transaction is already bound to the thread, so <code>REQUIRED</code> <strong>joins</strong> it. No new transaction and no new connection: the row's <code>INSERT</code> runs in tx1.</li>
+<li data-path="in:rev,ret" data-hl="outer" data-tx="conn1:tx1 conn2:idle sp:none tx1:active tx2:done flag:no out:none"><code>importRow()</code> returns. A joined call never commits by itself; only the boundary that started the transaction does.</li>
+<li data-hl="outer" data-tx="conn1:idle conn2:idle sp:none tx1:committed tx2:done flag:no out:ok"><code>importAll()</code> finishes and its proxy <strong>commits tx1 once</strong>, covering every row, then returns connection #1 to the pool.</li>
+</ol></div>
+<div class="pb-anim-script" data-scene="trap">
+<p class="pb-anim-scene-title"><strong>2 · The rollback-only trap</strong></p>
+<ol>
+<li data-path="call,in" data-hl="m" data-tx="conn1:tx1 conn2:idle sp:none tx1:active tx2:joined flag:no out:none">Same setup as §5.2, but this row is invalid. <code>importRow()</code> joins tx1 and throws a <code>RuntimeException</code>.</li>
+<li data-path="in:rev" data-hl="interceptor" data-warn="interceptor" data-token="error" data-tx="conn1:tx1 conn2:idle sp:none tx1:active tx2:done flag:yes out:none">The inner proxy didn't start tx1, so it can't roll it back. It marks the shared transaction <strong>rollback-only</strong> and rethrows.</li>
+<li data-path="ret" data-hl="outer" data-token="error" data-tx="conn1:tx1 conn2:idle sp:none tx1:active tx2:done flag:yes out:none"><code>importAll()</code> catches the exception, counts the row as failed and carries on. The flag stays set: catching an exception doesn't clear it.</li>
+<li data-hl="outer" data-warn="outer" data-tx="conn1:idle conn2:idle sp:none tx1:rolledback tx2:done flag:yes out:boom">At the end the outer proxy tries to commit. The transaction is rollback-only, so Spring rolls back <em>everything</em>, good rows included, and throws <code>UnexpectedRollbackException</code>.</li>
+</ol></div>
+<div class="pb-anim-script" data-scene="new">
+<p class="pb-anim-scene-title"><strong>3 · <code>REQUIRES_NEW</code></strong></p>
+<ol>
+<li data-path="call" data-hl="outer interceptor" data-tx="conn1:tx1 conn2:idle sp:none tx1:active tx2:none flag:no out:none">Fix A from §5.2: <code>importRow()</code> uses <code>REQUIRES_NEW</code>. <code>importAll()</code> calls it while tx1 is active.</li>
+<li data-path="in" data-hl="interceptor m" data-tx="conn1:held conn2:tx2 sp:none tx1:suspended tx2:active flag:no out:none">The interceptor <strong>suspends tx1</strong> (unbinds it from the thread) and <strong>begins tx2 on a second connection</strong>. tx1 keeps holding connection #1 while it waits.</li>
+<li data-path="in:rev" data-hl="interceptor" data-token="error" data-tx="conn1:held conn2:idle sp:none tx1:suspended tx2:rolledback flag:no out:none">The bad row throws. Only <strong>tx2 rolls back</strong>, and connection #2 goes back to the pool. Good rows each committed in their own tx2.</li>
+<li data-path="ret" data-hl="outer" data-token="error" data-tx="conn1:tx1 conn2:idle sp:none tx1:active tx2:rolledback flag:no out:none">tx1 resumes. <code>importAll()</code> catches the exception, and this time tx1 was never marked rollback-only.</li>
+<li data-hl="outer" data-tx="conn1:idle conn2:idle sp:none tx1:committed tx2:rolledback flag:no out:ok">tx1 commits normally. The cost is in the pool panel: every <code>REQUIRES_NEW</code> level holds a second connection, and under load a pool can deadlock itself.</li>
+</ol></div>
+<div class="pb-anim-script" data-scene="nested">
+<p class="pb-anim-scene-title"><strong>4 · <code>NESTED</code></strong></p>
+<ol>
+<li data-path="call" data-hl="outer interceptor" data-tx="conn1:tx1 conn2:idle sp:none tx1:active tx2:none flag:no out:none">With <code>NESTED</code>, <code>importRow()</code> stays inside tx1 but behind a savepoint.</li>
+<li data-path="in" data-hl="interceptor m" data-tx="conn1:tx1 conn2:idle sp:set tx1:active tx2:savepoint flag:no out:none">The interceptor runs <code>SAVEPOINT SP1</code> on connection #1. Same transaction, same connection: the pool isn't touched.</li>
+<li data-path="in:rev" data-hl="interceptor" data-token="error" data-tx="conn1:tx1 conn2:idle sp:rolled tx1:active tx2:tosp flag:no out:none">The row fails: <code>ROLLBACK TO SAVEPOINT SP1</code> undoes just this row's work, and tx1 is <strong>not</strong> marked rollback-only.</li>
+<li data-path="ret" data-hl="outer" data-token="error" data-tx="conn1:tx1 conn2:idle sp:none tx1:active tx2:tosp flag:no out:none"><code>importAll()</code> catches the exception and moves on to the next row.</li>
+<li data-hl="outer" data-tx="conn1:idle conn2:idle sp:none tx1:committed tx2:tosp flag:no out:ok">tx1 commits every good row in one transaction on one connection. The catch: savepoints roll back the JDBC connection, not JPA's persistence context, which is why <code>NESTED</code> is meant for JDBC code.</li>
+</ol></div>
+</div>

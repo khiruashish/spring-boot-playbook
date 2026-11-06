@@ -95,6 +95,10 @@ flowchart TB
 !!! warning "Rollback-only propagation"
     If an inner `REQUIRED` method throws and the outer catches the exception and continues, the transaction was already marked **rollback-only**; at commit Spring throws `UnexpectedRollbackException`. "Handling" an exception from a joined transaction doesn't undo the rollback marking — use `REQUIRES_NEW` (or `NESTED`) if the inner work must be able to fail independently.
 
+Step through all four behaviours with the import example from §5.2. Watch the rollback-only flag and the connection pool:
+
+--8<-- "docs/snippets/animations/transaction-propagation.html"
+
 ### 2.5 Isolation levels and anomalies
 
 | Level | Dirty read | Non-repeatable read | Phantom | Write skew |
