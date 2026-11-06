@@ -116,6 +116,10 @@ When a hot key expires, every concurrent request misses. Defences:
 | Stale-while-revalidate | Serve the old value, refresh asynchronously |
 | Jittered TTL | Spreads expiries out |
 
+The herd, and the two most common defences, animated:
+
+--8<-- "docs/snippets/animations/cache-stampede.html"
+
 ### 2.8 Invalidation across pods
 
 Local caches need a broadcast: Redis pub/sub or a Kafka topic that every pod consumes and uses to evict its local entries. Alternative: **versioned key prefixes** (`price:v42:{sku}|{pincode}`) — bumping the version invalidates everything at once without touching individual keys.
