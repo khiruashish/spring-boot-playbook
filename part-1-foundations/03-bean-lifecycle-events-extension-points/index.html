@@ -5844,6 +5844,93 @@
 <li><strong>Ready</strong> — bean is in the singleton cache and used.</li>
 <li><strong>Destroy</strong> — on context close: <code>@PreDestroy</code>, <code>DisposableBean.destroy()</code>, custom destroy method.</li>
 </ol>
+<p>Step through the same phases below. Watch the side panel: the proxy only appears at step 7, which is why scene 3's <code>@PostConstruct</code> trap happens.</p>
+<div class="pb-anim" data-pb-anim>
+<div class="pb-anim-head"><span class="pb-anim-kicker">Animated walkthrough</span><span class="pb-anim-title">A singleton's life — from <code>BeanDefinition</code> to proxy to <code>@PreDestroy</code></span></div>
+<div class="pb-anim-stage">
+<svg viewBox="0 0 800 356" role="img" aria-labelledby="pb-bl-title pb-bl-desc" xmlns="http://www.w3.org/2000/svg">
+<title id="pb-bl-title">Spring bean lifecycle</title>
+<desc id="pb-bl-desc">Three rows of lifecycle phases. Create: constructor, populate, Aware callbacks, BeanPostProcessor before-initialization with @PostConstruct. Initialize: afterPropertiesSet, init method, BeanPostProcessor after-initialization where the AOP proxy is created, then ready in the singleton cache. Destroy on context close: SmartLifecycle stop, @PreDestroy, DisposableBean.destroy, destroy method. A side panel shows the target object wrapped by its proxy and the state of dependencies, bean name, init callbacks, what callers receive, and the context.</desc>
+<defs><marker id="pb-bl-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#818cf8"/></marker></defs>
+<g data-node="def"><rect class="pb-box pb-band" x="16" y="12" width="120" height="30" rx="15" fill="#eef2ff" stroke="#6366f1"/><text class="t-b t-11 t-c" x="76" y="31">BeanDefinition</text></g>
+<text class="t-sm t-b" x="538" y="52" text-anchor="end">① Create</text>
+<g data-node="s1"><rect class="pb-box" x="16" y="60" width="120" height="52" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c t-mono" x="76" y="83">constructor</text><text class="t-xs t-sub t-c" x="76" y="101">deps resolved first</text></g>
+<g data-node="s2"><rect class="pb-box" x="150" y="60" width="120" height="52" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="210" y="83">populate</text><text class="t-xs t-sub t-c t-mono" x="210" y="101">@Autowired fields</text></g>
+<g data-node="s3"><rect class="pb-box" x="284" y="60" width="120" height="52" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c t-mono" x="344" y="83">*Aware</text><text class="t-xs t-sub t-c t-mono" x="344" y="101">setBeanName(…)</text></g>
+<g data-node="s4"><rect class="pb-box" x="418" y="60" width="120" height="52" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="478" y="83">BPP · before</text><text class="t-xs t-c t-mono t-accent" x="478" y="101">@PostConstruct</text></g>
+<text class="t-sm t-b" x="538" y="162" text-anchor="end">② Initialize</text>
+<g data-node="s5"><rect class="pb-box" x="16" y="170" width="120" height="52" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-10 t-c t-mono" x="76" y="193">afterPropertiesSet</text><text class="t-xs t-sub t-c" x="76" y="211">InitializingBean</text></g>
+<g data-node="s6"><rect class="pb-box" x="150" y="170" width="120" height="52" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="210" y="193">init method</text><text class="t-xs t-sub t-c t-mono" x="210" y="211">@Bean(initMethod)</text></g>
+<g data-node="s7"><rect class="pb-box" x="284" y="170" width="120" height="52" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="344" y="193">BPP · after</text><text class="t-xs t-c t-accent" x="344" y="211">AOP proxy created</text></g>
+<g data-node="s8"><rect class="pb-box" x="418" y="170" width="120" height="52" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="478" y="193">Ready</text><text class="t-xs t-sub t-c" x="478" y="211">in singleton cache</text></g>
+<g data-scenes="startup shutdown">
+<text class="t-sm t-b" x="538" y="282" text-anchor="end">③ Destroy · on context.close()</text>
+<g data-node="d1"><rect class="pb-box" x="16" y="290" width="120" height="52" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-10 t-c t-mono" x="76" y="313">context.close()</text><text class="t-xs t-sub t-c" x="76" y="331">SmartLifecycle.stop()</text></g>
+<g data-node="d2"><rect class="pb-box" x="150" y="290" width="120" height="52" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c t-mono" x="210" y="313">@PreDestroy</text><text class="t-xs t-sub t-c" x="210" y="331">default choice</text></g>
+<g data-node="d3"><rect class="pb-box" x="284" y="290" width="120" height="52" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c t-mono" x="344" y="313">destroy()</text><text class="t-xs t-sub t-c" x="344" y="331">DisposableBean</text></g>
+<g data-node="d4"><rect class="pb-box" x="418" y="290" width="120" height="52" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="478" y="313">destroy method</text><text class="t-xs t-sub t-c" x="478" y="331">inferred close()</text></g>
+<path class="pb-route" data-path="wrap2" d="M478 222 L478 256 L76 256 L76 290" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-bl-arrow)"/>
+<path class="pb-route" data-path="r3a" d="M136 316 L150 316" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-bl-arrow)"/>
+<path class="pb-route" data-path="r3b" d="M270 316 L284 316" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-bl-arrow)"/>
+<path class="pb-route" data-path="r3c" d="M404 316 L418 316" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-bl-arrow)"/>
+</g>
+<g data-scenes="trap">
+<text class="t-sm t-b" x="538" y="282" text-anchor="end">③ After refresh</text>
+<g data-node="runner"><rect class="pb-box" x="16" y="290" width="254" height="52" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c t-mono" x="143" y="313">ApplicationRunner</text><text class="t-xs t-sub t-c t-mono" x="143" y="331">@EventListener(ApplicationReadyEvent)</text></g>
+<path class="pb-route" data-path="run" d="M270 316 L550 316 L550 92 L564 92" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-bl-arrow)"/>
+</g>
+<path class="pb-route" data-path="start" d="M76 42 L76 60" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-bl-arrow)"/>
+<path class="pb-route" data-path="r1a" d="M136 86 L150 86" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-bl-arrow)"/>
+<path class="pb-route" data-path="r1b" d="M270 86 L284 86" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-bl-arrow)"/>
+<path class="pb-route" data-path="r1c" d="M404 86 L418 86" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-bl-arrow)"/>
+<path class="pb-route" data-path="wrap1" d="M478 112 L478 140 L76 140 L76 170" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-bl-arrow)"/>
+<path class="pb-route" data-path="r2a" d="M136 196 L150 196" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-bl-arrow)"/>
+<path class="pb-route" data-path="r2b" d="M270 196 L284 196" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-bl-arrow)"/>
+<path class="pb-route" data-path="r2c" d="M404 196 L418 196" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-bl-arrow)"/>
+<g data-node="proxy"><rect class="pb-shell" x="564" y="30" width="216" height="100" rx="16" fill="none" stroke="#818cf8" stroke-dasharray="7 5"/><text class="t-sm t-b t-accent" x="578" y="48">AOP proxy</text></g>
+<g data-node="obj"><rect class="pb-box" x="588" y="58" width="168" height="56" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b" x="602" y="82">OrderService</text><text class="t-sm" x="602" y="100">target object</text></g>
+<g data-tx="deps" data-state="none" data-label-ctor="CONSTRUCTOR ✓" data-tone-ctor="active" data-label-all="ALL INJECTED" data-tone-all="committed"><rect class="pb-chip" x="564" y="146" width="216" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="578" y="167">Dependencies</text><text class="t-b pb-tx-status" data-tx-status x="766" y="167" text-anchor="end">—</text></g>
+<g data-tx="aware" data-state="none" data-label-set="orderService" data-tone-set="committed"><rect class="pb-chip" x="564" y="186" width="216" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="578" y="207">Bean name</text><text class="t-b pb-tx-status" data-tx-status x="766" y="207" text-anchor="end">—</text></g>
+<g data-tx="init" data-state="none" data-label-one="1 / 3" data-tone-one="active" data-label-two="2 / 3" data-tone-two="active" data-label-done="3 / 3 ✓" data-tone-done="committed"><rect class="pb-chip" x="564" y="226" width="216" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="578" y="247">Init callbacks</text><text class="t-b pb-tx-status" data-tx-status x="766" y="247" text-anchor="end">—</text></g>
+<g data-tx="ref" data-state="none" data-label-nothing="NOTHING YET" data-tone-nothing="none" data-label-raw="RAW OBJECT" data-tone-raw="ignored" data-label-proxy="THE PROXY" data-tone-proxy="committed" data-label-gone="DESTROYED" data-tone-gone="rolledback"><rect class="pb-chip" x="564" y="266" width="216" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="578" y="287">Callers get</text><text class="t-b pb-tx-status" data-tx-status x="766" y="287" text-anchor="end">—</text></g>
+<g data-tx="ctx" data-state="none" data-label-refreshing="REFRESHING" data-tone-refreshing="suspended" data-label-running="RUNNING" data-tone-running="active" data-label-closing="CLOSING" data-tone-closing="suspended" data-label-closed="CLOSED" data-tone-closed="rolledback"><rect class="pb-chip" x="564" y="306" width="216" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="578" y="327">Context</text><text class="t-b pb-tx-status" data-tx-status x="766" y="327" text-anchor="end">—</text></g>
+<circle class="pb-anim-token" r="9" cx="-40" cy="-40" fill="#4f46e5" stroke="#ffffff" stroke-width="2.5"/>
+</svg>
+</div>
+<div class="pb-anim-script" data-scene="startup">
+<p class="pb-anim-scene-title"><strong>1 · Startup</strong></p>
+<ol>
+<li data-path="start" data-hl="def s1 obj" data-hide="proxy" data-tx="deps:ctor aware:none init:none ref:nothing ctx:refreshing">During <code>refresh()</code>, the container reads <code>OrderService</code>'s <code>BeanDefinition</code> and calls the <strong>constructor</strong>. Constructor-injected dependencies (<code>OrderRepository</code>, <code>PricingService</code>) are created first, so they exist before the object does.</li>
+<li data-path="r1a" data-hl="s2 obj" data-hide="proxy" data-tx="deps:all aware:none init:none ref:nothing ctx:refreshing"><code>populateBean()</code> fills <code>@Autowired</code> fields and setters. With constructor injection there's nothing left to do here, which is one reason constructor injection is the default.</li>
+<li data-path="r1b" data-hl="s3 obj" data-hide="proxy" data-tx="deps:all aware:set init:none ref:nothing ctx:refreshing"><strong>Aware callbacks</strong>: <code>setBeanName("orderService")</code>, then <code>BeanClassLoaderAware</code> and <code>BeanFactoryAware</code>. The context-level ones (<code>ApplicationContextAware</code>, <code>EnvironmentAware</code> …) arrive in the next step through a post-processor.</li>
+<li data-path="r1c" data-hl="s4 obj" data-hide="proxy" data-tx="deps:all aware:set init:one ref:nothing ctx:refreshing">Every <code>BeanPostProcessor</code> gets <code>postProcessBeforeInitialization</code>. <code>CommonAnnotationBeanPostProcessor</code> calls your <strong><code>@PostConstruct</code></strong> method here. Note the side panel: there is still no proxy.</li>
+<li data-path="wrap1" data-hl="s5 obj" data-hide="proxy" data-tx="deps:all aware:set init:two ref:nothing ctx:refreshing"><code>InitializingBean.afterPropertiesSet()</code> runs next. It's a Spring interface, so application code should prefer <code>@PostConstruct</code>.</li>
+<li data-path="r2a" data-hl="s6 obj" data-hide="proxy" data-tx="deps:all aware:set init:done ref:nothing ctx:refreshing">Then the custom <strong>init method</strong> from <code>@Bean(initMethod = "…")</code>, which is how you hook third-party classes you can't annotate. Order: <code>@PostConstruct</code> → <code>afterPropertiesSet()</code> → <code>initMethod</code>.</li>
+<li data-path="r2b" data-hl="s7 proxy" data-tx="deps:all aware:set init:done ref:nothing ctx:refreshing"><code>postProcessAfterInitialization</code>: <code>AnnotationAwareAspectJAutoProxyCreator</code> sees <code>@Transactional</code> (or any aspect) and <strong>returns a proxy</strong> wrapping the object. From here on, the proxy <em>is</em> the bean.</li>
+<li data-path="r2c" data-hl="s8 proxy" data-tx="deps:all aware:set init:done ref:proxy ctx:running">The proxy goes into the singleton cache, so every injection point and <code>getBean()</code> gets <strong>the proxy, never the raw object</strong>. Once all singletons are ready: <code>SmartInitializingSingleton</code>, <code>SmartLifecycle.start()</code>, then <code>ContextRefreshedEvent</code>.</li>
+</ol>
+</div>
+<div class="pb-anim-script" data-scene="shutdown">
+<p class="pb-anim-scene-title"><strong>2 · Shutdown</strong></p>
+<ol>
+<li data-path="wrap2" data-hl="d1" data-tx="deps:all aware:set init:done ref:proxy ctx:closing"><code>context.close()</code> (or SIGTERM with graceful shutdown) publishes <code>ContextClosedEvent</code>, then stops <code>SmartLifecycle</code> beans in <strong>reverse phase order</strong>. In-flight work drains before any bean is destroyed.</li>
+<li data-path="r3a" data-hl="d2 obj" data-tx="deps:all aware:set init:done ref:proxy ctx:closing"><strong><code>@PreDestroy</code></strong> runs first. It's the default choice for cleanup: close pools, flush buffers.</li>
+<li data-path="r3b" data-hl="d3 obj" data-tx="deps:all aware:set init:done ref:proxy ctx:closing">Then <code>DisposableBean.destroy()</code>, the Spring-interface equivalent.</li>
+<li data-path="r3c" data-hl="d4" data-dim="obj proxy" data-tx="deps:all aware:set init:done ref:gone ctx:closed">Finally the <strong>destroy method</strong>. For <code>@Bean</code> methods it's inferred: a public <code>close()</code> or <code>shutdown()</code> is called automatically. Prototype beans never reach this row; whoever asked for them owns their cleanup.</li>
+</ol>
+</div>
+<div class="pb-anim-script" data-scene="trap">
+<p class="pb-anim-scene-title"><strong>3 · Trap: <code>@Transactional</code> work in <code>@PostConstruct</code></strong></p>
+<ol>
+<li data-path="start,r1a,r1b" data-hl="s1 s2 s3 obj" data-hide="proxy" data-tx="deps:all aware:set init:none ref:nothing ctx:refreshing">Same startup, but now <code>OrderService</code> has <code>@PostConstruct void warmUp() { loadPrices(); }</code>, and <code>loadPrices()</code> is <code>@Transactional</code>.</li>
+<li data-path="r1c" data-hl="s4" data-warn="s4 obj" data-hide="proxy" data-tx="deps:all aware:set init:one ref:raw ctx:refreshing"><code>@PostConstruct</code> runs on the <strong>raw object</strong>, before any proxy exists. <code>loadPrices()</code> runs with no transaction: no rollback, no <code>readOnly</code>, and lazy associations can throw <code>LazyInitializationException</code>. Often nothing fails at startup; the work just silently isn't transactional.</li>
+<li data-path="wrap1,r2a,r2b" data-hl="s7 proxy" data-warn="s7" data-tx="deps:all aware:set init:done ref:nothing ctx:refreshing">The proxy is only created at <code>BPP · after</code>, three steps later, which is too late for anything <code>@PostConstruct</code> already did.</li>
+<li data-path="r2c" data-hl="s8 proxy" data-tx="deps:all aware:set init:done ref:proxy ctx:running">Refresh finishes and the proxy is in the cache. Other beans now see the transactional version.</li>
+<li data-path="run" data-hl="runner proxy obj" data-tx="deps:all aware:set init:done ref:proxy ctx:running"><strong>Fix:</strong> move warm-up to an <code>ApplicationRunner</code> or an <code>@EventListener(ApplicationReadyEvent.class)</code> that calls <code>orderService.loadPrices()</code>. It runs after refresh, <em>through the proxy</em>, so <code>@Transactional</code> applies. To keep traffic away until warm-up ends, hold back readiness (§6.2).</li>
+</ol>
+</div>
+</div>
+
 <h3 id="22-initialization-callbacks">2.2 Initialization callbacks<a class="headerlink" href="#22-initialization-callbacks" title="Permanent link">&para;</a></h3>
 <table>
 <thead>

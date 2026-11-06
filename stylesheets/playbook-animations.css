@@ -45,6 +45,9 @@
 .pb-anim svg .t-sm { font-size: 11px; fill: var(--pb-muted); }
 .pb-anim svg .t-xs { font-size: 10px; }
 .pb-anim svg .t-b { font-weight: 700; }
+.pb-anim svg .t-11 { font-size: 11px; }
+.pb-anim svg .t-10 { font-size: 10px; }
+.pb-anim svg .t-sub { fill: var(--pb-muted); }
 .pb-anim svg .t-c { text-anchor: middle; }
 .pb-anim svg .t-mono { font-family: var(--md-code-font-family, "JetBrains Mono"), monospace; }
 .pb-anim svg .t-accent { fill: var(--pb-anim-accent); }
@@ -62,6 +65,7 @@
 .pb-anim svg [data-node].is-active > .pb-shell { stroke: var(--pb-indigo-500); stroke-width: 2.2; }
 .pb-anim svg [data-node].is-warn > .pb-box { stroke: var(--pb-anim-warn); stroke-width: 2.5; fill: var(--pb-anim-warn-bg); }
 .pb-anim svg [data-node].is-dim { opacity: .3; }
+.pb-anim svg [data-node].is-hidden { opacity: 0; }
 
 .pb-anim svg .pb-route { fill: none; stroke: var(--pb-indigo-200); stroke-width: 2.5; transition: stroke .3s ease; }
 [data-md-color-scheme="slate"] .pb-anim svg .pb-route { stroke: #3f4687; }
