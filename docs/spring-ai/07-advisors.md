@@ -82,6 +82,10 @@ Since lower runs first, an advisor with order `0` runs *inside* the tool-calling
 (their orders are `HIGHEST_PRECEDENCE + n`, i.e. large negative numbers). Use `Ordered.HIGHEST_PRECEDENCE`
 for things that must run first and `Ordered.LOWEST_PRECEDENCE` for things that must be closest to the model.
 
+That order, animated. Scene 2 shows why advisors after the tool-calling advisor run on every loop iteration:
+
+--8<-- "docs/snippets/animations/spring-ai-request.html"
+
 ## 7.5 Writing an advisor: `BaseAdvisor` (before/after)
 
 `BaseAdvisor` implements both `CallAdvisor` and `StreamAdvisor`; you write `before` and `after`.

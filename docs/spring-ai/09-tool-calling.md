@@ -27,6 +27,10 @@ In **2.0** the loop runs in `ToolCallingAdvisor`, which `ChatClient` **auto-regi
 every intermediate model call. If you call a `ChatModel` directly, you get the tool-call request back and
 must execute it yourself ([9.10](#910-user-controlled-tool-execution)).
 
+Watch the loop inside the whole advisor chain (scene 2):
+
+--8<-- "docs/snippets/animations/spring-ai-request.html"
+
 ## 9.2 Step 1: a `@Tool` method
 
 ```java

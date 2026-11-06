@@ -259,6 +259,10 @@ Rule of thumb: **RAG for documents that change slowly** (policies, manuals, desc
 per-user or transactional data** (order status, stock, prices). Never put live prices or stock into the
 vector store.
 
+Memory, RAG and tools working together in one call:
+
+--8<-- "docs/snippets/animations/spring-ai-request.html"
+
 ## 13.10 Measuring RAG quality
 
 | Metric | Question | How |

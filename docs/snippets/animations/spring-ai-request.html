@@ -1,0 +1,52 @@
+<div class="pb-anim" data-pb-anim>
+<div class="pb-anim-head"><span class="pb-anim-kicker">Animated walkthrough</span><span class="pb-anim-title">One <code>ChatClient</code> call — memory, the tool loop and RAG in advisor order</span></div>
+<div class="pb-anim-stage">
+<svg viewBox="0 56 800 300" role="img" aria-labelledby="pb-ai-title pb-ai-desc" xmlns="http://www.w3.org/2000/svg">
+<title id="pb-ai-title">Spring AI advisor chain</title>
+<desc id="pb-ai-desc">A ChatClient request flows through MessageChatMemoryAdvisor, the auto-registered ToolCallingAdvisor and QuestionAnswerAdvisor to the ChatModel, and the response flows back the same way. Memory loads and saves the conversation, RAG adds context from the vector store, and when the model returns a tool call the ToolCallingAdvisor runs the @Tool method and calls the model again.</desc>
+<defs><marker id="pb-ai-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#818cf8"/></marker></defs>
+<g data-node="app"><rect class="pb-box" x="16" y="86" width="110" height="70" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="71" y="110.5">your code</text><text class="t-xs t-sub t-mono t-c" x="71" y="125.5">chat.prompt()</text><text class="t-xs t-sub t-mono t-c" x="71" y="140.5">.call()</text></g>
+<g data-node="mem"><rect class="pb-box" x="146" y="86" width="130" height="70" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-11 t-c" x="211" y="110.5">MessageChatMemory</text><text class="t-b t-11 t-c" x="211" y="125.5">Advisor</text><text class="t-xs t-sub t-mono t-c" x="211" y="140.5">order +200</text></g>
+<g data-node="tool"><rect class="pb-box" x="296" y="86" width="130" height="70" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-11 t-c" x="361" y="110.5">ToolCalling</text><text class="t-b t-11 t-c" x="361" y="125.5">Advisor</text><text class="t-xs t-sub t-mono t-c" x="361" y="140.5">+300 · auto</text></g>
+<g data-node="rag"><rect class="pb-box" x="446" y="86" width="130" height="70" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-11 t-c" x="511" y="110.5">QuestionAnswer</text><text class="t-b t-11 t-c" x="511" y="125.5">Advisor</text><text class="t-xs t-sub t-mono t-c" x="511" y="140.5">order 0</text></g>
+<g data-node="model"><rect class="pb-box pb-band" x="626" y="86" width="158" height="70" rx="10" fill="#eef2ff" stroke="#6366f1"/><text class="t-b t-c" x="705" y="118">ChatModel</text><text class="t-xs t-sub t-c" x="705" y="133">the LLM</text></g>
+<g data-node="store"><rect class="pb-box" x="146" y="214" width="130" height="58" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="211" y="240">ChatMemory</text><text class="t-xs t-sub t-c" x="211" y="255">conversation history</text></g>
+<g data-node="toolm"><rect class="pb-box" x="296" y="214" width="130" height="58" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-mono t-c" x="361" y="240">@Tool method</text><text class="t-xs t-sub t-mono t-c" x="361" y="255">getOrderStatus(…)</text></g>
+<g data-node="vector"><rect class="pb-box" x="446" y="214" width="130" height="58" rx="10" fill="#ffffff" stroke="#cbd5e1"/><text class="t-b t-c" x="511" y="240">VectorStore</text><text class="t-xs t-sub t-c" x="511" y="255">policies · product facts</text></g>
+<path class="pb-route" data-path="a2m" d="M126 121 L146 121" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-ai-arrow)"/>
+<path class="pb-route" data-path="m2t" d="M276 121 L296 121" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-ai-arrow)"/>
+<path class="pb-route" data-path="t2r" d="M426 121 L446 121" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-ai-arrow)"/>
+<path class="pb-route" data-path="r2l" d="M576 121 L626 121" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-ai-arrow)"/>
+<path class="pb-route" data-path="m2s" d="M211 156 L211 214" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-ai-arrow)"/>
+<path class="pb-route" data-path="t2tool" d="M361 156 L361 214" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-ai-arrow)"/>
+<path class="pb-route" data-path="r2v" d="M511 156 L511 214" fill="none" stroke="#a5b4fc" stroke-width="2.5" marker-end="url(#pb-ai-arrow)"/>
+<rect class="pb-box" x="16" y="290" width="768" height="58" rx="14" fill="#f8fafc" stroke="#cbd5e1"/>
+<g data-tx="prompt" data-state="none" data-label-q="the question" data-tone-q="none" data-label-hist="+ history" data-tone-hist="active" data-label-tools="+ history + tool schemas" data-tone-tools="active" data-label-rag="+ history, tools, context" data-tone-rag="committed" data-label-res="… + tool result" data-tone-res="committed"><rect class="pb-chip" x="28" y="303" width="330" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="42" y="323.5">Prompt now has</text><text class="t-b pb-tx-status" data-tx-status x="344" y="323.5" text-anchor="end">—</text></g>
+<g data-tx="calls" data-state="none" data-label-one="1" data-tone-one="active" data-label-two="2" data-tone-two="committed"><rect class="pb-chip" x="370" y="303" width="170" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="384" y="323.5">Model calls</text><text class="t-b pb-tx-status" data-tx-status x="526" y="323.5" text-anchor="end">—</text></g>
+<g data-tx="answer" data-state="none" data-label-tool="tool call" data-tone-tool="suspended" data-label-text="text ✓" data-tone-text="committed"><rect class="pb-chip" x="552" y="303" width="220" height="32" rx="16" fill="#ffffff" stroke="#cbd5e1"/><text class="t-sm" x="566" y="323.5">Answer</text><text class="t-b pb-tx-status" data-tx-status x="758" y="323.5" text-anchor="end">—</text></g>
+<circle class="pb-anim-token" r="9" cx="-40" cy="-40" fill="#4f46e5" stroke="#ffffff" stroke-width="2.5"/>
+</svg>
+</div>
+<div class="pb-anim-script" data-scene="rag">
+<p class="pb-anim-scene-title"><strong>1 · Memory + RAG</strong></p>
+<ol>
+<li data-path="a2m" data-hl="app mem" data-tx="prompt:q calls:none answer:none"><code>chat.prompt().user("Can I return fresh produce?").call()</code> builds a <code>ChatClientRequest</code>, which passes through the advisors in order, <strong>lowest order first</strong>.</li>
+<li data-path="m2s" data-hl="store" data-tx="prompt:hist calls:none answer:none"><code>MessageChatMemoryAdvisor</code> loads this conversation's history from <code>ChatMemory</code> and adds it as messages.</li>
+<li data-path="m2s:rev,m2t" data-hl="tool" data-tx="prompt:tools calls:none answer:none"><code>ToolCallingAdvisor</code> (auto-registered) adds the schemas of the available <code>@Tool</code> methods. Everything after it runs <em>inside</em> the tool-calling loop.</li>
+<li data-path="t2r,r2v" data-hl="vector" data-tx="prompt:rag calls:none answer:none"><code>QuestionAnswerAdvisor</code> searches the vector store for chunks similar to the question, filtered per tenant, and adds them as context.</li>
+<li data-path="r2v:rev,r2l" data-hl="model" data-tx="prompt:rag calls:one answer:none">The augmented prompt reaches the <code>ChatModel</code>.</li>
+<li data-path="r2l:rev,t2r:rev" data-hl="tool" data-tx="prompt:rag calls:one answer:text">The model answers in text, with no tool call, so the loop ends after <strong>one</strong> model call.</li>
+<li data-path="m2t:rev,m2s" data-hl="mem store" data-tx="prompt:rag calls:one answer:text">On the way out, the memory advisor saves the new user message and the answer to the conversation.</li>
+<li data-path="m2s:rev,a2m:rev" data-hl="app" data-tx="prompt:rag calls:one answer:text">Your code gets the answer. Every advisor saw the request on the way in and the response on the way out, in reverse order.</li>
+</ol></div>
+<div class="pb-anim-script" data-scene="tools">
+<p class="pb-anim-scene-title"><strong>2 · A tool call</strong></p>
+<ol>
+<li data-path="a2m,m2t,t2r,r2l" data-hl="model" data-tx="prompt:rag calls:one answer:none"><em>"Where is my order 1042?"</em> takes the same path: history, tool schemas and policy context, then the model.</li>
+<li data-path="r2l:rev,t2r:rev" data-hl="tool" data-token="signal" data-tx="prompt:rag calls:one answer:tool">The model doesn't answer. It returns a <strong>tool call</strong>: <code>getOrderStatus({"orderId":"1042"})</code>.</li>
+<li data-path="t2tool" data-hl="toolm" data-token="signal" data-tx="prompt:rag calls:one answer:tool"><code>ToolCallingAdvisor</code> runs your <code>@Tool</code> method with those arguments plus a <code>ToolContext</code>: server-side data such as the customer id, which never comes from the model.</li>
+<li data-path="t2tool:rev" data-hl="tool" data-tx="prompt:res calls:one answer:tool">The method returns <code>{"status":"SHIPPED","eta":"2026-11-06"}</code>, which is added to the conversation.</li>
+<li data-path="t2r,r2l" data-hl="rag model" data-tx="prompt:res calls:two answer:tool">The loop calls the model <strong>again</strong>. Because the loop runs inside the advisor chain, advisors after it (RAG, logging) run on every iteration.</li>
+<li data-path="r2l:rev,t2r:rev,m2t:rev,a2m:rev" data-hl="app" data-tx="prompt:res calls:two answer:text">Now the model answers: <em>"Your order shipped and arrives on 6 November."</em> Per-turn limits stop runaway loops (by default 40 calls per tool and 150 in total, §9.8).</li>
+</ol></div>
+</div>
